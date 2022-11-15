@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Win32;
+using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Omnicorp
 {
@@ -24,5 +15,53 @@ namespace Omnicorp
         {
             InitializeComponent();
         }
+
+        // Accessor fields
+        string username;
+        string password;
+        bool isLoginBtnClicked;
+
+
+        public string Username
+        {
+            get { return username; }
+            set { username = value; }
+        }
+
+        public string Password
+        {
+            get { return password; }
+            set { password = value;  }
+        }
+
+        public bool IsLoginBtnClicked
+        {
+            get { return isLoginBtnClicked; }
+            set { isLoginBtnClicked = value; }
+        }
+
+
+        // Username textbox
+        private void Username_Textbox(object sender, TextChangedEventArgs e)
+        {
+            Username = Username_Text.Text; 
+        }
+
+
+        // Password textbox
+        private void Password_Textbox(object sender, TextChangedEventArgs e)
+        {
+            Password = Password_Text.Text;
+        }
+
+
+        // Login submit button
+        private void Login_Button(object sender, RoutedEventArgs e)
+        {
+            IsLoginBtnClicked = true;
+            MessageBox.Show($"{Username.ToString()} - {Password.ToString()}");
+        }
+
+    
     }
 }
