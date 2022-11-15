@@ -5,8 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Omnicorp.Buyer"
         mc:Ignorable="d"
-        Title="buyer_panel" Height="450" Width="800">
+        Title="Buyer Panel" Height="450" Width="800">
     <Grid>
-        
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200px"></ColumnDefinition>
+            <ColumnDefinition Width="300px"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+
+        <!-- Label for login welcome -->
+        <Label 
+        Grid.Row="0" 
+        Content="Buyer Panel" 
+        Grid.ColumnSpan="1" 
+        FontSize="20"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        />
+
     </Grid>
 </Window>
