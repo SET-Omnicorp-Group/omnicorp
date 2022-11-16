@@ -23,5 +23,10 @@ namespace Omnicorp.Planner
         {
             InitializeComponent();
         }
+
+        private void Username_Textbox(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
