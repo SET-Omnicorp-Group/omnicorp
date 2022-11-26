@@ -38,7 +38,7 @@
             HorizontalAlignment="Left" 
             Margin="25,75,0,0" 
             VerticalAlignment="Top" 
-            Click="DatabaseBtnClick" 
+            Click="DatabaseBtn_Click" 
             Height="40" 
             Grid.RowSpan="2"/>
 
@@ -52,7 +52,7 @@
             HorizontalAlignment="Left" 
             Margin="190,75,0,0" 
             VerticalAlignment="Top"
-            Click="RatesBtnClick" 
+            Click="RatesBtn_Click" 
             Height="40" 
             Grid.RowSpan="2"/>
 
@@ -67,7 +67,7 @@
             Margin="190,10,0,0" 
             Grid.Row="1" 
             VerticalAlignment="Top"
-            Click="CarriersBtnClick"
+            Click="CarriersBtn_Click"
             Height="40"/>
 
 
@@ -164,31 +164,32 @@
         <!--(2) Carriers Datagrid -->
         <Grid
             x:Name="CarriersGrid_Click" 
-            Visibility="Visible"
+            Visibility="Hidden"
             Background="#FFB1B1B1" 
             Grid.RowSpan="4" 
             Margin="185,75,-130,10" 
             Grid.ColumnSpan="2" 
         >
             <DataGrid 
-                Name="Carriers_Data"
+                Name="CarriersData"
                 HorizontalAlignment="Left" 
                 Height="190" 
                 Margin="10,10,0,0" 
                 VerticalAlignment="Top" 
                 Width="300" 
                 ItemsSource="{Binding}" 
-                SelectionChanged="CarriersDataGridSelectionChanged" 
+                SelectionChanged="CarriersDataGrid_SelectionChanged" 
             />
 
             <DataGrid 
-                Name="Carriers_City_Data"
+                Name="CarriersCityData"
                 HorizontalAlignment="Left" 
                 Height="190" 
                 Margin="330,10,0,0" 
                 VerticalAlignment="Top" 
                 Width="250" 
-                ItemsSource="{Binding}" SelectionChanged="Carriers_City_Data_SelectionChanged" 
+                ItemsSource="{Binding}" 
+                SelectionChanged="CarriersCityData_SelectionChanged" 
             />
 
             <!-- Read Value of Selected Carrier (row) -->
@@ -258,12 +259,13 @@
                 HorizontalAlignment="Left" 
                 Margin="100,341,0,0" 
                 VerticalAlignment="Top" 
-                Click="ClearFields"/>
+                Click="ClearCarrierFieldsBtn_Click"/>
             <Button 
                 Content="Update" 
                 HorizontalAlignment="Left" 
                 Margin="177,341,0,0" 
-                VerticalAlignment="Top" Click="UpdateCarrierDetails"/>
+                VerticalAlignment="Top"
+                Click="UpdateCarrierBtn_Click"/>
 
 
 
@@ -319,12 +321,11 @@
 
             <!--Add carrier details-->
             <Button 
-                x:Name="AddCarrierDetails"
                 Content="Add"
                 HorizontalAlignment="Left"
                 Margin="423,341,0,0" 
                 VerticalAlignment="Top" 
-                Click="AddCarrier"/>
+                Click="AddCarrierCityBtn_Click"/>
 
             <!--Delete carrier details-->
             <Button 
@@ -332,7 +333,7 @@
                 HorizontalAlignment="Left"
                 Margin="464,341,0,0" 
                 VerticalAlignment="Top" 
-                Click="DeleteCarrier"/>
+                Click="DeleteCarrierCityBtn_Click"/>
 
         </Grid>
 
@@ -353,7 +354,8 @@
                 Margin="0,10,0,0" 
                 VerticalAlignment="Top" 
                 Width="570" 
-                ItemsSource="{Binding}" SelectionChanged="Routes_Data_SelectionChanged" 
+                ItemsSource="{Binding}"
+                SelectionChanged="RoutesData_SelectionChanged" 
             />
 
             <!--Destination-->
@@ -450,7 +452,7 @@
                 HorizontalAlignment="Left" 
                 Margin="318,326,0,0" 
                 VerticalAlignment="Top" 
-                Click="Routes_ClearFields"/>
+                Click="ClearRoutesFieldsBtn_Click"/>
 
             <!--Update-->
             <Button 
@@ -458,7 +460,7 @@
                 HorizontalAlignment="Left" 
                 Margin="385,326,0,0" 
                 VerticalAlignment="Top" 
-                Click="Routes_UpdateBtn"/>
+                Click="UpdateRoutesBtn_Click"/>
 
         </Grid>
 
@@ -470,7 +472,7 @@
             HorizontalAlignment="Left" 
             Margin="25,60,0,0" 
             VerticalAlignment="Top" 
-            Click="Backup_Btn" 
+            Click="BackupBtn_Click" 
             Height="40" Grid.Row="1" 
         />
 
@@ -525,7 +527,7 @@
                 HorizontalAlignment="Left" 
                 Margin="130,120,0,0" 
                 VerticalAlignment="Top" 
-                Click="SelectDirectory_Click"/>
+                Click="SelectDirectoryBtn_Click"/>
 
 
             <!--Backup btn-->
@@ -548,7 +550,7 @@
             HorizontalAlignment="Left" 
             Margin="25,0,0,0" 
             VerticalAlignment="Center" 
-            Click="Logfile_Btn" 
+            Click="LogFileBtn_Click" 
             Height="40" Grid.Row="2" 
         />
 

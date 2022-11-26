@@ -9,6 +9,7 @@ using MySql.Data.MySqlClient;
 using System.Collections;
 using System.Windows.Controls;
 using System.Data;
+using static System.Net.WebRequestMethods;
 
 namespace Omnicorp.Admin
 {
@@ -36,9 +37,9 @@ namespace Omnicorp.Admin
             return returnData;
         }
 
-        public void UpdateRatesToDatabase(double amount, string category)
+        public void UpdateRatesToDatabase(decimal amount, string category)
         {
-            ValidateRateAmount(amount);
+            ValidatePositiveAmount(amount);
 
             MyQuery myQuery = new MyQuery();
             string updateQuery = $"UPDATE rates SET amount = {amount} WHERE category = '{category}';";
@@ -47,13 +48,6 @@ namespace Omnicorp.Admin
             myQuery.Close();
         }
 
-        public void ValidateRateAmount(double amount)
-        {
-            if (amount < 0)
-            {
-                throw new ArgumentException("Rate amount cannot be negative.");
-            }
-        }
 
         public DataTable GetCarriersFromDatabase()
         {
@@ -72,7 +66,7 @@ namespace Omnicorp.Admin
 
         public DataTable GetCarriersDepotsFromDatabase(string carrierName)
         {
-            string query = $"SELECT depotCity, ftlAvailable, ltlAvailable FROM carriers WHERE companyName = '{carrierName}' ";
+            string query = $"SELECT depotCity, ftlAvailable, ltlAvailable FROM carriers WHERE companyName = \"{carrierName}\" ";
 
             MyQuery myQuery = new MyQuery();
             MySqlCommand cmd = new MySqlCommand(query, myQuery.conn);
@@ -98,6 +92,83 @@ namespace Omnicorp.Admin
             myQuery.Close();
 
             return dt;
+        }
+
+        public void DeleteCarrierCityFromDatabase(string carrierName, string depotCity)
+        {
+            string deleteQuery = $"DELETE FROM carriers WHERE companyName = \"{carrierName}\" AND depotCity = \"{depotCity}\";";
+
+            MyQuery myQuery = new MyQuery();
+            MySqlCommand cmd = new MySqlCommand(deleteQuery, myQuery.conn);
+            cmd.ExecuteNonQuery();
+            myQuery.Close();
+        }
+
+        
+        public void AddCarrierCityToDatabase(
+            string carrierName, 
+            string depotCity, 
+            decimal ftlAval, 
+            decimal ltlAval, 
+            decimal ftlRate, 
+            decimal ltlRate, 
+            decimal reefCharge
+        )
+        {
+            // Check if parameters are valid positive
+            ValidatePositiveAmount(ftlAval);
+            ValidatePositiveAmount(ltlAval);
+            ValidatePositiveAmount(ftlRate);
+            ValidatePositiveAmount(ltlRate);
+            ValidatePositiveAmount(reefCharge);
+
+            string addQuery =   $"INSERT INTO carriers "+
+                                $"(companyName, depotCity, ftlAvailable, ltlAvailable, ftlRate, ltlRate, reefCharge) " +
+                                $"VALUES  (\"{carrierName}\", \"{depotCity}\", {ftlAval}, {ltlAval}, {ftlRate}, {ltlRate}, {reefCharge});";
+
+            MyQuery myQuery = new MyQuery();
+            MySqlCommand cmd = new MySqlCommand(addQuery, myQuery.conn);
+            cmd.ExecuteNonQuery();
+            myQuery.Close();
+        }
+
+
+        public void UpdateCarrierToDatabase(string carrierName, decimal ftlRate, decimal ltlRate, decimal reefCharge)
+        {
+            ValidatePositiveAmount(ftlRate);
+            ValidatePositiveAmount(ltlRate);
+            ValidatePositiveAmount(reefCharge);
+
+            string updateQuery =$"UPDATE carriers SET " + 
+                                $"reefCharge = {reefCharge}, ftlRate = {ftlRate}, ltlRate = {ltlRate} " +
+                                $"WHERE companyName = \"{carrierName}\"; ";
+            
+            MyQuery myQuery = new MyQuery();
+            MySqlCommand cmd = new MySqlCommand(updateQuery, myQuery.conn);
+            cmd.ExecuteNonQuery();
+            myQuery.Close();
+        }
+
+        public void UpdateRouteToDatabase(string destination, decimal distance, decimal time)
+        {
+            ValidatePositiveAmount(distance);
+            ValidatePositiveAmount(time);
+
+            string updateQuery = $"UPDATE routes SET distance = {distance}, time = {time} WHERE destination = \"{destination}\";";
+
+            MyQuery myQuery = new MyQuery();
+            MySqlCommand cmd = new MySqlCommand(updateQuery, myQuery.conn);
+            cmd.ExecuteNonQuery();
+            myQuery.Close();
+        }
+
+
+        public void ValidatePositiveAmount(decimal amount)
+        {
+            if (amount < 0)
+            {
+                throw new ArgumentException("Parameter cannot be negative.");
+            }
         }
     }
 }

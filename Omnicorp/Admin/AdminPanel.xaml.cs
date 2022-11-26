@@ -44,7 +44,7 @@ namespace Omnicorp.Admin
         }
 
         // Database button
-        private void DatabaseBtnClick(object sender, RoutedEventArgs e)
+        private void DatabaseBtn_Click(object sender, RoutedEventArgs e)
         {
             RatesBtn.Visibility = Visibility.Visible;
             CarriersBtn.Visibility = Visibility.Visible;
@@ -58,20 +58,18 @@ namespace Omnicorp.Admin
 
         
 
-        
-        
+
+
         
         // MANAGING RATES
-        private void RatesBtnClick(object sender, RoutedEventArgs e)
+        private void RatesBtn_Click(object sender, RoutedEventArgs e)
         {
             HideBtns();
             RatesGrid_Click.Visibility = Visibility.Visible;
 
             UpdateRatesDatagridContent();
         }
-        
-        
-        
+                
         
         private void UpdateRatesDatagridContent()
         {
@@ -81,11 +79,9 @@ namespace Omnicorp.Admin
         }
 
 
-
-
         private void SaveFTLRate(object sender, RoutedEventArgs e)
         {
-            double amount = double.Parse(Ftl_Textbox.Text);
+            decimal amount = decimal.Parse(Ftl_Textbox.Text);
             string message = "FTL value has been updated.";
             string title = "Success";
             try
@@ -100,13 +96,11 @@ namespace Omnicorp.Admin
             MessageBox.Show(message, title);
             UpdateRatesDatagridContent();
         }
-
-
         
         
         private void SaveLTLRate(object sender, RoutedEventArgs e)
         {
-            double amount = double.Parse(Ltl_Textbox.Text);
+            decimal amount = decimal.Parse(Ltl_Textbox.Text);
             string message = "LTL value has been updated.";
             string title = "Success";
             try
@@ -121,14 +115,14 @@ namespace Omnicorp.Admin
             MessageBox.Show(message, title);
             UpdateRatesDatagridContent();
         }
-
+        
 
 
 
 
 
         // MANAGING CARRIERS
-        private void CarriersBtnClick(object sender, RoutedEventArgs e)
+        private void CarriersBtn_Click(object sender, RoutedEventArgs e)
         {
             HideBtns();
             CarriersGrid_Click.Visibility = Visibility.Visible;
@@ -137,16 +131,51 @@ namespace Omnicorp.Admin
         }
 
 
-
-
         private void UpdateCarriersDatagridContent()
         {
-            Carriers_Data.DataContext = handler.GetCarriersFromDatabase();
+            CarriersData.DataContext = handler.GetCarriersFromDatabase();
         }
 
 
+        private void CarriersDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DataGrid gd = (DataGrid)sender;
+            DataRowView rowSelected = gd.SelectedItem as DataRowView;
 
-        private void CarriersDataGridSelectionChanged(object sender, SelectionChangedEventArgs e)
+            // If no row is selected, clear the details, cities and skip
+            if (rowSelected == null)
+            {
+                CarrierDetailName.Content = String.Empty;
+                ReeferCharge_Textbox.Text = String.Empty;
+                FTL_Textbox.Text = String.Empty;
+                LTL_Textbox.Text = String.Empty;
+                UpdateCarriersCityDatagridContent(null);
+                return;
+            }
+
+            // Update cities datagrid
+            string carrierName = rowSelected[0].ToString();
+            UpdateCarriersCityDatagridContent(carrierName);
+
+            // Update details
+            CarrierDetailName.Content = rowSelected[0].ToString();
+            FTL_Textbox.Text = rowSelected[1].ToString();
+            LTL_Textbox.Text = rowSelected[2].ToString();
+            ReeferCharge_Textbox.Text = rowSelected[3].ToString();
+        }
+
+
+        private void UpdateCarriersCityDatagridContent(string carrierName)
+        {
+            if (carrierName == null)
+            {
+                CarriersCityData.DataContext = null;
+            }
+            CarriersCityData.DataContext = handler.GetCarriersDepotsFromDatabase(carrierName);
+        }
+
+
+        private void CarriersCityData_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataGrid gd = (DataGrid)sender;
             DataRowView rowSelected = gd.SelectedItem as DataRowView;
@@ -154,58 +183,143 @@ namespace Omnicorp.Admin
             // If no row is selected, clear the details and skip
             if (rowSelected == null)
             {
-                CarrierDetailName.Content = String.Empty;
-                ReeferCharge_Textbox.Text = String.Empty;
-                FTL_Textbox.Text = String.Empty;
-                LTL_Textbox.Text = String.Empty;
+                Departure_Textbox.Text = String.Empty;
+                FTLAval_Textbox.Text = String.Empty;
+                LTLAval_Textbox.Text = String.Empty;
                 return;
             }
 
-            CarrierName = (string)rowSelected[0];
-            FtlRateCarriers = (decimal)rowSelected[1];
-            LtlRateCarriers = (decimal)rowSelected[2];
-            ReefCharge = (decimal)rowSelected[3];
-            CarriersCity_Datagrid();
-
-            CarrierDetailName.Content = CarrierName.ToString();
-            ReeferCharge_Textbox.Text = ReefCharge.ToString();
-            FTL_Textbox.Text = FtlRateCarriers.ToString();
-            LTL_Textbox.Text = LtlRateCarriers.ToString();
+            Departure_Textbox.Text = rowSelected[0].ToString();
+            FTLAval_Textbox.Text = rowSelected[1].ToString();
+            LTLAval_Textbox.Text = rowSelected[2].ToString();
         }
 
 
-
-
-        private void Carriers_City_Data_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DeleteCarrierCityBtn_Click(object sender, RoutedEventArgs e)
         {
-            DataGrid gd = (DataGrid)sender;
-            DataRowView rowSelected = gd.SelectedItem as DataRowView;
-
-            if (rowSelected == null)
+            string carrierName = CarrierDetailName.Content.ToString();
+            string depotCity = Departure_Textbox.Text;
+            
+            string message = $"Record for {depotCity} been deleted.";
+            string title = "Success";
+            try
             {
-                return;
+                handler.DeleteCarrierCityFromDatabase(carrierName, depotCity);
             }
+            catch (Exception err)
+            {
+                message = err.Message;
+                title = "Error: invalid entry";
+            }
+            MessageBox.Show(message, title);
 
-            DepotCity = (string)rowSelected[0];
-            FtlAval = (int)rowSelected[1];
-            LtlAval = (int)rowSelected[2];
-            CityOfCarrierDetails();
+            Departure_Textbox.Text = string.Empty;
+            FTLAval_Textbox.Text = string.Empty;
+            LTLAval_Textbox.Text = string.Empty;
+
         }
 
         
-
-
-        // Carriers City
-        private void CarriersCity_Datagrid()
+        private void AddCarrierCityBtn_Click(object sender, RoutedEventArgs e)
         {
-            Carriers_City_Data.DataContext = handler.GetCarriersDepotsFromDatabase(CarrierName);
+
+            string carrierName = CarrierDetailName.Content.ToString();
+            string depotCity = Departure_Textbox.Text;
+            string ftl = FTLAval_Textbox.Text;
+            string ltl = LTLAval_Textbox.Text;
+            string ftlR = FTL_Textbox.Text;
+            string ltlR = LTL_Textbox.Text;
+            string reefC = ReeferCharge_Textbox.Text;
+
+            string message = $"Record for {carrierName} has been added";
+            string title = "Success";
+            try
+            {
+                decimal ftlAval = decimal.Parse(ftl);
+                decimal ltlAval = decimal.Parse(ltl);
+                decimal ftlRate = decimal.Parse(ftlR);
+                decimal ltlRate = decimal.Parse(ltlR);
+                decimal reefCharge = decimal.Parse(reefC);
+                handler.AddCarrierCityToDatabase(carrierName, depotCity, ftlAval, ltlAval, ftlRate, ltlRate, reefCharge);
+                UpdateCarriersCityDatagridContent(carrierName);
+            }
+            catch (FormatException)
+            {
+                message = "Rates, Charge and Available must be numeric.";
+                title = "Error: invalid entry";
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+                title = "Error: invalid entry";
+            }
+            
+            MessageBox.Show(message, title);
+        }
+
+
+        private void UpdateCarrierBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string message = "Carrier values have been updated.";
+            string title = "Success";
+
+            // If carrier detail fields are empty, prompt an error message
+            if (ReeferCharge_Textbox.Text == string.Empty ||
+                FTL_Textbox.Text == string.Empty ||
+                LTL_Textbox.Text == string.Empty
+            )
+            {
+                message = "Please make sure that all carrier textfields are filled before saving.";
+                title = "Error: invalid entry";
+            }
+            // If carrier detail fields are not empty, try to parse and save it
+            else
+            {
+                string carrierName = CarrierDetailName.Content.ToString();
+                string reef = ReeferCharge_Textbox.Text;
+                string ftl = FTL_Textbox.Text;
+                string ltl = LTL_Textbox.Text;
+
+                try
+                {
+                    decimal reefCharge = decimal.Parse(reef);
+                    decimal ftlRate = decimal.Parse(ftl);
+                    decimal ltlRate = decimal.Parse(ltl);
+                    handler.UpdateCarrierToDatabase(carrierName, ftlRate, ltlRate, reefCharge);
+                    UpdateCarriersDatagridContent();
+                }
+                catch (FormatException)
+                {
+                    message = "Rates and Charge must be numeric.";
+                    title = "Error: invalid entry";
+                }
+                catch (Exception ex)
+                {
+                    message = ex.Message;
+                    title = "Error: invalid entry";
+                }
+
+            }
+
+            MessageBox.Show(message, title);
+
+        }
+
+
+        private void ClearCarrierFieldsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ReeferCharge_Textbox.Text = string.Empty;
+            FTL_Textbox.Text = string.Empty;
+            LTL_Textbox.Text = string.Empty;
         }
 
 
 
 
 
-        // Routes button
+
+
+        // MANAGING ROUTES
         private void Routes_Btn(object sender, RoutedEventArgs e)
         {
             HideBtns();
@@ -214,231 +328,130 @@ namespace Omnicorp.Admin
             UpdateRoutesDatagridContent();
         }
 
+                
+        private void UpdateRoutesDatagridContent()
+        {
+            Routes_Data.DataContext = handler.GetRoutesFromDatabase();
+        }
 
-        // Hide database btns
+
         private void HideBtns()
         {
             RatesBtn.Visibility = Visibility.Hidden;
             CarriersBtn.Visibility = Visibility.Hidden;
             RoutesBtn.Visibility = Visibility.Hidden;
         }
+      
 
-        
-
-
-        // Carriers Data
-        
-
-
-        
-        
-
-        // Fill text box with city of carrier details
-        private void CityOfCarrierDetails()
-        {
-            Departure_Textbox.Text = DepotCity.ToString();
-            FTLAval_Textbox.Text = FtlAval.ToString();
-            LTLAval_Textbox.Text = LtlAval.ToString();
-        }
-
-        private void ClearFields(object sender, RoutedEventArgs e)
-        {
-            ReeferCharge_Textbox.Text = "";
-            FTL_Textbox.Text = "";
-            LTL_Textbox.Text = "";
-        }
-
-        private void UpdateCarrierDetails(object sender, RoutedEventArgs e)
-        {
-
-            // If carrier detail fields are empty, prompt an error message
-            if (ReeferCharge_Textbox.Text == "" ||
-                FTL_Textbox.Text == "" || LTL_Textbox.Text == "")
-            {
-                MessageBox.Show("Please make sure that all carrier textfields are filled before saving.");
-            }
-            else
-            {
-                UpdateCarrierDetails();
-            }
-
-        }
-
-        // Update carrier details
-        private void UpdateCarrierDetails()
-        {
-            string connectionString = @"server=127.0.0.1;database=omnicorp;uid=root;pwd=;";
-            MySqlConnection connection = new MySqlConnection(connectionString);
-
-            string reef = ReeferCharge_Textbox.Text;
-            decimal reefCharge = decimal.Parse(reef);
-
-            string ftl = FTL_Textbox.Text;
-            decimal ftlRate = decimal.Parse(ftl);
-
-            string ltl = LTL_Textbox.Text;
-            decimal ltlRate = decimal.Parse(ltl);
-
-            string carrierName = (string)CarrierDetailName.Content;
-            string updateQuery = $"UPDATE carriers SET reefCharge = {reefCharge}, ftlRate = {ftlRate}, ltlRate = {ltlRate} WHERE companyName = \"{carrierName}\" ";
-
-            MySqlCommand cmd = new MySqlCommand(updateQuery, connection);
-            cmd.Connection.Open();
-            cmd.ExecuteNonQuery();
-            MessageBox.Show("Carrier values have been updated.");
-            UpdateCarriersDatagridContent();
-        }
-
-
-        // Add carrier button
-        private void AddCarrier(object sender, RoutedEventArgs e)
-        {
-            string connectionString = @"server=127.0.0.1;database=omnicorp;uid=root;pwd=;";
-            MySqlConnection connection = new MySqlConnection(connectionString);
-
-            string carrierName = CarrierDetailName.Content.ToString();
-            string depotCity = Departure_Textbox.Text;
-
-            string ftl = FTLAval_Textbox.Text;
-            decimal ftlAval = decimal.Parse(ftl);
-
-            string ltl = LTLAval_Textbox.Text;
-            decimal ltlAval = decimal.Parse(ltl);
-
-            string ftlR = FTL_Textbox.Text;
-            decimal ftlRate = decimal.Parse(ftlR);
-
-            string ltlR = LTL_Textbox.Text;
-            decimal ltlRate = decimal.Parse(ltlR);
-
-            string reefC = ReeferCharge_Textbox.Text;
-            decimal reefCharge = decimal.Parse(reefC);
-
-            string addQuery = $"INSERT INTO carriers (companyName, depotCity, ftlAvailable, ltlAvailable, ftlRate, ltlRate, reefCharge) " +
-                              $"VALUES  (\"{carrierName}\", \"{depotCity}\", {ftlAval}, {ltlAval}, {ftlRate}, {ltlRate}, {reefCharge}) ";
-
-            MessageBox.Show($"Record for {carrierName} has been updated");
-
-            MySqlCommand cmd = new MySqlCommand(addQuery, connection);
-            cmd.Connection.Open();
-            cmd.ExecuteNonQuery();
-            CarriersCity_Datagrid();
-        }
-
-        private void DeleteCarrier(object sender, RoutedEventArgs e)
-        {
-            string connectionString = @"server=127.0.0.1;database=omnicorp;uid=root;pwd=;";
-            MySqlConnection connection = new MySqlConnection(connectionString);
-
-            string depotCity = Departure_Textbox.Text;
-
-            string ftl = FTLAval_Textbox.Text;
-            decimal ftlAval = decimal.Parse(ftl);
-
-            string ltl = LTLAval_Textbox.Text;
-            decimal ltlAval = decimal.Parse(ltl);
-
-            string deleteQuery = $"DELETE FROM carriers WHERE depotCity = \"{depotCity}\" AND ftlAvailable = {ftlAval} AND ltlAvailable = {ltlAval};";
-
-            MessageBox.Show($"Record for {depotCity} been deleted");
-
-            MySqlCommand cmd = new MySqlCommand(deleteQuery, connection);
-            cmd.Connection.Open();
-            cmd.ExecuteNonQuery();
-            CarriersCity_Datagrid();
-
-            Departure_Textbox.Text = "";
-            FTLAval_Textbox.Text = "";
-            LTLAval_Textbox.Text = "";
-
-        }
-
-        // Routes datagrid
-        private void UpdateRoutesDatagridContent()
-        {
-            Routes_Data.DataContext = handler.GetRoutesFromDatabase();
-        }
-
-        private void Routes_Data_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void RoutesData_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataGrid gd = (DataGrid)sender;
             DataRowView rowSelected = gd.SelectedItem as DataRowView;
 
+            // If selected row is empty, clean the details
             if (rowSelected == null)
             {
+                Destination_Textbox.Text = string.Empty;
+                Distance_Textbox.Text = string.Empty;
+                Time_Textbox.Text = string.Empty;
+                East_Textbox.Text = string.Empty;
+                West_Textbox.Text = string.Empty;
                 return;
             }
 
-            string Destination = (string)rowSelected[0];
-            int Distance = (int)rowSelected[1];
-            decimal Time = (decimal)rowSelected[2];
-            string East = (string)rowSelected[3];
-            string West = (string)rowSelected[4];
-
-            Destination_Textbox.Text = Destination;
-            Distance_Textbox.Text = Distance.ToString();
-            Time_Textbox.Text = Time.ToString();
-            East_Textbox.Text = East.ToString();
-            West_Textbox.Text = West.ToString();
+            Destination_Textbox.Text = rowSelected[0].ToString();
+            Distance_Textbox.Text = rowSelected[1].ToString();
+            Time_Textbox.Text = rowSelected[2].ToString();
+            East_Textbox.Text = rowSelected[3].ToString();
+            West_Textbox.Text = rowSelected[4].ToString();
 
         }
 
-        // Clear routes fields
-        private void Routes_ClearFields(object sender, RoutedEventArgs e)
+        
+        private void ClearRoutesFieldsBtn_Click(object sender, RoutedEventArgs e)
         {
-            Distance_Textbox.Text = "";
-            Time_Textbox.Text = "";
+            Distance_Textbox.Text = string.Empty;
+            Time_Textbox.Text = string.Empty;
         }
 
-        // Update routes fields
-        private void Routes_UpdateBtn(object sender, RoutedEventArgs e)
+
+        private void UpdateRoutesBtn_Click(object sender, RoutedEventArgs e)
         {
-            // If carrier detail fields are empty, prompt an error message
-            if (Distance_Textbox.Text == "" || Time_Textbox.Text == "")
+            
+            string message = "Carrier values have been updated.";
+            string title = "Success";
+
+            // If routes detail fields are empty, prompt an error message
+            if (Distance_Textbox.Text == string.Empty || Time_Textbox.Text == string.Empty)
             {
-                MessageBox.Show("Please make sure that all route textfields are filled before saving.");
+                message = "Please make sure that all route textfields are filled before saving.";
+                title = "Error: invalid entry";
             }
+            // If route detail fields are not empty, try to parse and save it
             else
             {
-                UpdateRouteDetails();
+                string destination = Destination_Textbox.Text;
+                string dist = Distance_Textbox.Text;
+                string time = Time_Textbox.Text;
+
+                try
+                {
+                    decimal distance = decimal.Parse(dist);
+                    decimal timeField = decimal.Parse(time);
+
+                    handler.UpdateRouteToDatabase(destination, distance, timeField);
+                    UpdateCarriersDatagridContent();
+                }
+                catch (FormatException)
+                {
+                    message = "Distance and Time must be numeric.";
+                    title = "Error: invalid entry";
+                }
+                catch (Exception ex)
+                {
+                    message = ex.Message;
+                    title = "Error: invalid entry";
+                }
+
+                MessageBox.Show(message, title);
             }
         }
 
-        private void UpdateRouteDetails()
+
+
+
+
+
+
+        // MANAGING LOG
+        private void LogFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            string connectionString = @"server=127.0.0.1;database=omnicorp;uid=root;pwd=;";
-            MySqlConnection connection = new MySqlConnection(connectionString);
+            LogFileGrid.Visibility = Visibility.Visible;
+            // This will get the current WORKING directory (i.e. \bin\Debug)
+            string workingDirectory = Environment.CurrentDirectory;
+            // or: Directory.GetCurrentDirectory() gives the same result
 
-            string destination = Destination_Textbox.Text;
+            // This will get the current PROJECT bin directory (ie ../bin/)
+            string logfileDirectory = Directory.GetParent(workingDirectory).Parent.FullName + @"\Admin\logfile.txt";
 
-            string dist= Distance_Textbox.Text;
-            decimal distance = decimal.Parse(dist);
-
-            string time = Time_Textbox.Text;
-            decimal timeField = decimal.Parse(time);
-
-            string updateQuery = $"UPDATE routes SET distance = {distance}, time = {timeField} WHERE destination = \"{destination}\" ";
-
-            MySqlCommand cmd = new MySqlCommand(updateQuery, connection);
-            cmd.Connection.Open();
-            cmd.ExecuteNonQuery();
-            MessageBox.Show("Routes values have been updated.");
-            UpdateRoutesDatagridContent();
-
+            LogFileText.Text = File.ReadAllText(logfileDirectory);
         }
 
 
 
-        // Left hand backup button
-        private void Backup_Btn(object sender, RoutedEventArgs e)
+
+
+
+
+        // MANAGING BACKUP
+        private void BackupBtn_Click(object sender, RoutedEventArgs e)
         {
             LogFileGrid.Visibility = Visibility.Hidden;
             BackupGrid.Visibility = Visibility.Visible;
         }
 
 
-        // Select folder directory
-        private void SelectDirectory_Click(object sender, RoutedEventArgs e)
+        private void SelectDirectoryBtn_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();  // Open file dialog
             System.Windows.Forms.FolderBrowserDialog folderDlg = new System.Windows.Forms.FolderBrowserDialog();
@@ -453,7 +466,6 @@ namespace Omnicorp.Admin
         }
 
 
-        // Intiate backup
         private void InitBackupBtn_Click(object sender, RoutedEventArgs e)
         {
             Process process = new Process();
@@ -466,22 +478,11 @@ namespace Omnicorp.Admin
 
 
 
-        // Log file button
-        private void Logfile_Btn(object sender, RoutedEventArgs e)
-        {
-            LogFileGrid.Visibility = Visibility.Visible;
-            // This will get the current WORKING directory (i.e. \bin\Debug)
-            string workingDirectory = Environment.CurrentDirectory;
-            // or: Directory.GetCurrentDirectory() gives the same result
-
-            // This will get the current PROJECT bin directory (ie ../bin/)
-            string logfileDirectory = Directory.GetParent(workingDirectory).Parent.FullName + @"\Admin\logfile.txt";
-
-            LogFileText.Text = File.ReadAllText(logfileDirectory);
-        }
 
 
-        // General Config button
+
+
+        // MANAGING BACKUP
         private void GeneralConfig_Btn(object sender, RoutedEventArgs e)
         {
 
