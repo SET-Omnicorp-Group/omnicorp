@@ -1,24 +1,24 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.Win32;
+using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.IO;
+using MySql.Data;
+using System.Diagnostics;
+using MySqlX.XDevAPI;
+using System.Threading;
+using System.Configuration;
+
 
 namespace Omnicorp.Admin
 {
     /// <summary>
     /// Interaction logic for admin_panel.xaml
     /// </summary>
+    /// 
+    
     public partial class admin_panel : Window
     {
 
@@ -101,6 +101,9 @@ namespace Omnicorp.Admin
             RoutesBtn.Visibility = Visibility.Visible;
             RatesGrid_Click.Visibility = Visibility.Hidden;
             CarriersGrid_Click.Visibility = Visibility.Hidden;
+            RoutesGrid_Click.Visibility = Visibility.Hidden;
+            BackupGrid.Visibility = Visibility.Hidden;
+            LogFileGrid.Visibility = Visibility.Hidden;
         }
 
         // Rates button
@@ -124,7 +127,10 @@ namespace Omnicorp.Admin
         private void Routes_Btn(object sender, RoutedEventArgs e)
         {
             HideBtns();
+            RoutesGrid_Click.Visibility = Visibility.Visible;
+            RoutesDatagrid();
         }
+
 
         // Hide database btns
         private void HideBtns()
@@ -241,7 +247,6 @@ namespace Omnicorp.Admin
             DepotCity = (string)rowSelected[0];
             FtlAval = (int)rowSelected[1];
             LtlAval = (int)rowSelected[2];
-            MessageBox.Show($"{DepotCity} - {FtlAval} - {LtlAval}");
             CityOfCarrierDetails();
         }
 
@@ -345,5 +350,213 @@ namespace Omnicorp.Admin
             Carriers_Datagrid();
         }
 
+
+        // Add carrier button
+        private void AddCarrier(object sender, RoutedEventArgs e)
+        {
+            string connectionString = @"server=127.0.0.1;database=omnicorp;uid=root;pwd=;";
+            MySqlConnection connection = new MySqlConnection(connectionString);
+
+            string carrierName = CarrierDetailName.Content.ToString();
+            string depotCity = Departure_Textbox.Text;
+
+            string ftl = FTLAval_Textbox.Text;
+            decimal ftlAval = decimal.Parse(ftl);
+
+            string ltl = LTLAval_Textbox.Text;
+            decimal ltlAval = decimal.Parse(ltl);
+
+            string ftlR = FTL_Textbox.Text;
+            decimal ftlRate = decimal.Parse(ftlR);
+
+            string ltlR = LTL_Textbox.Text;
+            decimal ltlRate = decimal.Parse(ltlR);
+
+            string reefC = ReeferCharge_Textbox.Text;
+            decimal reefCharge = decimal.Parse(reefC);
+
+            string addQuery = $"INSERT INTO carriers (companyName, depotCity, ftlAvailable, ltlAvailable, ftlRate, ltlRate, reefCharge) " +
+                              $"VALUES  (\"{carrierName}\", \"{depotCity}\", {ftlAval}, {ltlAval}, {ftlRate}, {ltlRate}, {reefCharge}) ";
+
+            MessageBox.Show($"Record for {carrierName} has been updated");
+
+            MySqlCommand cmd = new MySqlCommand(addQuery, connection);
+            cmd.Connection.Open();
+            cmd.ExecuteNonQuery();
+            CarriersCity_Datagrid();
+        }
+
+        private void DeleteCarrier(object sender, RoutedEventArgs e)
+        {
+            string connectionString = @"server=127.0.0.1;database=omnicorp;uid=root;pwd=;";
+            MySqlConnection connection = new MySqlConnection(connectionString);
+
+            string depotCity = Departure_Textbox.Text;
+
+            string ftl = FTLAval_Textbox.Text;
+            decimal ftlAval = decimal.Parse(ftl);
+
+            string ltl = LTLAval_Textbox.Text;
+            decimal ltlAval = decimal.Parse(ltl);
+
+            string deleteQuery = $"DELETE FROM carriers WHERE depotCity = \"{depotCity}\" AND ftlAvailable = {ftlAval} AND ltlAvailable = {ltlAval};";
+
+            MessageBox.Show($"Record for {depotCity} been deleted");
+
+            MySqlCommand cmd = new MySqlCommand(deleteQuery, connection);
+            cmd.Connection.Open();
+            cmd.ExecuteNonQuery();
+            CarriersCity_Datagrid();
+
+            Departure_Textbox.Text = "";
+            FTLAval_Textbox.Text = "";
+            LTLAval_Textbox.Text = "";
+
+        }
+
+        // Routes datagrid
+        private void RoutesDatagrid()
+        {
+            string connectionString = @"server=127.0.0.1;database=omnicorp;uid=root;pwd=;";
+            MySqlConnection connection = new MySqlConnection(connectionString);
+
+            string query = $"SELECT destination, distance, time, west, east FROM routes;";
+            MySqlCommand cmd = new MySqlCommand(query, connection);
+
+            connection.Open();
+            DataTable dt = new DataTable();
+            dt.Load(cmd.ExecuteReader());
+            connection.Close();
+
+            Routes_Data.DataContext = dt;
+        }
+
+        private void Routes_Data_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DataGrid gd = (DataGrid)sender;
+            DataRowView rowSelected = gd.SelectedItem as DataRowView;
+
+            if (rowSelected == null)
+            {
+                return;
+            }
+
+            string Destination = (string)rowSelected[0];
+            int Distance = (int)rowSelected[1];
+            decimal Time = (decimal)rowSelected[2];
+            string East = (string)rowSelected[3];
+            string West = (string)rowSelected[4];
+
+            Destination_Textbox.Text = Destination;
+            Distance_Textbox.Text = Distance.ToString();
+            Time_Textbox.Text = Time.ToString();
+            East_Textbox.Text = East.ToString();
+            West_Textbox.Text = West.ToString();
+
+        }
+
+        // Clear routes fields
+        private void Routes_ClearFields(object sender, RoutedEventArgs e)
+        {
+            Distance_Textbox.Text = "";
+            Time_Textbox.Text = "";
+        }
+
+        // Update routes fields
+        private void Routes_UpdateBtn(object sender, RoutedEventArgs e)
+        {
+            // If carrier detail fields are empty, prompt an error message
+            if (Distance_Textbox.Text == "" || Time_Textbox.Text == "")
+            {
+                MessageBox.Show("Please make sure that all route textfields are filled before saving.");
+            }
+            else
+            {
+                UpdateRouteDetails();
+            }
+        }
+
+        private void UpdateRouteDetails()
+        {
+            string connectionString = @"server=127.0.0.1;database=omnicorp;uid=root;pwd=;";
+            MySqlConnection connection = new MySqlConnection(connectionString);
+
+            string destination = Destination_Textbox.Text;
+
+            string dist= Distance_Textbox.Text;
+            decimal distance = decimal.Parse(dist);
+
+            string time = Time_Textbox.Text;
+            decimal timeField = decimal.Parse(time);
+
+            string updateQuery = $"UPDATE routes SET distance = {distance}, time = {timeField} WHERE destination = \"{destination}\" ";
+
+            MySqlCommand cmd = new MySqlCommand(updateQuery, connection);
+            cmd.Connection.Open();
+            cmd.ExecuteNonQuery();
+            MessageBox.Show("Routes values have been updated.");
+            RoutesDatagrid();
+
+        }
+
+
+
+        // Left hand backup button
+        private void Backup_Btn(object sender, RoutedEventArgs e)
+        {
+            LogFileGrid.Visibility = Visibility.Hidden;
+            BackupGrid.Visibility = Visibility.Visible;
+        }
+
+
+        // Select folder directory
+        private void SelectDirectory_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();  // Open file dialog
+            System.Windows.Forms.FolderBrowserDialog folderDlg = new System.Windows.Forms.FolderBrowserDialog();
+
+            folderDlg.ShowNewFolderButton = true;
+            // Show the FolderBrowserDialog.  
+            System.Windows.Forms.DialogResult result = folderDlg.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                backup_textbox.Text = folderDlg.SelectedPath + "\\";
+            }
+        }
+
+
+        // Intiate backup
+        private void InitBackupBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Process process = new Process();
+            process.StartInfo.FileName = "mysqldump.exe";
+            process.StartInfo.Arguments = @"mysqldump -uroot -p omnicorp > C:\User\aanwa\Desktop\backup.sql";
+            process.Start();
+            process.WaitForExit();
+
+        }
+
+
+
+        // Log file button
+        private void Logfile_Btn(object sender, RoutedEventArgs e)
+        {
+            LogFileGrid.Visibility = Visibility.Visible;
+            // This will get the current WORKING directory (i.e. \bin\Debug)
+            string workingDirectory = Environment.CurrentDirectory;
+            // or: Directory.GetCurrentDirectory() gives the same result
+
+            // This will get the current PROJECT bin directory (ie ../bin/)
+            string logfileDirectory = Directory.GetParent(workingDirectory).Parent.FullName + @"\Admin\logfile.txt";
+
+            LogFileText.Text = File.ReadAllText(logfileDirectory);
+        }
+
+
+        // General Config button
+        private void GeneralConfig_Btn(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
