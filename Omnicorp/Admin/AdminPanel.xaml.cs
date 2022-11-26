@@ -10,91 +10,41 @@ using System.Diagnostics;
 using MySqlX.XDevAPI;
 using System.Threading;
 using System.Configuration;
-
+using System.Collections.Generic;
 
 namespace Omnicorp.Admin
 {
+
     /// <summary>
     /// Interaction logic for admin_panel.xaml
     /// </summary>
     /// 
     
-    public partial class admin_panel : Window
+    public partial class AdminPanel : Window
     {
 
-        public admin_panel()
+        // Accessor fields
+        AdminHandler handler;
+
+
+        public string FltRate { get; set; }
+        public string LtlRate { get; set; }
+        public string CarrierName { get; set; }
+        public decimal FtlRateCarriers { get; set; }
+        public decimal LtlRateCarriers { get; set; }
+        public decimal ReefCharge { get; set; }
+        public string DepotCity { get; set; }
+        public decimal FtlAval { get; set; }
+        public decimal LtlAval { get; set; }
+
+        public AdminPanel()
         {
             InitializeComponent();
-            QueryRates();
-        }
-
-        // Accessor fields
-        string ftlRate;
-        string ltlRate;
-        string carrierName;
-        decimal ftlRateCarriers;
-        decimal ltlRateCarriers;
-        decimal reefCharge;
-        string depotCity;
-        decimal ftlAval;
-        decimal ltlAval;
-
-        public string FltRate
-        {
-            get { return ftlRate; }
-            set { ftlRate = value; }
-        }
-
-        public string LtlRate
-        {
-            get { return ltlRate; }
-            set { ltlRate = value; }
-        }
-
-        public string CarrierName
-        {
-            get { return carrierName; }
-            set { carrierName = value; }
-        }
-
-        public decimal FtlRateCarriers
-        {
-            get { return ftlRateCarriers;  }
-            set { ftlRateCarriers = value;  }
-        }
-
-        public decimal LtlRateCarriers
-        {
-            get { return ltlRateCarriers; }
-            set { ltlRateCarriers = value; }
-        }
-
-        public decimal ReefCharge
-        {
-            get { return reefCharge; }
-            set { reefCharge = value; }
-        }
-
-        public string DepotCity
-        {
-            get { return depotCity; }
-            set { depotCity = value; }
-        }
-
-        public decimal FtlAval
-        {
-            get { return ftlAval; }
-            set { ftlAval = value; }
-        }
-
-        public decimal LtlAval
-        {
-            get { return ltlAval; }
-            set { ltlAval = value; }
+            handler = new AdminHandler();
         }
 
         // Database button
-        private void Database_Btn(object sender, RoutedEventArgs e)
+        private void DatabaseBtnClick(object sender, RoutedEventArgs e)
         {
             RatesBtn.Visibility = Visibility.Visible;
             CarriersBtn.Visibility = Visibility.Visible;
@@ -106,121 +56,108 @@ namespace Omnicorp.Admin
             LogFileGrid.Visibility = Visibility.Hidden;
         }
 
-        // Rates button
-        private void Rates_Btn(object sender, RoutedEventArgs e)
+        
+
+        
+        
+        
+        // MANAGING RATES
+        private void RatesBtnClick(object sender, RoutedEventArgs e)
         {
             HideBtns();
             RatesGrid_Click.Visibility = Visibility.Visible;
+
+            UpdateRatesDatagridContent();
+        }
+        
+        
+        
+        
+        private void UpdateRatesDatagridContent()
+        {
+            Dictionary<string, string> data = handler.GetRatesFromDatabase();
+            Ftl_Textbox.Text = data["FTL"].ToString();
+            Ltl_Textbox.Text = data["LTL"].ToString();
         }
 
 
-        // Carriers button
-        private void Carriers_Btn(object sender, RoutedEventArgs e)
+
+
+        private void SaveFTLRate(object sender, RoutedEventArgs e)
+        {
+            double amount = double.Parse(Ftl_Textbox.Text);
+            string message = "FTL value has been updated.";
+            string title = "Success";
+            try
+            {
+                handler.UpdateRatesToDatabase(amount, "FTL");
+            }
+            catch (ArgumentException err)
+            {
+                message = err.Message;
+                title = "Error: invalid entry";
+            }
+            MessageBox.Show(message, title);
+            UpdateRatesDatagridContent();
+        }
+
+
+        
+        
+        private void SaveLTLRate(object sender, RoutedEventArgs e)
+        {
+            double amount = double.Parse(Ltl_Textbox.Text);
+            string message = "LTL value has been updated.";
+            string title = "Success";
+            try
+            {
+                handler.UpdateRatesToDatabase(amount, "LTL");
+            }
+            catch (ArgumentException err)
+            {
+                message = err.Message;
+                title = "Error: invalid entry";
+            }
+            MessageBox.Show(message, title);
+            UpdateRatesDatagridContent();
+        }
+
+
+
+
+
+
+        // MANAGING CARRIERS
+        private void CarriersBtnClick(object sender, RoutedEventArgs e)
         {
             HideBtns();
             CarriersGrid_Click.Visibility = Visibility.Visible;
-            Carriers_Datagrid();
-        }
-
-
-        // Routes button
-        private void Routes_Btn(object sender, RoutedEventArgs e)
-        {
-            HideBtns();
-            RoutesGrid_Click.Visibility = Visibility.Visible;
-            RoutesDatagrid();
-        }
-
-
-        // Hide database btns
-        private void HideBtns()
-        {
-            RatesBtn.Visibility = Visibility.Hidden;
-            CarriersBtn.Visibility = Visibility.Hidden;
-            RoutesBtn.Visibility = Visibility.Hidden;
-        }
-
-        // Show Rates
-        private void QueryRates()
-        {
-            string connectionString = @"server=127.0.0.1;database=omnicorp;uid=root;pwd=;";
-            MySqlConnection connection = new MySqlConnection(connectionString);
             
-            
-            // Exception habdler to open connection to MySQL database
-            try
-            {
-                connection.Open();
-            }
-            catch(Exception ex) 
-            {
-                MessageBox.Show(ex.Message);
-                return;
-            }
-            
-            string ftlRateQuery = "SELECT amount FROM rates; ";
-            MySqlCommand cmd = new MySqlCommand(ftlRateQuery, connection);
-            MySqlDataReader rdr = cmd.ExecuteReader();
-
-            int i = 0;
-            while (rdr.Read())
-            {
-                if (i == 0)
-                {
-                    FltRate = rdr.GetString(0).ToString();
-                }
-
-                else
-                {
-                    LtlRate = rdr.GetString(0).ToString();
-                }
-
-                i++;
-                
-            }
-            Flt_Textbox.Text = FltRate;
-            Ltl_Textbox.Text = LtlRate;
+            UpdateCarriersDatagridContent();
         }
 
 
-        private void FLT_Update(object sender, RoutedEventArgs e)
+
+
+        private void UpdateCarriersDatagridContent()
         {
-            string connectionString = @"server=127.0.0.1;database=omnicorp;uid=root;pwd=;";
-            MySqlConnection connection = new MySqlConnection(connectionString);
-
-            string fltAmount = Flt_Textbox.Text;
-            string updateQuery = $"UPDATE rates SET amount = {fltAmount} WHERE id = 1;";
-
-            MySqlCommand cmd = new MySqlCommand(updateQuery, connection);
-            cmd.Connection.Open();
-            cmd.ExecuteNonQuery();
-            MessageBox.Show("FLT value has been updated.");
+            Carriers_Data.DataContext = handler.GetCarriersFromDatabase();
         }
 
 
-        private void LTL_Update(object sender, RoutedEventArgs e)
-        {
-            string connectionString = @"server=127.0.0.1;database=omnicorp;uid=root;pwd=;";
-            MySqlConnection connection = new MySqlConnection(connectionString);
 
-            string ltlAmount = Ltl_Textbox.Text;
-            string updateQuery = $"UPDATE rates SET amount = {ltlAmount} WHERE id = 2;";
-
-            MySqlCommand cmd = new MySqlCommand(updateQuery, connection);
-            cmd.Connection.Open();
-            cmd.ExecuteNonQuery();
-            MessageBox.Show("LTL value has been updated.");
-        }
-
-
-        // Carriers Data
-        private void Carriers_Data_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CarriersDataGridSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataGrid gd = (DataGrid)sender;
             DataRowView rowSelected = gd.SelectedItem as DataRowView;
 
+            // If no row is selected, clear the details and skip
             if (rowSelected == null)
             {
+                CarrierDetailName.Content = String.Empty;
+                ReeferCharge_Textbox.Text = String.Empty;
+                FTL_Textbox.Text = String.Empty;
+                LTL_Textbox.Text = String.Empty;
                 return;
             }
 
@@ -229,11 +166,16 @@ namespace Omnicorp.Admin
             LtlRateCarriers = (decimal)rowSelected[2];
             ReefCharge = (decimal)rowSelected[3];
             CarriersCity_Datagrid();
-            CarrierDetails();
+
+            CarrierDetailName.Content = CarrierName.ToString();
+            ReeferCharge_Textbox.Text = ReefCharge.ToString();
+            FTL_Textbox.Text = FtlRateCarriers.ToString();
+            LTL_Textbox.Text = LtlRateCarriers.ToString();
         }
 
 
-        // Carrier City Data
+
+
         private void Carriers_City_Data_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataGrid gd = (DataGrid)sender;
@@ -250,49 +192,46 @@ namespace Omnicorp.Admin
             CityOfCarrierDetails();
         }
 
-
-        private void Carriers_Datagrid()
-        {
-            string connectionString = @"server=127.0.0.1;database=omnicorp;uid=root;pwd=;";
-            MySqlConnection connection = new MySqlConnection(connectionString);
-
-            string query = @"SELECT DISTINCT CompanyName AS 'Name', ftlRate AS 'FTLRate', ltlRate AS 'LTLRate', reefCharge AS 'reefCharge' FROM carriers";
-            MySqlCommand cmd = new MySqlCommand(query, connection);
-
-            connection.Open();
-            DataTable dt = new DataTable();
-            dt.Load(cmd.ExecuteReader());
-            connection.Close();
-
-            Carriers_Data.DataContext = dt;
-        }
+        
 
 
         // Carriers City
         private void CarriersCity_Datagrid()
         {
-            string connectionString = @"server=127.0.0.1;database=omnicorp;uid=root;pwd=;";
-            MySqlConnection connection = new MySqlConnection(connectionString);
-
-            string query = $"SELECT depotCity, ftlAvailable, ltlAvailable FROM carriers WHERE companyName = \"{CarrierName}\" ";
-            MySqlCommand cmd = new MySqlCommand(query, connection);
-
-            connection.Open();
-            DataTable dt = new DataTable();
-            dt.Load(cmd.ExecuteReader());
-            connection.Close();
-
-            Carriers_City_Data.DataContext = dt;
+            Carriers_City_Data.DataContext = handler.GetCarriersDepotsFromDatabase(CarrierName);
         }
-        
-        // Fill text box with carrier details
-        private void CarrierDetails()
+
+
+
+
+
+        // Routes button
+        private void Routes_Btn(object sender, RoutedEventArgs e)
         {
-            CarrierDetailName.Content = CarrierName.ToString();
-            ReeferCharge_Textbox.Text = ReefCharge.ToString();
-            FTL_Textbox.Text = FtlRateCarriers.ToString();
-            LTL_Textbox.Text = LtlRateCarriers.ToString();
+            HideBtns();
+            RoutesGrid_Click.Visibility = Visibility.Visible;
+            
+            UpdateRoutesDatagridContent();
         }
+
+
+        // Hide database btns
+        private void HideBtns()
+        {
+            RatesBtn.Visibility = Visibility.Hidden;
+            CarriersBtn.Visibility = Visibility.Hidden;
+            RoutesBtn.Visibility = Visibility.Hidden;
+        }
+
+        
+
+
+        // Carriers Data
+        
+
+
+        
+        
 
         // Fill text box with city of carrier details
         private void CityOfCarrierDetails()
@@ -347,7 +286,7 @@ namespace Omnicorp.Admin
             cmd.Connection.Open();
             cmd.ExecuteNonQuery();
             MessageBox.Show("Carrier values have been updated.");
-            Carriers_Datagrid();
+            UpdateCarriersDatagridContent();
         }
 
 
@@ -415,20 +354,9 @@ namespace Omnicorp.Admin
         }
 
         // Routes datagrid
-        private void RoutesDatagrid()
+        private void UpdateRoutesDatagridContent()
         {
-            string connectionString = @"server=127.0.0.1;database=omnicorp;uid=root;pwd=;";
-            MySqlConnection connection = new MySqlConnection(connectionString);
-
-            string query = $"SELECT destination, distance, time, west, east FROM routes;";
-            MySqlCommand cmd = new MySqlCommand(query, connection);
-
-            connection.Open();
-            DataTable dt = new DataTable();
-            dt.Load(cmd.ExecuteReader());
-            connection.Close();
-
-            Routes_Data.DataContext = dt;
+            Routes_Data.DataContext = handler.GetRoutesFromDatabase();
         }
 
         private void Routes_Data_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -495,7 +423,7 @@ namespace Omnicorp.Admin
             cmd.Connection.Open();
             cmd.ExecuteNonQuery();
             MessageBox.Show("Routes values have been updated.");
-            RoutesDatagrid();
+            UpdateRoutesDatagridContent();
 
         }
 
