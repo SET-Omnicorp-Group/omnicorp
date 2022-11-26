@@ -5,11 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Omnicorp.Admin"
         mc:Ignorable="d"
-        Title="Admin Panel" Height="450" Width="800">
+        Title="admin_panel" Height="500" Width="800"
+        ResizeMode="NoResize">
+
     <Grid>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200px"></ColumnDefinition>
+            <ColumnDefinition Width="350px"></ColumnDefinition>
             <ColumnDefinition Width="300px"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -19,16 +21,655 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <!-- Label for Admin Panel -->
+
+        <!-- Label for admin -->
         <Label 
-        Grid.Row="0" 
-        Content="Admin Panel"
-        Grid.ColumnSpan="1" 
-        FontSize="20"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center"
+            Content="Admin Panel" 
+            Grid.ColumnSpan="1" 
+            FontSize="20"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top" Margin="25,24,0,0"
+        />
+
+        <!-- Databases Btn -->
+        <Button 
+            Content="Databases" 
+            Width="150"
+            HorizontalAlignment="Left" 
+            Margin="25,75,0,0" 
+            VerticalAlignment="Top" 
+            Click="Database_Btn" 
+            Height="40" 
+            Grid.RowSpan="2"/>
+
+
+        <!-- Rates Btn -->
+        <Button 
+            Visibility="Hidden"
+            x:Name="RatesBtn"
+            Content="Rates" 
+            Width="150"
+            HorizontalAlignment="Left" 
+            Margin="190,75,0,0" 
+            VerticalAlignment="Top"
+            Click="Rates_Btn" 
+            Height="40" 
+            Grid.RowSpan="2"/>
+
+
+        <!-- Carriers Btn -->
+        <Button 
+            Visibility="Hidden"
+            x:Name="CarriersBtn"
+            Content="Carriers" 
+            Width="150"
+            HorizontalAlignment="Left" 
+            Margin="190,10,0,0" 
+            Grid.Row="1" 
+            VerticalAlignment="Top"
+            Click="Carriers_Btn"
+            Height="40"/>
+
+
+        <!-- Routes Btn -->
+        <Button
+            Visibility="Hidden"
+            x:Name="RoutesBtn"
+            Content="Routes" 
+            Width="150"
+            HorizontalAlignment="Left" 
+            Margin="190,60,0,0" 
+            Grid.Row="1" 
+            VerticalAlignment="Top"
+            Click="Routes_Btn"
+            Height="40" 
+            Grid.RowSpan="2"/>
+
+        <!--(1) Rate Datagrid -->
+        <Grid
+            x:Name="RatesGrid_Click" 
+            Visibility="Hidden"
+            Background="#FFB1B1B1" 
+            Grid.RowSpan="4" 
+            Margin="190,75,-130,10" 
+            Grid.ColumnSpan="2" 
+        >
+
+            <!-- FTL Label -->
+            <Label 
+            Grid.Column="1" 
+            Content="FTL Rate"
+            HorizontalAlignment="Left"
+            Margin="10,22,0,0" 
+            Grid.Row="1" 
+            VerticalAlignment="Top"/>
+
+            <!-- FTL Rate -->
+            <TextBox 
+            x:Name="Flt_Textbox"
+            Grid.Column="1" 
+            HorizontalAlignment="Left" 
+            Margin="76,25,0,0" 
+            Grid.Row="1" 
+            TextWrapping="Wrap" 
+            Text="TextBox" 
+            VerticalAlignment="Top" 
+            Width="120" />
+
+            <!-- FTL Update Btn-->
+            <Button 
+            Grid.Column="1" 
+            Content="Update"
+            Width="80"
+            HorizontalAlignment="Left" 
+            Margin="201,24,0,0" 
+            Grid.Row="1" 
+            VerticalAlignment="Top" 
+            Click="FLT_Update"/>
+
+            <!-- LTL Label-->
+            <Label 
+            Grid.Column="1" 
+            Content="LTL Rate"
+            HorizontalAlignment="Left"
+            Margin="10,50,0,0" 
+            Grid.Row="1" 
+            VerticalAlignment="Top"/>
+
+            <!-- LTL Rate -->
+            <TextBox 
+            x:Name="Ltl_Textbox"
+            Grid.Column="1" 
+            HorizontalAlignment="Left" 
+            Margin="76,52,0,0" 
+            Grid.Row="1" 
+            TextWrapping="Wrap" 
+            Text="TextBox" 
+            VerticalAlignment="Top" 
+            Width="120"/>
+
+            <!-- LTL Update Btn-->
+            <Button 
+            Grid.Column="1" 
+            Content="Update"
+            Width="80"
+            HorizontalAlignment="Left" 
+            Margin="201,52,0,0" 
+            Grid.Row="1" 
+            VerticalAlignment="Top"
+            Click="LTL_Update"/>
+        </Grid>
+
+
+        <!--(2) Carriers Datagrid -->
+        <Grid
+            x:Name="CarriersGrid_Click" 
+            Visibility="Hidden"
+            Background="#FFB1B1B1" 
+            Grid.RowSpan="4" 
+            Margin="185,75,-130,10" 
+            Grid.ColumnSpan="2" 
+        >
+            <DataGrid 
+                Name="Carriers_Data"
+                HorizontalAlignment="Left" 
+                Height="190" 
+                Margin="10,10,0,0" 
+                VerticalAlignment="Top" 
+                Width="300" 
+                ItemsSource="{Binding}" 
+                SelectionChanged="Carriers_Data_SelectionChanged" 
+            />
+
+            <DataGrid 
+                Name="Carriers_City_Data"
+                HorizontalAlignment="Left" 
+                Height="190" 
+                Margin="330,10,0,0" 
+                VerticalAlignment="Top" 
+                Width="250" 
+                ItemsSource="{Binding}" SelectionChanged="Carriers_City_Data_SelectionChanged" 
+            />
+
+            <!-- Read Value of Selected Carrier (row) -->
+
+            <!--Name-->
+            <Label 
+                Content="Carrier Name" 
+                HorizontalAlignment="Left" 
+                Margin="18,217,0,0" 
+                VerticalAlignment="Top"/>
+            <Label 
+                Name="CarrierDetailName"
+                Content="" 
+                HorizontalAlignment="Left" 
+                Margin="100,217,0,0" 
+                VerticalAlignment="Top"/>
+
+            <!--Reefer Charge-->
+            <Label 
+                Content="Reefer Charge" 
+                HorizontalAlignment="Left" 
+                Margin="16,310,0,0" 
+                VerticalAlignment="Top"/>
+            <TextBox 
+                x:Name="ReeferCharge_Textbox"
+                HorizontalAlignment="Left" 
+                Margin="100,314,0,0" 
+                TextWrapping="Wrap" 
+                Text="" 
+                VerticalAlignment="Top" 
+                Width="120"/>
+
+            <!--FTL Rate-->
+            <Label 
+                Content="FTL Rate"
+                HorizontalAlignment="Left" 
+                Margin="15,248,0,0" 
+                VerticalAlignment="Top"/>
+            <TextBox 
+                x:Name="FTL_Textbox"
+                HorizontalAlignment="Left" 
+                Margin="100,256,0,0" 
+                TextWrapping="Wrap" 
+                Text="" 
+                VerticalAlignment="Top" 
+                Width="120"/>
+
+            <!--LTL Rate-->
+            <Label 
+                Content="LTL Rate" 
+                HorizontalAlignment="Left" 
+                Margin="16,279,0,0" 
+                VerticalAlignment="Top"/>
+            <TextBox 
+                x:Name="LTL_Textbox"
+                HorizontalAlignment="Left" 
+                Margin="100,287,0,0" 
+                TextWrapping="Wrap" 
+                Text="" 
+                VerticalAlignment="Top" 
+                Width="120"/>
+
+
+            <!--Clear fields button-->
+            <Button 
+                Content="Clear Fields"
+                HorizontalAlignment="Left" 
+                Margin="100,341,0,0" 
+                VerticalAlignment="Top" 
+                Click="ClearFields"/>
+            <Button 
+                Content="Update" 
+                HorizontalAlignment="Left" 
+                Margin="177,341,0,0" 
+                VerticalAlignment="Top" Click="UpdateCarrierDetails"/>
+
+
+
+            <!--Departure-->
+            <Label 
+                Content="Departure" 
+                HorizontalAlignment="Left" 
+                Margin="330,252,0,0" 
+                VerticalAlignment="Top"/>
+            <TextBox
+                x:Name="Departure_Textbox"
+                HorizontalAlignment="Left" 
+                Margin="423,256,0,0" 
+                TextWrapping="Wrap" 
+                Text="" 
+                VerticalAlignment="Top"
+                Width="120"/>
+
+
+
+            <!--FTL Aval-->
+            <Label
+                Content="FTL Available" 
+                HorizontalAlignment="Left" 
+                Margin="330,283,0,0" 
+                VerticalAlignment="Top"/>
+            <TextBox
+                x:Name="FTLAval_Textbox"
+                HorizontalAlignment="Left" 
+                Margin="423,287,0,0" 
+                TextWrapping="Wrap" 
+                Text="" 
+                VerticalAlignment="Top" 
+                Width="120"/>
+
+
+
+            <!--LTL Aval-->
+            <Label 
+                Content="LTL Available" 
+                HorizontalAlignment="Left"
+                Margin="330,310,0,0" 
+                VerticalAlignment="Top"/>
+            <TextBox
+                x:Name="LTLAval_Textbox"
+                HorizontalAlignment="Left" 
+                Margin="423,314,0,0" 
+                TextWrapping="Wrap" 
+                Text="" 
+                VerticalAlignment="Top" 
+                Width="120"/>
+
+
+            <!--Add carrier details-->
+            <Button 
+                x:Name="AddCarrierDetails"
+                Content="Add"
+                HorizontalAlignment="Left"
+                Margin="423,341,0,0" 
+                VerticalAlignment="Top" 
+                Click="AddCarrier"/>
+
+            <!--Delete carrier details-->
+            <Button 
+                Content="Delete"
+                HorizontalAlignment="Left"
+                Margin="464,341,0,0" 
+                VerticalAlignment="Top" 
+                Click="DeleteCarrier"/>
+
+        </Grid>
+
+        <!--(3) Routes Datagrid -->
+        <Grid
+            x:Name="RoutesGrid_Click"
+            Visibility="Hidden"
+            Background="#FFB1B1B1" 
+            Grid.RowSpan="4" 
+            Margin="190,75,-130,10" 
+            Grid.ColumnSpan="2" 
+        >
+
+            <DataGrid 
+                Name="Routes_Data"
+                HorizontalAlignment="Center" 
+                Height="247" 
+                Margin="0,10,0,0" 
+                VerticalAlignment="Top" 
+                Width="570" 
+                ItemsSource="{Binding}" SelectionChanged="Routes_Data_SelectionChanged" 
+            />
+
+            <!--Destination-->
+            <Label
+                Content="Destination" 
+                HorizontalAlignment="Left" 
+                Margin="10,262,0,0" 
+                VerticalAlignment="Top"
+            />
+            <TextBox
+                x:Name="Destination_Textbox"
+                IsReadOnly="True"
+                HorizontalAlignment="Left"
+                Margin="85,266,0,0" 
+                TextWrapping="Wrap" 
+                Text=""
+                VerticalAlignment="Top"
+                Width="120"
+            />
+
+            <!--Distance-->
+            <Label 
+                Content="Distance" 
+                HorizontalAlignment="Left" 
+                Margin="10,293,0,0" 
+                VerticalAlignment="Top"
+            />
+            <TextBox
+                x:Name="Distance_Textbox"
+                HorizontalAlignment="Left"
+                Margin="85,297,0,0" 
+                TextWrapping="Wrap" 
+                Text=""
+                VerticalAlignment="Top"
+                Width="120"
+            />
+
+            <!--Time-->
+            <Label 
+                Content="Time" 
+                HorizontalAlignment="Left" 
+                Margin="10,324,0,0" 
+                VerticalAlignment="Top"
+            />
+            <TextBox
+                x:Name="Time_Textbox"
+                HorizontalAlignment="Left"
+                Margin="85,328,0,0" 
+                TextWrapping="Wrap" 
+                Text=""
+                VerticalAlignment="Top"
+                Width="120"
+            />
+
+            <!--West-->
+            <Label 
+                Content="West" 
+                HorizontalAlignment="Center" 
+                Margin="0,262,0,0" 
+                VerticalAlignment="Top"
+            />
+            <TextBox
+                x:Name="West_Textbox"
+                IsReadOnly="True"
+                HorizontalAlignment="Left"
+                Margin="318,266,0,0" 
+                TextWrapping="Wrap" 
+                Text=""
+                VerticalAlignment="Top"
+                Width="120"
+            />
+
+            <!--East-->
+            <Label 
+                Content="East" 
+                HorizontalAlignment="Center" 
+                Margin="0,289,0,0" 
+                VerticalAlignment="Top"
+            />
+            <TextBox
+                x:Name="East_Textbox"
+                IsReadOnly="True"
+                HorizontalAlignment="Left"
+                Margin="318,293,0,0" 
+                TextWrapping="Wrap" 
+                Text=""
+                VerticalAlignment="Top"
+                Width="120"
+            />
+
+            <!--Clear fields-->
+            <Button 
+                Content="Clear fields" 
+                HorizontalAlignment="Left" 
+                Margin="318,326,0,0" 
+                VerticalAlignment="Top" 
+                Click="Routes_ClearFields"/>
+
+            <!--Update-->
+            <Button 
+                Content="Updates" 
+                HorizontalAlignment="Left" 
+                Margin="385,326,0,0" 
+                VerticalAlignment="Top" 
+                Click="Routes_UpdateBtn"/>
+
+        </Grid>
+
+
+        <!--Backup Button-->
+        <Button 
+            Content="Backup" 
+            Width="150"
+            HorizontalAlignment="Left" 
+            Margin="25,60,0,0" 
+            VerticalAlignment="Top" 
+            Click="Backup_Btn" 
+            Height="40" Grid.Row="1" 
         />
 
 
+        <!--Backup grid-->
+        <Grid
+            x:Name="BackupGrid"
+            
+            Background="#FFB1B1B1" 
+            Grid.RowSpan="4" 
+            Margin="190,75,-130,10" 
+            Grid.ColumnSpan="2" 
+        >
+
+            <!--Backup config label-->
+            <Label 
+                Content="Backup Configuration" 
+                HorizontalAlignment="Left" 
+                Margin="10,0,0,0" 
+                VerticalAlignment="Top" 
+                Height="40" 
+                Width="200"
+                FontSize="18"/>
+
+            <!--Backup path-->
+            <Label 
+                Content="Folder Directory:" 
+                HorizontalAlignment="Left" 
+                Margin="10,75,0,0" 
+                VerticalAlignment="Top" 
+                Height="40" 
+                Width="180"
+                FontSize="14"/>
+
+            <!--Backup path textbox-->
+            <TextBox
+                x:Name="backup_textbox"
+                IsReadOnly="True"
+                HorizontalAlignment="Left" 
+                Margin="130, 80,0,0" 
+                TextWrapping="Wrap" 
+                Text="" 
+                VerticalAlignment="Top" 
+                Width="400"
+                Height="24"
+                FontSize="14" />
+
+            <!--Select path-->
+            <Button 
+                Content="Select Folder Directory" 
+                HorizontalAlignment="Left" 
+                Margin="130,120,0,0" 
+                VerticalAlignment="Top" 
+                Click="SelectDirectory_Click"/>
+
+
+            <!--Backup btn-->
+            <Button
+                x:Name="BackupBtn"
+                Content="Intiate Backup" 
+                HorizontalAlignment="Left" 
+                Margin="130,161,0,0" 
+                VerticalAlignment="Top" 
+                Click="InitBackupBtn_Click"/>
+
+        </Grid>
+
+
+        <!--Log Files-->
+        <Button 
+            x:Name="LogFileBtn"
+            Content="Log Files" 
+            Width="150"
+            HorizontalAlignment="Left" 
+            Margin="25,0,0,0" 
+            VerticalAlignment="Center" 
+            Click="Logfile_Btn" 
+            Height="40" Grid.Row="2" 
+        />
+
+        <!--Log file text box-->
+        <Grid
+            x:Name="LogFileGrid"
+            Visibility="Hidden"
+            Background="#FFB1B1B1" 
+            Grid.RowSpan="4" 
+            Margin="190,75,-130,10" 
+            Grid.ColumnSpan="2" 
+        >
+            <TextBox 
+                x:Name="LogFileText"
+                IsReadOnly="True"
+                HorizontalAlignment="Center" 
+                TextWrapping="Wrap" 
+                Text="" 
+                VerticalAlignment="Center" 
+                Width="570" 
+                Height="350"
+            />
+
+        </Grid>
+
+
+        <!--General config-->
+        <Button 
+            x:Name="GeneralConfiBtn"
+            Content="General Configuration" 
+            Width="150"
+            HorizontalAlignment="Left" 
+            Margin="25,21,0,0" 
+            VerticalAlignment="Top" 
+            Click="GeneralConfig_Btn" 
+            Height="40" 
+            Grid.Row="3" 
+        />
+
+        <Grid
+            x:Name="GeneralConfigGrid"
+            Visibility="Hidden"
+            Background="#FFB1B1B1" 
+            Grid.RowSpan="4" 
+            Margin="190,75,-130,10" 
+            Grid.ColumnSpan="2" 
+        >
+
+            <!--Backup config label-->
+            <Label 
+                Content="General Configuration" 
+                HorizontalAlignment="Left" 
+                Margin="10,0,0,0" 
+                VerticalAlignment="Top" 
+                Height="40" 
+                Width="200"
+                FontSize="18"/>
+
+            <!--Server details-->
+            <Label 
+                Content="Server:" 
+                HorizontalAlignment="Left" 
+                Margin="10,75,0,0" 
+                VerticalAlignment="Top" 
+                Height="29" 
+                Width="65"
+                FontSize="14"/>
+
+            <TextBox
+                IsReadOnly="True"
+                HorizontalAlignment="Left" 
+                Margin="80,80,0,0" 
+                TextWrapping="Wrap" 
+                Text="" 
+                VerticalAlignment="Top" 
+                Width="400"
+                Height="24"
+                FontSize="14" />
+            
+            <!--Server port details-->
+            <Label 
+                Content="Port:" 
+                HorizontalAlignment="Left" 
+                Margin="10,109,0,0" 
+                VerticalAlignment="Top" 
+                Height="29" 
+                Width="65"
+                FontSize="14"/>
+            
+            <TextBox
+                IsReadOnly="True"
+                HorizontalAlignment="Left" 
+                Margin="80,112,0,0" 
+                TextWrapping="Wrap" 
+                Text="" 
+                VerticalAlignment="Top" 
+                Width="130"
+                Height="24"
+                FontSize="14" />
+            <TextBox
+                IsReadOnly="True"
+                HorizontalAlignment="Left" 
+                Margin="80,141,0,0" 
+                TextWrapping="Wrap" 
+                Text="" 
+                VerticalAlignment="Top" 
+                Width="130"
+                Height="24"
+                FontSize="14" />
+            <Label 
+                Content="Port:" 
+                HorizontalAlignment="Left" 
+                Margin="10,133,0,0" 
+                VerticalAlignment="Top" 
+                Height="29" 
+                Width="65"
+                FontSize="14"/>
+
+        </Grid>
+
+
+
     </Grid>
-</Window>
+
+</Window>  

@@ -25,7 +25,6 @@ namespace Omnicorp
         // Accessor fields
         string username;
         string password;
-        bool isLoginBtnClicked;
 
 
         public string Username
@@ -40,13 +39,6 @@ namespace Omnicorp
             set { password = value; }
         }
 
-        public bool IsLoginBtnClicked
-        {
-            get { return isLoginBtnClicked; }
-            set { isLoginBtnClicked = value; }
-        }
-
-
         // Login submit button
         private void Login_Button(object sender, RoutedEventArgs e)
         {
@@ -54,8 +46,11 @@ namespace Omnicorp
             Username = Username_Text.Text;
             Password = Password_Text.Text;
 
-            IsLoginBtnClicked = true; // Set click value to true
-            string connetionString = @"server=localhost;database=omnicorp;uid=root;pwd=;"; // Write server, database, root, and password into string
+            string connetionString = @"
+                    server=127.0.0.1;
+                    database=omnicorp;
+                    uid=root;
+                    pwd=;"; // Write server, database, root, and password into string
             MySqlConnection connection = new MySqlConnection(connetionString);  // Establish connection between server and MySQL
 
             // Exception handler to open connection to MySQL database
@@ -65,7 +60,7 @@ namespace Omnicorp
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Cannot connect to database");
+                MessageBox.Show($"Cannot connect to database. Error: {ex}");
                 return;
             }
 
@@ -88,7 +83,11 @@ namespace Omnicorp
             }
 
             // If while loop does not exit the function (return;), this indicates either the username or password was incorrect.
-            MessageBox.Show("Incorrect username or password.");
+            string messageBoxText = "Incorrect username or password";
+            string caption = "Login Error";
+            MessageBoxResult result;
+            result = MessageBox.Show(messageBoxText, caption, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.None);
+
             Username_Text.Clear();
             Password_Text.Clear();
         }
