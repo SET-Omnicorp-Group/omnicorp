@@ -9,7 +9,6 @@ using MySql.Data.MySqlClient;
 using System.Collections;
 using System.Windows.Controls;
 using System.Data;
-using static System.Net.WebRequestMethods;
 
 namespace Omnicorp.Admin
 {
@@ -162,6 +161,19 @@ namespace Omnicorp.Admin
             myQuery.Close();
         }
 
+
+        public void BackupDatabase(string filePath)
+        {
+            MyQuery myQuery = new MyQuery();
+
+            MySqlCommand cmd = new MySqlCommand("", myQuery.conn);
+            MySqlBackup mb = new MySqlBackup(cmd);
+            
+            mb.ExportToFile(filePath);
+            
+            myQuery.conn.Close();
+
+        }
 
         public void ValidatePositiveAmount(decimal amount)
         {

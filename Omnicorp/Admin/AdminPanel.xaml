@@ -499,45 +499,19 @@
                 FontSize="18"/>
 
             <!--Backup path-->
-            <Label 
-                Content="Folder Directory:" 
-                HorizontalAlignment="Left" 
-                Margin="10,75,0,0" 
-                VerticalAlignment="Top" 
-                Height="40" 
-                Width="180"
-                FontSize="14"/>
 
             <!--Backup path textbox-->
-            <TextBox
-                x:Name="backup_textbox"
-                IsReadOnly="True"
-                HorizontalAlignment="Left" 
-                Margin="130, 80,0,0" 
-                TextWrapping="Wrap" 
-                Text="" 
-                VerticalAlignment="Top" 
-                Width="400"
-                Height="24"
-                FontSize="14" />
 
             <!--Select path-->
             <Button 
-                Content="Select Folder Directory" 
+                Content="Save Backup" 
                 HorizontalAlignment="Left" 
-                Margin="130,120,0,0" 
+                Margin="127,85,0,0" 
                 VerticalAlignment="Top" 
-                Click="SelectDirectoryBtn_Click"/>
+                Click="SaveBackupBtn_Click"/>
 
 
             <!--Backup btn-->
-            <Button
-                x:Name="BackupBtn"
-                Content="Intiate Backup" 
-                HorizontalAlignment="Left" 
-                Margin="130,161,0,0" 
-                VerticalAlignment="Top" 
-                Click="InitBackupBtn_Click"/>
 
         </Grid>
 

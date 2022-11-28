@@ -451,32 +451,24 @@ namespace Omnicorp.Admin
         }
 
 
-        private void SelectDirectoryBtn_Click(object sender, RoutedEventArgs e)
+        private void SaveBackupBtn_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();  // Open file dialog
-            System.Windows.Forms.FolderBrowserDialog folderDlg = new System.Windows.Forms.FolderBrowserDialog();
+            SaveFileDialog sf = new SaveFileDialog();
+            sf.Filter = "SQL Files | *.sql"; ;
+            sf.ShowDialog();
 
-            folderDlg.ShowNewFolderButton = true;
-            // Show the FolderBrowserDialog.  
-            System.Windows.Forms.DialogResult result = folderDlg.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
+            string filePath = sf.FileName.ToString();
+
+            try
             {
-                backup_textbox.Text = folderDlg.SelectedPath + "\\";
+                handler.BackupDatabase(filePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Backup unsuccessful. Check logfile for details.", "Error");
+                // @TODO LOG HERE
             }
         }
-
-
-        private void InitBackupBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Process process = new Process();
-            process.StartInfo.FileName = "mysqldump.exe";
-            process.StartInfo.Arguments = @"mysqldump -uroot -p omnicorp > C:\User\aanwa\Desktop\backup.sql";
-            process.Start();
-            process.WaitForExit();
-
-        }
-
-
 
 
 
