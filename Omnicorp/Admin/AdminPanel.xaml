@@ -9,16 +9,22 @@
         ResizeMode="NoResize">
 
     <Grid>
+        <Grid.Background>
+            <RadialGradientBrush>
+                <GradientStop Color="#FF16DFED" Offset="0"/>
+                <GradientStop Color="#FFBCE8EC" Offset="1"/>
+            </RadialGradientBrush>
+        </Grid.Background>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="350px"></ColumnDefinition>
             <ColumnDefinition Width="300px"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="12*"></RowDefinition>
+            <RowDefinition Height="10*"></RowDefinition>
+            <RowDefinition Height="11*"></RowDefinition>
+            <RowDefinition Height="11*"></RowDefinition>
         </Grid.RowDefinitions>
 
 
@@ -26,9 +32,9 @@
         <Label 
             Content="Admin Panel" 
             Grid.ColumnSpan="1" 
-            FontSize="20"
+            FontSize="23"
             HorizontalAlignment="Left"
-            VerticalAlignment="Top" Margin="25,24,0,0"
+            VerticalAlignment="Top" Margin="100,48,0,0" Grid.Column="1" Height="57" Width="175" Background="{x:Null}" FontFamily="Arial Rounded MT Bold" FontWeight="Bold" Foreground="Black"
         />
 
         <!-- Databases Btn -->
@@ -36,11 +42,10 @@
             Content="Databases" 
             Width="150"
             HorizontalAlignment="Left" 
-            Margin="25,75,0,0" 
+            Margin="25,29,0,0" 
             VerticalAlignment="Top" 
             Click="DatabaseBtn_Click" 
-            Height="40" 
-            Grid.RowSpan="2"/>
+            Height="40" Grid.Row="1"/>
 
 
         <!-- Rates Btn -->
@@ -53,8 +58,7 @@
             Margin="190,75,0,0" 
             VerticalAlignment="Top"
             Click="RatesBtn_Click" 
-            Height="40" 
-            Grid.RowSpan="2"/>
+            Height="40"/>
 
 
         <!-- Carriers Btn -->
@@ -82,8 +86,7 @@
             Grid.Row="1" 
             VerticalAlignment="Top"
             Click="Routes_Btn"
-            Height="40" 
-            Grid.RowSpan="2"/>
+            Height="40"/>
 
         <!--(1) Rate Datagrid -->
         <Grid
@@ -470,10 +473,10 @@
             Content="Backup" 
             Width="150"
             HorizontalAlignment="Left" 
-            Margin="25,60,0,0" 
+            Margin="25,73,0,0" 
             VerticalAlignment="Top" 
             Click="BackupBtn_Click" 
-            Height="40" Grid.Row="1" 
+            Height="40" Grid.Row="1" Grid.RowSpan="2" 
         />
 
 
@@ -483,7 +486,7 @@
             
             Background="#FFB1B1B1" 
             Grid.RowSpan="4" 
-            Margin="190,75,-130,10" 
+            Margin="188,61,-128,24" 
             Grid.ColumnSpan="2" 
             Visibility="Hidden"
         >
@@ -522,8 +525,8 @@
             Content="Log Files" 
             Width="150"
             HorizontalAlignment="Left" 
-            Margin="25,0,0,0" 
-            VerticalAlignment="Center" 
+            Margin="25,8,0,0" 
+            VerticalAlignment="Top" 
             Click="LogFileBtn_Click" 
             Height="40" Grid.Row="2" 
         />
@@ -557,11 +560,11 @@
             Content="General Configuration" 
             Width="150"
             HorizontalAlignment="Left" 
-            Margin="25,21,0,0" 
+            Margin="25,50,0,0" 
             VerticalAlignment="Top" 
             Click="GeneralConfig_Btn" 
             Height="40" 
-            Grid.Row="3" 
+            Grid.Row="2" 
         />
 
         <Grid
@@ -603,7 +606,7 @@
                 Width="400"
                 Height="24"
                 FontSize="14" />
-            
+
             <!--Server port details-->
             <Label 
                 Content="Port:" 
@@ -613,7 +616,7 @@
                 Height="29" 
                 Width="65"
                 FontSize="14"/>
-            
+
             <TextBox
                 IsReadOnly="True"
                 HorizontalAlignment="Left" 
@@ -644,6 +647,7 @@
                 FontSize="14"/>
 
         </Grid>
+        <Image x:Name="Logo" HorizontalAlignment="Left" Height="119" Margin="42,0,0,0" VerticalAlignment="Center" Width="122" Source="/Admin/5354607.png"/>
 
 
 

@@ -3,88 +3,115 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Omnicorp"
+        xmlns:local="clr-namespace:Omnicorp" xmlns:iconPacks="clr-namespace:MahApps.Metro.IconPacks;assembly=MahApps.Metro.IconPacks.Material"
         mc:Ignorable="d"
-        Title="Omnicorp Login" 
-        Height="300" 
-        Width="550"
-        ResizeMode="NoResize"
->
+        Title="Omnicorp Login" Height="450" Width="380" 
+        AllowsTransparency="True"   Background="Transparent"
+        WindowStyle="None" ResizeMode="NoResize">
 
     <Grid ShowGridLines="False">
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200px"></ColumnDefinition>
-            <ColumnDefinition Width="300px"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        
-        
-    <!-- Label for login welcome -->
-    <Label 
-        Grid.Row="0" 
-        Content="Welcome to Omnicorp, please login" 
-        Grid.ColumnSpan="2" 
-        FontSize="20"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
-        
-    <!-- Username label / textbox-->
-    <Label 
-        Grid.Row="1" 
-        Grid.Column="0" 
-        Content="Username:"
-        VerticalAlignment="Center"
-        HorizontalAlignment="Center"
-    />
-    <TextBox 
-        Grid.Row="1"
-        Grid.Column="1"
-        x:Name="Username_Text" 
-        TextWrapping="Wrap" 
-        Text="" 
-        TextChanged="LoginEnabled"
-        Height="30"
-        VerticalAlignment="Center"
-    />
+            <Border CornerRadius="10"   Grid.RowSpan="2">
+                <Border.Background>
+                    <LinearGradientBrush>
+                        <GradientStop Color="#7be9f6" Offset="0.0"/>
+                        <GradientStop Color="#f083da" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+
+            <StackPanel VerticalAlignment="Center">
+                <Image Source="Admin/5354607.png" Width="100"/>
+                <TextBlock Text="Welcome to Omnicorp"
+                            FontWeight="Light"
+                            FontFamily="helvetica"
+                            FontSize="20"
+                           Foreground="White"
+                           HorizontalAlignment="Center"/>
+            </StackPanel>
 
 
-    <!-- Password label / textbox -->
-    <Label 
-        Grid.Row="2" 
-        Grid.Column="0" 
-        Content="Password:"
-        VerticalAlignment="Center"
-        HorizontalAlignment="Center"/>
-    <TextBox 
-        Grid.Row="2"
-        Grid.Column="1" 
-        x:Name="Password_Text" 
-        TextWrapping="Wrap" Text="" 
-        Height="30" 
-        TextChanged="LoginEnabled"
-        VerticalAlignment="Center"
-        />
+            <!-- USERNAME -->
+            <StackPanel Grid.Row="1">
+                <StackPanel  Orientation="Horizontal">
+                    
+                    <TextBox Grid.Row="1"
+        			         Grid.Column="1"
+				             FontFamily="Helvetica"
+                             FontWeight="Light"
+				             x:Name="Username_Text"
+                             TextWrapping="Wrap"
+               		         TextChanged="LoginEnabled"
+                             FontSize="20"
+                             HorizontalAlignment="Left"
+                             Foreground="White"
+                             Background="Transparent"
+                             BorderThickness="0"
+                             Width="235"
+                             HorizontalContentAlignment="Left"
+                             Opacity="0.5"
+                             Height="25"
+                             Margin="63,0,0,0"/>
+                    <Image Height="18" Width="22" Source="Styles/user.png"/>
 
-        
-    <!-- Submit button -->
-        <Button 
-        x:Name="LoginBtn"
-        Content="Login" 
-        Click="Login_Button" 
-        Height="30"
-        Width="50"
-        Grid.Row="4"
-        Grid.Column="2"
-        HorizontalAlignment="Left"
-        IsEnabled="False"
-        />
+                </StackPanel>
+                <Border Width="250"
+                    Height="2"
+                    Background="White"
+                    Opacity="0.5"/>
+
+
+                <!-- PASSWORD -->
+
+                <StackPanel  Orientation="Horizontal" Margin="0,20,0,0">
+                    <TextBox     Grid.Row="2" 
+				                 Grid.Column="0"
+				                 FontFamily="Helvetica"
+                                 FontWeight="Light"
+                                 Name="Password_Text" 
+				                 TextChanged="LoginEnabled"
+                                 FontSize="20"
+                                 HorizontalAlignment="Left"
+                                 Foreground="White"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 Width="235"
+                                 HorizontalContentAlignment="Left"
+                                 Opacity="0.5"
+                                 Height="25"
+                                 Margin="63,0,0,0"/>
+                    <Image Height="18" Width="22" Source="Styles/password.png"/>
+
+                </StackPanel>
+                <Border Width="250"
+                    Height="2"
+                    Background="White"
+                    Opacity="0.5"/>
+
+                <!-- Submit button -->
+
+                <StackPanel Orientation="Horizontal" Margin="0,50,0,0">
+                    <Button Width="100" Height="40" Content="Login"
+                    x:Name="LoginBtn"
+                    Click="Login_Button" 
+                    Grid.Row="4"
+                    Grid.Column="2"
+                    IsEnabled="False"
+                    Margin="150,0,30,0"/>
+
+                </StackPanel>
+
+
+            </StackPanel>
+        </Grid>
+
+
+       
 
     </Grid>
 </Window>
