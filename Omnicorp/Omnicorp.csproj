@@ -182,9 +182,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Admin\logfile.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\ClassLibrary\ClassLibrary.csproj">
       <Project>{d45b2fb7-ee61-4f45-945c-1b8d41ea0713}</Project>
       <Name>ClassLibrary</Name>

@@ -57,7 +57,7 @@
                              Opacity="0.5"
                              Height="25"
                              Margin="63,0,0,0"/>
-                    <Image Height="18" Width="22" Source="Styles/user.png"/>
+                    <Image Height="18" Width="22" Source="/Styles/user.png"/>
 
                 </StackPanel>
                 <Border Width="250"
@@ -85,7 +85,7 @@
                                  Opacity="0.5"
                                  Height="25"
                                  Margin="63,0,0,0"/>
-                    <Image Height="18" Width="22" Source="Styles/password.png"/>
+                    <Image Height="18" Width="22" Source="/Styles/password.png"/>
 
                 </StackPanel>
                 <Border Width="250"
