@@ -121,10 +121,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LoginBtn.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -149,6 +145,10 @@
     <Page Include="Planner\planner-panel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\LoginBtn.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -192,13 +192,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Admin\5354607.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Admin\user.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Admin\password.png" />
+    <Resource Include="Styles\5354607.png" />
+    <Resource Include="Styles\password.png" />
+    <Resource Include="Styles\user.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
