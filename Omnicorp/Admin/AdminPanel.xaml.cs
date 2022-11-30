@@ -48,10 +48,10 @@ namespace Omnicorp.Admin
         {
             RatesBtn.Visibility = Visibility.Visible;
             CarriersBtn.Visibility = Visibility.Visible;
-            RoutesBtn.Visibility = Visibility.Visible;
+            CorridorsBtn.Visibility = Visibility.Visible;
             RatesGrid_Click.Visibility = Visibility.Hidden;
             CarriersGrid_Click.Visibility = Visibility.Hidden;
-            RoutesGrid_Click.Visibility = Visibility.Hidden;
+            CorridorsGrid_Click.Visibility = Visibility.Hidden;
             BackupGrid.Visibility = Visibility.Hidden;
             LogFileGrid.Visibility = Visibility.Hidden;
         }
@@ -216,6 +216,7 @@ namespace Omnicorp.Admin
             Departure_Textbox.Text = string.Empty;
             FTLAval_Textbox.Text = string.Empty;
             LTLAval_Textbox.Text = string.Empty;
+            UpdateCarriersCityDatagridContent(carrierName);
 
         }
 
@@ -243,9 +244,14 @@ namespace Omnicorp.Admin
                 handler.AddCarrierCityToDatabase(carrierName, depotCity, ftlAval, ltlAval, ftlRate, ltlRate, reefCharge);
                 UpdateCarriersCityDatagridContent(carrierName);
             }
-            catch (FormatException)
+            catch (FormatException fe)
             {
                 message = "Rates, Charge and Available must be numeric.";
+                title = "Error: invalid entry";
+            }
+            catch (MySqlException)
+            {
+                message = "Invalid departure city.";
                 title = "Error: invalid entry";
             }
             catch (Exception ex)
@@ -319,19 +325,19 @@ namespace Omnicorp.Admin
 
 
 
-        // MANAGING ROUTES
-        private void Routes_Btn(object sender, RoutedEventArgs e)
+        // MANAGING CORRIDORS
+        private void Corridors_Btn(object sender, RoutedEventArgs e)
         {
             HideBtns();
-            RoutesGrid_Click.Visibility = Visibility.Visible;
+            CorridorsGrid_Click.Visibility = Visibility.Visible;
             
-            UpdateRoutesDatagridContent();
+            UpdateCorridorsDatagridContent();
         }
 
                 
-        private void UpdateRoutesDatagridContent()
+        private void UpdateCorridorsDatagridContent()
         {
-            Routes_Data.DataContext = handler.GetRoutesFromDatabase();
+            Corridors_Data.DataContext = handler.GetCorridorsFromDatabase();
         }
 
 
@@ -339,11 +345,11 @@ namespace Omnicorp.Admin
         {
             RatesBtn.Visibility = Visibility.Hidden;
             CarriersBtn.Visibility = Visibility.Hidden;
-            RoutesBtn.Visibility = Visibility.Hidden;
+            CorridorsBtn.Visibility = Visibility.Hidden;
         }
       
 
-        private void RoutesData_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CorridorsData_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataGrid gd = (DataGrid)sender;
             DataRowView rowSelected = gd.SelectedItem as DataRowView;
@@ -368,14 +374,14 @@ namespace Omnicorp.Admin
         }
 
         
-        private void ClearRoutesFieldsBtn_Click(object sender, RoutedEventArgs e)
+        private void ClearCorridorsFieldsBtn_Click(object sender, RoutedEventArgs e)
         {
             Distance_Textbox.Text = string.Empty;
             Time_Textbox.Text = string.Empty;
         }
 
 
-        private void UpdateRoutesBtn_Click(object sender, RoutedEventArgs e)
+        private void UpdateCorridorsBtn_Click(object sender, RoutedEventArgs e)
         {
             
             string message = "Carrier values have been updated.";
@@ -399,7 +405,7 @@ namespace Omnicorp.Admin
                     decimal distance = decimal.Parse(dist);
                     decimal timeField = decimal.Parse(time);
 
-                    handler.UpdateRouteToDatabase(destination, distance, timeField);
+                    handler.UpdateCorridorToDatabase(destination, distance, timeField);
                     UpdateCarriersDatagridContent();
                 }
                 catch (FormatException)
@@ -427,14 +433,9 @@ namespace Omnicorp.Admin
         private void LogFileBtn_Click(object sender, RoutedEventArgs e)
         {
             LogFileGrid.Visibility = Visibility.Visible;
-            // This will get the current WORKING directory (i.e. \bin\Debug)
-            string workingDirectory = Environment.CurrentDirectory;
-            // or: Directory.GetCurrentDirectory() gives the same result
+            string logFile = Application.Current.Resources["logFile"].ToString();
 
-            // This will get the current PROJECT bin directory (ie ../bin/)
-            string logfileDirectory = Directory.GetParent(workingDirectory).Parent.FullName + @"\Admin\logfile.txt";
-
-            LogFileText.Text = File.ReadAllText(logfileDirectory);
+            LogFileText.Text = File.ReadAllText(logFile);
         }
 
 

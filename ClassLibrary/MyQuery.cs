@@ -44,6 +44,24 @@ namespace ClassLibrary
             return rdr;
         }
 
+        public string GetLogFileFromDatabase()
+        {
+            string query = "SELECT content FROM configs WHERE name = 'logFile';";
+            MySqlCommand cmd = new MySqlCommand(query, conn);  // Enter command into omnicorp database
+            MySqlDataReader rdr = cmd.ExecuteReader();  // Read rows in in user table
+            rdr.Read();
+
+            string logFile = rdr.GetString(0);
+            return logFile;
+        }
+
+        public void UpdateLogFileToDatabase(string logFile)
+        {
+            string updateQuery = $"UPDATE content SET content = {logFile} WHERE name = logFile;";
+            MySqlCommand cmd = new MySqlCommand(updateQuery, conn);  // Enter command into omnicorp database
+            cmd.ExecuteNonQuery();
+        }
+
         public void Close()
         {
             conn.Close();
