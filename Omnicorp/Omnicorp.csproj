@@ -121,7 +121,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Login\LoginWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -136,10 +136,9 @@
     <Compile Include="Buyer\buyer-panel.xaml.cs">
       <DependentUpon>buyer-panel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Exceptions\InvalidUserException.cs" />
-    <Compile Include="LoginHandler.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Login\LoginHandler.cs" />
+    <Compile Include="Login\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Planner\planner-panel.xaml">
@@ -192,7 +191,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Styles\5354607.png" />
+    <Resource Include="Styles\logo.png" />
     <Resource Include="Styles\password.png" />
     <Resource Include="Styles\user.png" />
   </ItemGroup>

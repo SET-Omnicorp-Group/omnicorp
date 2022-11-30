@@ -26,7 +26,7 @@
             </Border>
 
             <StackPanel VerticalAlignment="Center">
-                <Image Source="Styles/5354607.png" Width="100"/>
+                <Image Source="/Styles/logo.png" Width="100"/>
                 <TextBlock Text="Welcome to Omnicorp"
                             FontWeight="Light"
                             FontFamily="helvetica"

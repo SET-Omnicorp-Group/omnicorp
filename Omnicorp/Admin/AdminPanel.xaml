@@ -647,7 +647,7 @@
                 FontSize="14"/>
 
         </Grid>
-        <Image x:Name="Logo" HorizontalAlignment="Left" Height="119" Margin="42,0,0,0" VerticalAlignment="Center" Width="122" Source="/Styles/5354607.png"/>
+        <Image x:Name="Logo" HorizontalAlignment="Left" Height="119" Margin="42,0,0,0" VerticalAlignment="Center" Width="122" Source="/Styles/logo.png"/>
 
 
 
