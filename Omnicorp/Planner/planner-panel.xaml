@@ -3,21 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Omnicorp.Planner"
+        xmlns:local="clr-namespace:Omnicorp.Buyer"
         mc:Ignorable="d"
-        Title="Planner Panel" Height="450" Width="800">
-    <Grid>
-        
+        Background="CornflowerBlue"
+        Title="Buyer Panel" Height="450" Width="1000">
+    <Grid Margin="0,0,27,-6">
+
         <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200px"></ColumnDefinition>
-                <ColumnDefinition Width="300px"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
+            <ColumnDefinition Width="200px"></ColumnDefinition>
+            <ColumnDefinition Width="1000px"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
 
 
         <!-- Label for login welcome -->
@@ -28,7 +29,60 @@
         FontSize="20"
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
-       />
+        />
+
+
+        <!--Orders button-->
+        <Button 
+            Name="PlannerOrdersBtn"
+            Content="Orders" 
+            HorizontalAlignment="Center"
+            Margin="0,27,0,0" 
+            Grid.Row="1" 
+            VerticalAlignment="Top"
+            Height="28"
+            Width="110" 
+            Click="PlannerOrdersBtn_Click"/>
+
+        
+        <!--Invoices button-->
+        <Button 
+            Name="PlannerInvoicesBtn"
+            Content="Invoices" 
+            HorizontalAlignment="Center"
+            Margin="0,72,0,0" 
+            Grid.Row="1" 
+            VerticalAlignment="Top"
+            Height="28"
+            Width="110" 
+            Click="PlannerInvoicesBtn_Click"/>
+
+
+        <!--Display Orders-->
+        <DataGrid 
+            Name="PlannersOrdersGrid" 
+            Visibility="Hidden"
+            ItemsSource="{Binding}" 
+            Margin="182,45,-290,108" 
+            Grid.RowSpan="4" 
+            SelectionChanged="PlannerOrderGrid_SelectionChanged" 
+            Grid.ColumnSpan="2"/>
+
+
+       
+        <!--Display Invoices-->
+        <DataGrid 
+            Name="PlannersInvoicesGrid"
+            Visibility="Visible"
+            Grid.Column="1" 
+            ItemsSource="{Binding}" 
+            Margin="10,45,-278,24" 
+            Grid.RowSpan="3" 
+            SelectionChanged="PlannerInvoiceGrid_SelectionChanged"/>
+
+
+      
+
 
     </Grid>
 </Window>

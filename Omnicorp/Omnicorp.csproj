@@ -117,7 +117,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Buyer\buyer-panel.xaml">
+    <Page Include="Buyer\BuyerPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -133,9 +133,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Buyer\buyer-panel.xaml.cs">
-      <DependentUpon>buyer-panel.xaml</DependentUpon>
+    <Compile Include="Buyer\BuyerPanel.xaml.cs">
+      <DependentUpon>BuyerPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Buyer\BuyerHandler.cs" />
     <Compile Include="Login\LoginHandler.cs" />
     <Compile Include="Login\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
@@ -154,6 +155,7 @@
     <Compile Include="Planner\planner-panel.xaml.cs">
       <DependentUpon>planner-panel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Planner\PlannerHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
