@@ -9,12 +9,33 @@ using MySql.Data.MySqlClient;
 using System.Collections;
 using System.Windows.Controls;
 using System.Data;
+using System.Windows;
 
 namespace Omnicorp.Admin
 {
     public class AdminHandler
     {
-        
+        public AdminHandler()
+        {
+            MyQuery myQuery = new MyQuery();
+            try
+            {
+                Application.Current.Resources["logFile"] = myQuery.GetLogFileFromDatabase();
+            }
+            catch (Exception)
+            {
+                string defaultLogFile = "c:\\omnicorp\\log.txt";
+                MessageBox.Show($"Unable to find log file directory config.\nSetting default value to {defaultLogFile}");
+                Application.Current.Resources["logFile"] = defaultLogFile;
+
+                defaultLogFile = defaultLogFile.Replace("\\", "\\\\");
+                string addQuery = $"INSERT INTO configs (name, content) VALUES ('logFile', '{defaultLogFile}');";
+                MySqlCommand cmd = new MySqlCommand(addQuery, myQuery.conn);
+                cmd.ExecuteNonQuery();
+            }
+            myQuery.Close();
+        }
+
 
         public Dictionary<string, string> GetRatesFromDatabase()
         {
@@ -78,9 +99,9 @@ namespace Omnicorp.Admin
             return dt;
         }
 
-        public DataTable GetRoutesFromDatabase()
+        public DataTable GetCorridorsFromDatabase()
         {
-            string query = $"SELECT destination, distance, time, west, east FROM routes;";
+            string query = $"SELECT destination, kms, time, west, east FROM corridors ORDER BY `order`;";
 
             MyQuery myQuery = new MyQuery();
             MySqlCommand cmd = new MySqlCommand(query, myQuery.conn);
@@ -148,12 +169,12 @@ namespace Omnicorp.Admin
             myQuery.Close();
         }
 
-        public void UpdateRouteToDatabase(string destination, decimal distance, decimal time)
+        public void UpdateCorridorToDatabase(string destination, decimal distance, decimal time)
         {
             ValidatePositiveAmount(distance);
             ValidatePositiveAmount(time);
 
-            string updateQuery = $"UPDATE routes SET distance = {distance}, time = {time} WHERE destination = \"{destination}\";";
+            string updateQuery = $"UPDATE corridors SET distance = {distance}, time = {time} WHERE destination = \"{destination}\";";
 
             MyQuery myQuery = new MyQuery();
             MySqlCommand cmd = new MySqlCommand(updateQuery, myQuery.conn);
