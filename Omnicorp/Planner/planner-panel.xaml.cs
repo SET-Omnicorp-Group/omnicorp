@@ -24,7 +24,29 @@ namespace Omnicorp.Planner
             InitializeComponent();
         }
 
-        private void Username_Textbox(object sender, TextChangedEventArgs e)
+
+        // Left hand side planner button
+        private void PlannerOrdersBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+        // Planner order grid
+        private void PlannerOrderGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        // Planner invoice grid
+        private void PlannerInvoicesBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+        // Planner invoice grid
+        private void PlannerInvoiceGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }

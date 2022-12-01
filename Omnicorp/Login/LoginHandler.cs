@@ -73,7 +73,7 @@ namespace Omnicorp
             // If role of user is buyer, open planner panel
             else if (role == "buyer")
             {
-                buyer_panel buyer = new buyer_panel();
+                BuyerPanel buyer = new BuyerPanel();
                 buyer.Show();
             }
 
