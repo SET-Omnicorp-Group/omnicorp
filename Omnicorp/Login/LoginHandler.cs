@@ -66,7 +66,7 @@ namespace Omnicorp
             // If role of user is planner, open planner panel
             else if (role == "planner")
             {
-                planner_panel planner = new planner_panel();
+                PlannerPanel planner = new PlannerPanel();
                 planner.Show();
             }
 

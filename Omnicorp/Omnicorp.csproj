@@ -117,6 +117,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Planner\CarrierSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Buyer\BuyerPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -129,6 +133,9 @@
       <DependentUpon>AdminPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Admin\AdminHandler.cs" />
+    <Compile Include="Planner\CarrierSelection.xaml.cs">
+      <DependentUpon>CarrierSelection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -142,7 +149,7 @@
       <DependentUpon>LoginWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Planner\planner-panel.xaml">
+    <Page Include="Planner\PlannerPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -152,8 +159,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Planner\planner-panel.xaml.cs">
-      <DependentUpon>planner-panel.xaml</DependentUpon>
+    <Compile Include="Planner\PlannerPanel.xaml.cs">
+      <DependentUpon>PlannerPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Planner\PlannerHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
