@@ -114,8 +114,7 @@ namespace Omnicorp.Buyer
         {
             try
             {
-                handler.InsertContractsToOrderDatabase(Client_Name, JobType, Quantity, VanType,
-                                                   Origin, Destination, "Processing");
+                handler.InsertContractsToOrderDatabase(Client_Name, JobType, Quantity, VanType, Origin, Destination, "Active");
                 MessageBox.Show("Client contract has been saved to orders");
             }
 
@@ -163,7 +162,7 @@ namespace Omnicorp.Buyer
         // Processing contracts radio button
         private void ProcessingContracts_Checked(object sender, RoutedEventArgs e)
         {
-            OrdersGrid.DataContext = handler.GetProcessingOrdersFromDatabase();
+            OrdersGrid.DataContext = handler.GetOnRouteOrdersFromDatabase();
         }
 
         
