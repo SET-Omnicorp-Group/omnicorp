@@ -59,10 +59,10 @@ namespace Omnicorp.Buyer
         }
 
 
-        public DataTable GetProcessingOrdersFromDatabase()
+        public DataTable GetOnRouteOrdersFromDatabase()
         {
             // Query data from contracts
-            string activeOrderQuery = $"SELECT * FROM orders\r\nWHERE status = \"Processing\";";
+            string activeOrderQuery = $"SELECT * FROM orders\r\nWHERE status = \"On Route\";";
 
             MyQuery myQuery = new MyQuery();
             MySqlCommand cmd = new MySqlCommand(activeOrderQuery, myQuery.conn);

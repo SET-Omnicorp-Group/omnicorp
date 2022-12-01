@@ -81,8 +81,5 @@
             SelectionChanged="PlannerInvoiceGrid_SelectionChanged"/>
 
 
-      
-
-
     </Grid>
 </Window>

@@ -117,16 +117,17 @@
             Grid.ColumnSpan="2" 
             Checked="ActiveContracts_Checked"/>
 
-        <!--Processing Contracts-->
+        <!--OnRoute Contracts-->
         <RadioButton
-            Name="ProcessingContracts"
-            Content="Processing Contracts"
+            Name="OnRouteContracts"
+            Content="OnRoute Contracts"
             Visibility="Hidden"
             HorizontalAlignment="Left" 
             Margin="182,59,0,0" 
             Grid.Row="3" 
             VerticalAlignment="Top" 
-            Grid.ColumnSpan="2" Checked="ProcessingContracts_Checked"/>
+            Grid.ColumnSpan="2" 
+            Checked="OnRouteContracts_Checked"/>
 
         <!--Completed Contracts-->
         <RadioButton

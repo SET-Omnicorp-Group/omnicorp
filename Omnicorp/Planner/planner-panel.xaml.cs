@@ -28,7 +28,7 @@ namespace Omnicorp.Planner
         // Left hand side planner button
         private void PlannerOrdersBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            PlannersOrdersGrid.DataContext = PlannersOrdersGrid.DataContext;
         }
 
 

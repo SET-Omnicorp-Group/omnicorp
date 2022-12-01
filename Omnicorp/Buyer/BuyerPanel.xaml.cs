@@ -54,7 +54,7 @@ namespace Omnicorp.Buyer
         private void ShowRadioButtons()
         {
             ActiveContracts.Visibility = Visibility.Visible;
-            ProcessingContracts.Visibility = Visibility.Visible;
+            OnRouteContracts.Visibility = Visibility.Visible;
             CompletedContracts.Visibility = Visibility.Visible;
             AllContracts.Visibility = Visibility.Visible;
         }
@@ -64,7 +64,7 @@ namespace Omnicorp.Buyer
         private void HideRadioButtons()
         {
             ActiveContracts.Visibility = Visibility.Hidden;
-            ProcessingContracts.Visibility = Visibility.Hidden;
+            OnRouteContracts.Visibility = Visibility.Hidden;
             CompletedContracts.Visibility = Visibility.Hidden;
             AllContracts.Visibility = Visibility.Hidden;
         }
@@ -161,9 +161,9 @@ namespace Omnicorp.Buyer
 
 
         // Processing contracts radio button
-        private void ProcessingContracts_Checked(object sender, RoutedEventArgs e)
+        private void OnRouteContracts_Checked(object sender, RoutedEventArgs e)
         {
-            OrdersGrid.DataContext = handler.GetProcessingOrdersFromDatabase();
+            OrdersGrid.DataContext = handler.GetOnRouteOrdersFromDatabase();
         }
 
         
