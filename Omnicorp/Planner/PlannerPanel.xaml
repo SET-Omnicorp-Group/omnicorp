@@ -44,7 +44,19 @@
             Width="110" 
             Click="PlannerOrdersBtn_Click"/>
 
-        
+        <Button 
+            Name="AvailableCarriersBtn"
+            Visibility="Hidden"
+            Content="View Available Carriers" 
+            HorizontalAlignment="Left"
+            Margin="598,27,0,0" 
+            Grid.Row="3" 
+            VerticalAlignment="Top"
+            Height="28"
+            Width="140" 
+            Grid.Column="1" Click="AvailableCarriersBtn_Click"/>
+
+
         <!--Invoices button-->
         <Button 
             Name="PlannerInvoicesBtn"
@@ -61,15 +73,15 @@
         <!--Display Orders-->
         <DataGrid 
             Name="PlannerOrdersGrid" 
-            Visibility="Hidden"
+            Visibility="Visible"
             ItemsSource="{Binding}" 
-            Margin="182,45,-290,108" 
+            Margin="182,45,221,108" 
             Grid.RowSpan="4" 
             SelectionChanged="PlannerOrdersGrid_SelectionChanged" 
             Grid.ColumnSpan="2"/>
 
 
-       
+
         <!--Display Invoices-->
         <DataGrid 
             Name="PlannerInvoicesGrid"
@@ -81,7 +93,7 @@
             SelectionChanged="PlannerInvoicesGrid_SelectionChanged"/>
 
         <RadioButton
-            Name="ActiveContracts"
+            Name="ActiveContractsRadio"
             Content="Active Contracts"
             Visibility="Hidden"
             HorizontalAlignment="Left" 
@@ -93,7 +105,7 @@
 
         <!--Processing Contracts-->
         <RadioButton
-            Name="OnRouteContracts"
+            Name="OnRouteContractsRadio"
             Content="On Routes Contracts"
             Visibility="Hidden"
             HorizontalAlignment="Left" 
@@ -104,14 +116,14 @@
 
         <!--Completed Contracts-->
         <RadioButton
-            Name="CompletedContracts"
+            Name="CompletedContractsRadio"
             Content="Completed Contracts"
             Visibility="Hidden"
             HorizontalAlignment="Left" 
             Margin="182,83,0,0" 
             Grid.Row="3" 
             VerticalAlignment="Top" Grid.ColumnSpan="2" Checked="CompletedContracts_Checked"/>
-      
+
 
 
     </Grid>

@@ -1,0 +1,27 @@
+﻿<Window x:Class="Omnicorp.Planner.CarrierSelection"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Omnicorp.Admin"
+        mc:Ignorable="d"
+        Title="Select Available Carrier" Height="350" Width="400" Background="Black">
+
+    <Grid>
+        <DataGrid 
+            Name="AvailableCarrierGrid"
+            ItemsSource="{Binding}" 
+            Margin="0,0,0,50" SelectionChanged="AvailableCarrierGrid_SelectionChanged"/>
+
+        <Button
+            Name="SelecCarrierBtn"
+            Content="Select Carrier" 
+            HorizontalAlignment="Left"
+            Margin="262,296,0,0" 
+            VerticalAlignment="Top"
+            Height="28"
+            Width="110" Click="SelecCarrierBtn_Click"
+        />
+    </Grid>
+
+</Window>

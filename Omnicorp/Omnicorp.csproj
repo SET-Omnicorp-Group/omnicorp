@@ -117,6 +117,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Planner\CarrierSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Buyer\BuyerPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -129,6 +133,9 @@
       <DependentUpon>AdminPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Admin\AdminHandler.cs" />
+    <Compile Include="Planner\CarrierSelection.xaml.cs">
+      <DependentUpon>CarrierSelection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
