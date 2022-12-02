@@ -123,7 +123,16 @@
             Margin="182,83,0,0" 
             Grid.Row="3" 
             VerticalAlignment="Top" Grid.ColumnSpan="2" Checked="CompletedContracts_Checked"/>
-
+        <Button 
+            x:Name="SimulateDayBtn"
+            Visibility="Hidden"
+            Content="Simulate Day" 
+            HorizontalAlignment="Center"
+            Margin="0,26,0,0" 
+            Grid.Row="3" 
+            VerticalAlignment="Top"
+            Height="28"
+            Width="110" Click="SimulateDayBtn_Click"/>
 
 
     </Grid>

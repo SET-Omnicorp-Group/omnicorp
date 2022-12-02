@@ -9,6 +9,11 @@ using MySql.Data.MySqlClient;
 using System.Data;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Collections;
+using Org.BouncyCastle.Utilities.Collections;
+using System.Diagnostics;
+using System.Reflection;
+using System.Windows.Controls.Primitives;
+using System.Windows.Forms;
 
 namespace Omnicorp.Planner
 {
@@ -17,10 +22,23 @@ namespace Omnicorp.Planner
         public DataTable GetOrdersFromDatabaseWhere(string status)
         {
             // Query data from contracts
-            string activeOrderQuery = $"SELECT * FROM orders \r\nWHERE status = \"{status}\";";
+
+            string query =  $"SELECT " +
+                            $"    o.id, " +
+                            $"    o.customer as 'Customer', " +
+                            $"    o.jobType as 'Job Type', " +
+                            $"    o.quantity as 'Pallets', " +
+                            $"    o.vanType as 'Van Type', " +
+                            $"    o.origin as 'Origin', " +
+                            $"    o.destination as 'Destination', " +
+                            $"    o.status as 'Status', " +
+                            $"    r.progress as 'Progress' " +
+                            $"FROM orders o " +
+                            $"INNER JOIN routes r ON o.id = r.orderId " +
+                            $"WHERE o.status = '{status}';";
 
             MyQuery myQuery = new MyQuery();
-            MySqlCommand cmd = new MySqlCommand(activeOrderQuery, myQuery.conn);
+            MySqlCommand cmd = new MySqlCommand(query, myQuery.conn);
 
             DataTable dt = new DataTable();
             dt.Load(cmd.ExecuteReader());
@@ -273,5 +291,35 @@ namespace Omnicorp.Planner
             SetOrderToOnRoute(orderId);
 
         }
+    
+
+        public void SimulateDay()
+        {
+            MyQuery myQuery = new MyQuery();
+            string updateRoutes =   "UPDATE routes " +
+                                    "SET drivenHours = CASE " +
+                                        "WHEN totalHours - drivenHours <= 12    THEN totalHours " +
+                                        "WHEN totalHours - drivenHours > 12     THEN drivenHours + 12 " +
+                                        "END, " +
+                                    "progress = drivenHours / totalHours * 100 " +
+                                    "WHERE totalHours != drivenHours;";
+            MySqlCommand cmd = new MySqlCommand(updateRoutes, myQuery.conn);
+            cmd.ExecuteNonQuery();
+            myQuery.Close();
+
+
+            myQuery = new MyQuery();
+            string updateOrders = "UPDATE orders " +
+                                    "INNER JOIN routes ON orders.id = routes.orderId " +
+                                    "SET orders.status = 'Completed'" +
+                                    "WHERE routes.progress = 100;";
+            cmd = new MySqlCommand(updateOrders, myQuery.conn);
+            cmd.ExecuteNonQuery();
+            myQuery.Close();
+
+
+        }
+    
+    
     }
 }
