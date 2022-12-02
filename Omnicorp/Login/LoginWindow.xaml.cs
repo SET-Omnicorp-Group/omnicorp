@@ -65,5 +65,9 @@ namespace Omnicorp
             }
         }
 
+        private void Window_MouseDown()
+        {
+
+        }
     }
 }
