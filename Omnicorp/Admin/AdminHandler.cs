@@ -15,25 +15,28 @@ namespace Omnicorp.Admin
 {
     public class AdminHandler
     {
-        public AdminHandler()
+        public AdminHandler(bool enableLog = true)
         {
             MyQuery myQuery = new MyQuery();
-            try
+            if (enableLog)
             {
-                Application.Current.Resources["logFile"] = myQuery.GetLogFileFromDatabase();
-            }
-            catch (Exception)
-            {
-                string defaultLogFile = "c:\\omnicorp\\log.txt";
-                MessageBox.Show($"Unable to find log file directory config.\nSetting default value to {defaultLogFile}");
-                Application.Current.Resources["logFile"] = defaultLogFile;
+                try
+                {
+                    Application.Current.Resources["logFile"] = myQuery.GetLogFileFromDatabase();
+                }
+                catch (Exception)
+                {
+                    string defaultLogFile = "c:\\omnicorp\\log.txt";
+                    MessageBox.Show($"Unable to find log file directory config.\nSetting default value to {defaultLogFile}");
+                    Application.Current.Resources["logFile"] = defaultLogFile;
 
-                defaultLogFile = defaultLogFile.Replace("\\", "\\\\");
-                string addQuery = $"INSERT INTO configs (name, content) VALUES ('logFile', '{defaultLogFile}');";
-                MySqlCommand cmd = new MySqlCommand(addQuery, myQuery.conn);
-                cmd.ExecuteNonQuery();
+                    defaultLogFile = defaultLogFile.Replace("\\", "\\\\");
+                    string addQuery = $"INSERT INTO configs (name, content) VALUES ('logFile', '{defaultLogFile}');";
+                    MySqlCommand cmd = new MySqlCommand(addQuery, myQuery.conn);
+                    cmd.ExecuteNonQuery();
+                }
+                myQuery.Close();
             }
-            myQuery.Close();
         }
 
 
@@ -101,7 +104,7 @@ namespace Omnicorp.Admin
 
         public DataTable GetCorridorsFromDatabase()
         {
-            string query = $"SELECT destination, kms, time, west, east FROM corridors ORDER BY `order`;";
+            string query = $"SELECT destination, kms, time, west, east FROM corridors ORDER BY `sequence`;";
 
             MyQuery myQuery = new MyQuery();
             MySqlCommand cmd = new MySqlCommand(query, myQuery.conn);
