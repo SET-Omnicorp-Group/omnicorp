@@ -30,6 +30,7 @@ namespace Omnicorp.Planner
             return dt;
         }
 
+
         public DataTable GetAvailableCarriersForOrder(string orderId)
         {
             MyQuery myQuery = new MyQuery();
@@ -70,6 +71,7 @@ namespace Omnicorp.Planner
 
             return dt;
         }
+
 
         public int GetOrderQuantity(string orderId)
         {
@@ -126,14 +128,126 @@ namespace Omnicorp.Planner
 
         public void InsertRoute(string carrierId, string orderId)
         {
-            decimal currentRate = GetCurrentRate(orderId);
-            string query = $"INSERT INTO routes (orderId, carrierId, currentRate) VALUE ('{orderId}', '{carrierId}', '{currentRate}');";
-
             MyQuery myQuery = new MyQuery();
+            string orderQuery = $"SELECT origin, destination, jobType FROM orders WHERE id = '{orderId}';";
+            MySqlDataReader rdr = myQuery.DataReader(orderQuery);
+            rdr.Read();
+            string origin = rdr.GetString(0);
+            string destionation = rdr.GetString(1);
+            string jobType = rdr.GetString(2);
+            myQuery.Close();
+
+
+            decimal totalHours = CalculateTotalHours(origin, destionation, jobType);
+            int distance = CalculateDistance(origin, destionation);
+            decimal currentRate = GetCurrentRate(orderId);
+
+            string query =  $"INSERT INTO routes (orderId, distance, carrierId, currentRate, totalHours) " + 
+                            $"VALUE ('{orderId}', '{distance}', '{carrierId}', '{currentRate}', '{totalHours}');";
+
+            myQuery = new MyQuery();
             MySqlCommand cmd = new MySqlCommand(query, myQuery.conn);
             cmd.ExecuteNonQuery();
             myQuery.Close();
             
+        }
+
+
+        public int GetCorridorSequence(string cityName)
+        {
+            MyQuery myQuery = new MyQuery();
+
+            string query = $"SELECT sequence FROM corridors WHERE destination = '{cityName}';";
+            MySqlDataReader rdr = myQuery.DataReader(query);
+            rdr.Read();
+
+            return int.Parse(rdr.GetString(0));
+        }
+
+
+        public decimal CalculateTotalHours(string origin, string destination, string jobType)
+        {
+
+            int originSequence = GetCorridorSequence(origin);
+            int destinationSequence = GetCorridorSequence(destination);
+            string orderBy = string.Empty;
+            string where = string.Empty;
+
+            if (originSequence < destinationSequence)
+            {
+                where = $"WHERE sequence >= '{originSequence}' AND sequence < '{destinationSequence}'";
+                orderBy = "order by sequence asc";
+
+            }
+            else
+            {
+                where = $"WHERE sequence >= '{destinationSequence}' AND sequence < '{originSequence}'";
+                orderBy = "order by sequence desc";
+            }
+
+            decimal time = 0;
+            int numCities = 0;
+
+            MyQuery myQuery = new MyQuery();
+            string corridors = $"SELECT kms, time " +
+                               $"FROM corridors " +
+                               $"{where} " +
+                               $"{orderBy};";
+            MySqlDataReader rdr = myQuery.DataReader(corridors);
+
+            while (rdr.Read())
+            {
+                time = time + rdr.GetDecimal(1);
+                numCities = numCities + 1;
+            }
+            myQuery.Close();
+
+            if(jobType == "FTL")
+            {
+                time = time + 2 + 2;
+            }
+            else
+            {
+                time = time + 2 + (2 * numCities);
+            }
+
+            return time;
+        }
+
+
+        public int CalculateDistance(string origin, string destination)
+        {
+
+            int originSequence = GetCorridorSequence(origin);
+            int destinationSequence = GetCorridorSequence(destination);
+            string direction = string.Empty;
+            string orderBy = string.Empty;
+            string where = string.Empty;
+
+            if (originSequence < destinationSequence)
+            {
+                where = $"WHERE sequence >= '{originSequence}' AND sequence < '{destinationSequence}'";
+            }
+            else
+            {
+                where = $"WHERE sequence >= '{destinationSequence}' AND sequence < '{originSequence}'";
+            }
+
+            int distance = 0;
+
+            MyQuery myQuery = new MyQuery();
+            string corridors = $"SELECT kms, time " +
+                               $"FROM corridors " +
+                               $"{where};";
+            MySqlDataReader rdr = myQuery.DataReader(corridors);
+
+            while (rdr.Read())
+            {
+                distance = distance + rdr.GetInt32(0);
+            }
+            myQuery.Close();
+
+            return distance;
         }
 
 
@@ -145,6 +259,7 @@ namespace Omnicorp.Planner
             cmd.ExecuteNonQuery();
             myQuery.Close();
         }
+
 
         public void CreateNewRoute(string orderId, string carrierId)
         {
