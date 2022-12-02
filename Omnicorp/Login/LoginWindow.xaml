@@ -6,17 +6,21 @@
         xmlns:local="clr-namespace:Omnicorp"
         mc:Ignorable="d"
         Title="Omnicorp Login" Height="450" Width="380" 
-        AllowsTransparency="True"   Background="Transparent"
-        WindowStyle="None" ResizeMode="NoResize">
+        AllowsTransparency="False"   Background="White"
+        WindowStyle="SingleBorderWindow" ResizeMode="NoResize">
 
     <Grid ShowGridLines="False">
         <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="17*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Border CornerRadius="10"   Grid.RowSpan="2">
+            <Border CornerRadius="4"   Grid.RowSpan="2" Grid.ColumnSpan="2">
                 <Border.Background>
                     <LinearGradientBrush>
                         <GradientStop Color="#7be9f6" Offset="0.0"/>
@@ -25,7 +29,7 @@
                 </Border.Background>
             </Border>
 
-            <StackPanel VerticalAlignment="Center">
+            <StackPanel VerticalAlignment="Center" Grid.ColumnSpan="2">
                 <Image Source="/Styles/logo.png" Width="100"/>
                 <TextBlock Text="Welcome to Omnicorp"
                             FontWeight="Light"
@@ -37,9 +41,9 @@
 
 
             <!-- USERNAME -->
-            <StackPanel Grid.Row="1">
+            <StackPanel Grid.ColumnSpan="2" Margin="0,217,0,0" Grid.RowSpan="2">
                 <StackPanel  Orientation="Horizontal">
-                    
+
                     <TextBox Grid.Row="1"
         			         Grid.Column="1"
 				             FontFamily="Helvetica"
@@ -111,7 +115,7 @@
         </Grid>
 
 
-       
+
 
     </Grid>
 </Window>

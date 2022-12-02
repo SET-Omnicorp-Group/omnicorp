@@ -11,7 +11,9 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200px"></ColumnDefinition>
-            <ColumnDefinition Width="1000px"></ColumnDefinition>
+            <ColumnDefinition Width="152.061"></ColumnDefinition>
+            <ColumnDefinition Width="370.59"/>
+            <ColumnDefinition Width="477.349"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -23,9 +25,7 @@
 
         <!-- Label for login welcome -->
         <Label 
-        Grid.Row="0" 
         Content="Buyer Panel" 
-        Grid.ColumnSpan="1" 
         FontSize="20"
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
@@ -65,7 +65,7 @@
             Grid.Column="1" 
             ItemsSource="{Binding}" 
             Margin="10,45,-278,24" 
-            Grid.RowSpan="3" SelectionChanged="ClientContractGrid_SelectionChanged"/>
+            Grid.RowSpan="3" SelectionChanged="ClientContractGrid_SelectionChanged" Grid.ColumnSpan="3"/>
 
 
         <!--Accept Contracts button-->
@@ -80,7 +80,7 @@
             Height="28"
             Width="110" 
             Click="AcceptContractsBtn" 
-            Grid.Column="1"/>
+            Grid.Column="1" Grid.ColumnSpan="2"/>
 
 
         <!--Display Orders-->
@@ -90,7 +90,7 @@
             ItemsSource="{Binding}" 
             Margin="182,45,-290,108" 
             Grid.RowSpan="4" 
-            SelectionChanged="OrdersGrid_SelectionChanged" Grid.ColumnSpan="2"/>
+            SelectionChanged="OrdersGrid_SelectionChanged" Grid.ColumnSpan="4"/>
 
 
         <!--All Contracts-->
@@ -104,7 +104,7 @@
             VerticalAlignment="Top" 
             Grid.ColumnSpan="2" 
             Checked="AllContractsChecked"/>
-        
+
         <!--Active Contracts-->
         <RadioButton
             Name="ActiveContracts"

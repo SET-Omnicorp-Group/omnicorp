@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Omnicorp
 {
@@ -82,5 +83,7 @@ namespace Omnicorp
                 throw new InvalidUserException("Role does not exist! Please select from: admin, buyer, planner");
             }
         }
+
+      
     }
 }
