@@ -81,24 +81,10 @@
             Background="White"
             Grid.Column="1"
             ItemsSource="{Binding}"
-            Margin="10,51,312,18"
-            Grid.RowSpan="3" SelectionChanged="MarketplaceGrid_SelectionChanged" Grid.ColumnSpan="3"/>
-
-
-        <!--Accept Contracts button-->
-        <Button
-            Name="AcceptContractBtn"
-            Visibility="Hidden"
-            FontWeight="Bold"
-            Content="Accept Contracts"
-            HorizontalAlignment="Left"
-            Margin="0,147,0,0"
-            Grid.Row="2"
-            VerticalAlignment="Top"
-            Height="40"
-            Width="150"
-            Click="AcceptContractsBtn_Click"
-            Grid.Column="3" Grid.RowSpan="2"/>
+            Margin="0,45,284,19"
+            Grid.RowSpan="4" 
+            Grid.ColumnSpan="3"
+            MouseDoubleClick="MarketplaceGrid_MouseDoubleClick"/> 
 
 
         <!--Display Orders-->
@@ -108,10 +94,12 @@
             IsReadOnly="true"
             ColumnWidth="*"
             Background="White"
+            Grid.Column="1"
             ItemsSource="{Binding}"
-            Margin="0,45,289,108"
-            Grid.RowSpan="4"
-            Grid.ColumnSpan="3" Grid.Column="1" MouseDoubleClick="OrdersGrid_MouseDoubleClick"/>
+            Margin="0,45,284,19"
+            Grid.RowSpan="4" 
+            Grid.ColumnSpan="3"
+            MouseDoubleClick="OrdersGrid_MouseDoubleClick"/>
 
 
         <!--All Contracts-->

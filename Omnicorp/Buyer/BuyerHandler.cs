@@ -76,7 +76,7 @@ namespace Omnicorp.Buyer
         * RETURNS       :
         *                   - active order data in form of data table
         */
-        public DataTable GetOrdersFromDatabase()
+        public DataTable GetOrdersFromDatabase(string status = null)
         {
             // Query data from contracts
             string query = $"SELECT * FROM orders ";

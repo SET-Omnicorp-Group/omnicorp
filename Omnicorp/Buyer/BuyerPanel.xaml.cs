@@ -87,7 +87,6 @@ namespace Omnicorp.Buyer
         {
             OrdersGrid.Visibility = Visibility.Hidden;
             MarketplaceGrid.Visibility = Visibility.Hidden;
-            AcceptContractBtn.Visibility = Visibility.Hidden;
         }
 
 
@@ -143,18 +142,17 @@ namespace Omnicorp.Buyer
         private void MarketplaceBtn_Click(object sender, RoutedEventArgs e)
         {
 
-            ContractsBtn.Background = Brushes.White;
-            ContractsBtn.Foreground = Brushes.Black;
+            MarketplaceBtn.Background = Brushes.White;
+            MarketplaceBtn.Foreground = Brushes.Black;
 
-            ClientOrdersBtn.Background = Brushes.Transparent;
-            ClientOrdersBtn.Foreground = Brushes.White;
+            OrdersBtn.Background = Brushes.Transparent;
+            OrdersBtn.Foreground = Brushes.White;
 
 
 
             HideDataGrids();
             HideRadioButtons();
             MarketplaceGrid.Visibility = Visibility.Visible;
-            AcceptContractBtn.Visibility=Visibility.Visible;
             MarketplaceGrid.DataContext = handler.GetContractsFromMarketplaceDatabase();
         }
 
@@ -196,35 +194,6 @@ namespace Omnicorp.Buyer
 
 
 
-        // Accept contracts button
-
-        /*
-        * METHOD        :  AcceptContractsBtn_Click
-        * DESCRIPTION	:   try to accept the contract
-        * PARAMETERS    :
-        *                   - object   sender, as the sender of the object
-        *                   - RoutedEventArgs    e, events
-        * RETURNS       :
-        *                   - None
-        */
-        private void AcceptContractsBtn_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                handler.InsertContractsToOrderDatabase(Client_Name, JobType, Quantity, VanType, Origin, Destination, "Active");
-                MessageBox.Show("Client contract has been saved to orders");
-            }
-
-            catch (Exception ex)
-            {
-                MessageBox.Show("Cannot insert selected contract to the orders databases");
-            }
-        }
-
-
-
-        // Orders button
-
         /*
         * METHOD        :  OrderBtn_Click
         * DESCRIPTION	:   try to show the order
@@ -237,12 +206,12 @@ namespace Omnicorp.Buyer
         private void OrderBtn_Click(object sender, RoutedEventArgs e)
         {
 
-            ClientOrdersBtn.Background = Brushes.White;
-            ClientOrdersBtn.Foreground = Brushes.Black;
+            OrdersBtn.Background = Brushes.White;
+            OrdersBtn.Foreground = Brushes.Black;
 
 
-            ContractsBtn.Background = Brushes.Transparent;
-            ContractsBtn.Foreground = Brushes.White;
+            MarketplaceBtn.Background = Brushes.Transparent;
+            MarketplaceBtn.Foreground = Brushes.White;
 
 
 
@@ -369,6 +338,33 @@ namespace Omnicorp.Buyer
             }
 
 
+        }
+
+
+
+
+
+        /*
+       * METHOD         :  MarketplaceGrid_MouseDoubleClick
+       * DESCRIPTION    :  try to accept the contract
+       * PARAMETERS     :
+       *                   - object   sender, as the sender of the object
+       *                   - RoutedEventArgs    e, events
+       * RETURNS        :
+       *                   - None
+       */
+        private void MarketplaceGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            try
+            {
+                handler.InsertContractsToOrderDatabase(Client_Name, JobType, Quantity, VanType, Origin, Destination, "Active");
+                MessageBox.Show("Client contract has been saved to orders");
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show("Cannot insert selected contract to the orders databases");
+            }
         }
     }
 }
