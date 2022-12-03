@@ -12,7 +12,7 @@ using MySqlX.XDevAPI;
 using System.Threading;
 using System.Configuration;
 using System.Collections.Generic;
-
+using System.Windows.Media;
 
 namespace Omnicorp.Buyer
 {
@@ -73,6 +73,15 @@ namespace Omnicorp.Buyer
         // Display client contracts datagrid
         private void ClientContractsBtn(object sender, RoutedEventArgs e)
         {
+
+            ContractsBtn.Background = Brushes.White;
+            ContractsBtn.Foreground = Brushes.Black;
+
+            ClientOrdersBtn.Background = Brushes.Transparent;
+            ClientOrdersBtn.Foreground = Brushes.White;
+
+
+
             HideDataGrids();
             HideRadioButtons();
             ClientContractGrid.Visibility = Visibility.Visible;
@@ -129,6 +138,17 @@ namespace Omnicorp.Buyer
         // Orders button
         private void OrderBtn(object sender, RoutedEventArgs e)
         {
+
+            ClientOrdersBtn.Background = Brushes.White;
+            ClientOrdersBtn.Foreground = Brushes.Black;
+
+
+            ContractsBtn.Background = Brushes.Transparent;
+            ContractsBtn.Foreground = Brushes.White;
+
+            
+
+
             HideDataGrids();
             AllContracts.IsChecked = true;
             ShowRadioButtons();

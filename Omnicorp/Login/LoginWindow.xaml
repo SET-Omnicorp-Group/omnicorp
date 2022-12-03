@@ -73,12 +73,11 @@
                 <!-- PASSWORD -->
 
                 <StackPanel  Orientation="Horizontal" Margin="0,20,0,0">
-                    <TextBox     Grid.Row="2" 
+                    <PasswordBox Grid.Row="2" 
 				                 Grid.Column="0"
 				                 FontFamily="Helvetica"
                                  FontWeight="Light"
                                  Name="Password_Text" 
-				                 TextChanged="LoginEnabled"
                                  FontSize="20"
                                  HorizontalAlignment="Left"
                                  Foreground="White"
@@ -88,7 +87,8 @@
                                  HorizontalContentAlignment="Left"
                                  Opacity="0.5"
                                  Height="25"
-                                 Margin="63,0,0,0"/>
+                                 Margin="63,0,0,0" PasswordChanged="Password_Text_PasswordChanged"/>
+                    
                     <Image Height="18" Width="22" Source="/Styles/password.png"/>
 
                 </StackPanel>
@@ -105,8 +105,8 @@
                     Click="Login_Button" 
                     Grid.Row="4"
                     Grid.Column="2"
-                    IsEnabled="False"
-                    Margin="150,0,30,0"/>
+                    IsEnabled="True"
+                    Margin="140,0,30,0"/>
 
                 </StackPanel>
 

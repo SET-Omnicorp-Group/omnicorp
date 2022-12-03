@@ -33,6 +33,7 @@
 
             <!-- Databases Btn -->
             <Button
+            Name="DatabaseBtn"
             Content="Databases"
             FontWeight="Bold"
             Width="150"
@@ -572,6 +573,7 @@
 
         <!--Backup Button-->
         <Button
+            Name="BackupBtn"
             Content="Backup"
             FontWeight="Bold"
             Width="150"
@@ -589,14 +591,16 @@
 
             Background="White"
             Margin="10,10,10,10"
-            Visibility="Hidden" Grid.Column="1" Grid.Row="1"
+            Visibility="Hidden"
+            Grid.Column="1"
+            Grid.Row="1"
         >
 
             <!--Backup config label-->
             <Label
                 Content="Backup Configuration"
                 HorizontalAlignment="Left"
-                Margin="180,10,0,0"
+                Margin="208,10,0,0"
                 VerticalAlignment="Top"
                 Height="40"
                 Width="246"
@@ -611,8 +615,11 @@
             <!--Select path-->
             <Button
                 Content="Save Backup"
+                FontWeight="Bold"
+                Width="150"
+                Height="40"
                 HorizontalAlignment="Left"
-                Margin="127,85,0,0"
+                Margin="-178,417,0,0"
                 VerticalAlignment="Top"
                 Click="SaveBackupBtn_Click"/>
 
@@ -624,7 +631,7 @@
 
         <!--Log Files-->
         <Button
-            x:Name="LogFileBtn"
+            Name="LogFileBtn"
             FontWeight="Bold"
             Content="Log Files"
             Width="150"
@@ -659,7 +666,7 @@
 
         <!--General config-->
         <Button
-            x:Name="GeneralConfiBtn"
+            Name="GeneralConfigBtn"
             FontWeight="Bold"
             Content="General Configuration"
             Width="150"
@@ -674,10 +681,14 @@
         <Grid
             x:Name="GeneralConfigGrid"
             Visibility="Hidden"
+            
             Background="White"
             
             
-            Margin="10,10,10,10" Grid.Row="1" Grid.Column="1" 
+            
+            Margin="10,10,10,10"
+            Grid.Row="1"
+            Grid.Column="1" 
         >
 
             <!--Backup config label-->
@@ -695,6 +706,7 @@
             <!--Server details-->
             <Label
                 Content="Server:"
+                FontWeight="Bold"
                 HorizontalAlignment="Left"
                 Margin="10,75,0,0"
                 VerticalAlignment="Top"
@@ -716,6 +728,7 @@
             <!--Server port details-->
             <Label
                 Content="Port:"
+                FontWeight="Bold"
                 HorizontalAlignment="Left"
                 Margin="10,109,0,0"
                 VerticalAlignment="Top"
@@ -745,6 +758,7 @@
                 FontSize="14" />
             <Label
                 Content="Port:"
+                FontWeight="Bold"
                 HorizontalAlignment="Left"
                 Margin="10,133,0,0"
                 VerticalAlignment="Top"

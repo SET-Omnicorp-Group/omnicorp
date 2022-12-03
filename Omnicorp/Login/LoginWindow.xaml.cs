@@ -31,7 +31,7 @@ namespace Omnicorp
         {
             LoginHandler loginHandler = new LoginHandler();
             string usernameInput = Username_Text.Text;
-            string passwordInput = Password_Text.Text;
+            string passwordInput = Password_Text.Password;
 
             try
             {
@@ -52,7 +52,7 @@ namespace Omnicorp
         private void LoginEnabled(object sender, TextChangedEventArgs e)
         {
             int userNameBuff = Username_Text.Text.Length;
-            int passwordBuff = Password_Text.Text.Length;
+            int passwordBuff = Password_Text.Password.Length;
 
             if (userNameBuff > 0 && passwordBuff > 0)
             {
@@ -68,6 +68,22 @@ namespace Omnicorp
         private void Window_MouseDown()
         {
 
+        }
+
+        private void Password_Text_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            int userNameBuff = Username_Text.Text.Length;
+            int passwordBuff = Password_Text.Password.Length;
+
+            if (userNameBuff > 0 && passwordBuff > 0)
+            {
+                LoginBtn.IsEnabled = true;
+            }
+
+            else
+            {
+                LoginBtn.IsEnabled = false;
+            }
         }
     }
 }
