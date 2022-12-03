@@ -1,4 +1,14 @@
-﻿using ClassLibrary;
+﻿/*
+* FILE          :   BuyerHandler.cs
+* PROJECT       :   SENG2020 - Omnicorp  project
+* PROGRAMMERS   :   - Ali Anwar - 8765779
+*                   - Bruno Borges Russian - 8717542
+*                   - Dhruvkumar Patel - 8777164
+*                   - Thalys Baiao Lopes - 8760875
+* FIRST VERSION :   Nov, 19, 2022
+* DESCRIPTION   :   The file is used to declare the  BuyerHandler Class
+*/
+using ClassLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +26,22 @@ using System.IO;
 
 namespace Omnicorp.Buyer
 {
+    /*
+    * CLASS NAME	:   BuyerHandler
+    * DESCRIPTION	:   The purpose of this class is to get the order from the marketplace and handler the order
+    *
+    */
     internal class BuyerHandler
     {
 
+        /*
+        * METHOD		:  GetContractsFromMarketplaceDatabase
+        * DESCRIPTION	: try to get contract data from the database
+        * PARAMETERS    : None
+        *
+        * RETURNS       :
+        *                   - data in form of data table
+        */
         public DataTable GetContractsFromMarketplaceDatabase()
         {
             // Query data from contracts
@@ -45,7 +68,15 @@ namespace Omnicorp.Buyer
         }
 
 
-        public DataTable GetOrdersFromDatabase(string status = null)
+        /*
+        * METHOD		:  GetOrdersFromDatabase
+        * DESCRIPTION	: try to get active order contract data from the database
+        * PARAMETERS    : None
+        *
+        * RETURNS       :
+        *                   - active order data in form of data table
+        */
+        public DataTable GetOrdersFromDatabase()
         {
             // Query data from contracts
             string query = $"SELECT * FROM orders ";
@@ -54,7 +85,7 @@ namespace Omnicorp.Buyer
                 query += $"WHERE status = '{status}'" ;
             }
             query += ";";
-                
+
 
             MyQuery myQuery = new MyQuery();
             MySqlCommand cmd = new MySqlCommand(query, myQuery.conn);
@@ -66,7 +97,6 @@ namespace Omnicorp.Buyer
 
             return dt;
         }
-
 
         public void InsertContractsToOrderDatabase(
             string customer,
@@ -87,8 +117,8 @@ namespace Omnicorp.Buyer
             MySqlCommand cmd = new MySqlCommand(addQuery, myQuery.conn);
             cmd.ExecuteNonQuery();
             myQuery.Close();
-        }       
-    
+        }
+
         public void GenerateInvoice(string orderId)
         {
             decimal amount = CalculateInvoiceAmount(orderId);
@@ -113,7 +143,7 @@ namespace Omnicorp.Buyer
             myQuery.Close();
         }
 
-    
+
         public decimal CalculateInvoiceAmount(string orderId)
         {
             string query =  $"SELECT " +
@@ -173,7 +203,7 @@ namespace Omnicorp.Buyer
         public decimal CalculteTMSFee(decimal carrierCost, string jobType)
         {
             decimal feePercent = 0.05m; // Assume its a LTL
-            
+
             if(jobType == "FTL")
             {
                 feePercent = 0.08m;
@@ -189,7 +219,7 @@ namespace Omnicorp.Buyer
             int numDays = Convert.ToInt32(fractionDays);
             return numDays * 150;
         }
-    
+
 
         public void SaveInvoiceFile(string orderId)
         {
@@ -239,7 +269,7 @@ namespace Omnicorp.Buyer
 
                 myQuery.Close();
             }
-            
+
 
 
 
