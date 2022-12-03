@@ -47,6 +47,7 @@ namespace Omnicorp.Planner
             ActiveContractsRadio.IsChecked = true;
             ActiveContractsRadio.Visibility = Visibility.Visible;
             OnRouteContractsRadio.Visibility = Visibility.Visible;
+            DeliveredContractsRadio.Visibility = Visibility.Visible;
             CompletedContractsRadio.Visibility = Visibility.Visible;
             AvailableCarriersBtn.Visibility = Visibility.Hidden;
         }
@@ -61,7 +62,7 @@ namespace Omnicorp.Planner
 
             if (rowSelected != null)
             {
-                orderStatus = rowSelected[9].ToString();
+                orderStatus = rowSelected[7].ToString();
             }
 
             if (orderStatus == "Active")
@@ -86,6 +87,7 @@ namespace Omnicorp.Planner
 
             ActiveContractsRadio.Visibility = Visibility.Hidden;
             OnRouteContractsRadio.Visibility = Visibility.Hidden;
+            DeliveredContractsRadio.Visibility = Visibility.Hidden;
             CompletedContractsRadio.Visibility = Visibility.Hidden;
             AvailableCarriersBtn.Visibility = Visibility.Hidden;
         }
@@ -101,6 +103,7 @@ namespace Omnicorp.Planner
         private void ActiveContracts_Checked(object sender, RoutedEventArgs e)
         {
             PlannerOrdersGrid.DataContext = handler.GetOrdersFromDatabaseWhere("Active");
+            SimulateDayBtn.Visibility = Visibility.Hidden;
         }
 
 
@@ -108,6 +111,15 @@ namespace Omnicorp.Planner
         private void OnRouteContracts_Checked(object sender, RoutedEventArgs e)
         {
             PlannerOrdersGrid.DataContext = handler.GetOrdersFromDatabaseWhere("On Route");
+            SimulateDayBtn.Visibility = Visibility.Visible;
+        }
+
+
+        // Processing contracts radio button
+        private void DeliveredContracts_Checked(object sender, RoutedEventArgs e)
+        {
+            PlannerOrdersGrid.DataContext = handler.GetOrdersFromDatabaseWhere("Delivered");
+            SimulateDayBtn.Visibility = Visibility.Hidden;
         }
 
 
@@ -115,6 +127,7 @@ namespace Omnicorp.Planner
         private void CompletedContracts_Checked(object sender, RoutedEventArgs e)
         {
             PlannerOrdersGrid.DataContext = handler.GetOrdersFromDatabaseWhere("Completed");
+            SimulateDayBtn.Visibility = Visibility.Hidden;
         }
 
         // Hide grids
@@ -130,6 +143,12 @@ namespace Omnicorp.Planner
             cs.ShowDialog();
 
             PlannerOrdersGrid.DataContext = handler.GetOrdersFromDatabaseWhere("Active");
+        }
+
+        private void SimulateDayBtn_Click(object sender, RoutedEventArgs e)
+        {
+            handler.SimulateDay();
+            PlannerOrdersGrid.DataContext = handler.GetOrdersFromDatabaseWhere("On Route");
         }
     }
 }

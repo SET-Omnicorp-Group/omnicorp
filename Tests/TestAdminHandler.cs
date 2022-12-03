@@ -13,11 +13,11 @@ namespace Tests
     [TestFixture]
     internal class TestAdminHandler
     {
-        private AdminHandler handler = new AdminHandler();
+        private AdminHandler handler = new AdminHandler(false);
 
 
         [Test]
-        public void ValidateRateAmountNegativeFar()
+        public void ValidatePositiveAmountNegativeFar()
         {
             decimal amount = -1;
             Assert.Throws<ArgumentException>(
@@ -26,7 +26,7 @@ namespace Tests
         }
 
         [Test]
-        public void ValidateRateAmountNegativeBoundary()
+        public void ValidatePositiveAmountNegativeBoundary()
         {
             decimal amount = decimal.Parse("-0.0000000000001");
             Assert.Throws<ArgumentException>(
@@ -35,7 +35,7 @@ namespace Tests
         }
 
         [Test]
-        public void ValidateRateAmountPositiveFar()
+        public void ValidatePositiveAmountPositiveFar()
         {
             decimal amount = 1;
             Assert.DoesNotThrow(
@@ -44,7 +44,7 @@ namespace Tests
         }
 
         [Test]
-        public void ValidateRateAmountPositiveBoundary()
+        public void ValidatePositiveAmountPositiveBoundary()
         {
             decimal amount = decimal.Parse("0.0000000000001");
             Assert.DoesNotThrow(
