@@ -34,10 +34,10 @@
             <!-- Databases Btn -->
             <Button
             Content="Databases"
+            FontWeight="Bold"
             Width="150"
             HorizontalAlignment="Center"
-            Margin="0,150,0,0"
-            VerticalAlignment="Top"
+            Margin="0,200,0,0"
             Click="DatabaseBtn_Click"
                 
             Height="40"/>
@@ -189,6 +189,7 @@
         >
             <DataGrid
                 Name="CarriersData"
+                Background="White"
                 IsReadOnly="true"
                 ColumnWidth="*"
                 HorizontalAlignment="Left"
@@ -202,6 +203,7 @@
 
             <DataGrid
                 Name="CarriersCityData"
+                Background="White"
                 IsReadOnly="true"
                 ColumnWidth="*"
                 HorizontalAlignment="Left"
@@ -217,19 +219,31 @@
 
             <!--Name-->
             <Label
-                Content="Carrier Name"
+                Content="Carrier Name:"
                 Foreground="Black"
                 FontWeight="Bold"
                 FontFamily="helvetica"
                 HorizontalAlignment="Left"
-                Margin="16,235,0,0"
+                Margin="15,235,0,0"
                 VerticalAlignment="Top"/>
+            <!--Carie name box-->
+            <TextBox
+                x:Name="Carie_Name_box"
+                HorizontalAlignment="Left"
+                Margin="100,239,0,0"
+                TextWrapping="Wrap"
+                Text=""
+                VerticalAlignment="Top"
+                Width="149"/>
             <Label
                 Name="CarrierDetailName"
                 Content=""
+                Foreground="Black"
+                FontFamily="helvetica"
                 HorizontalAlignment="Left"
-                Margin="101,236,0,0"
+                Margin="100,236,0,0"
                 VerticalAlignment="Top" Width="198"/>
+
 
             <!--Reefer Charge-->
             <Label
@@ -261,11 +275,13 @@
             <TextBox
                 x:Name="FTL_Textbox"
                 HorizontalAlignment="Left"
-                Margin="100,267,0,0"
+                Margin="100,264,0,0"
                 TextWrapping="Wrap"
                 Text=""
                 VerticalAlignment="Top"
                 Width="149"/>
+
+
 
             <!--LTL Rate-->
             <Label
@@ -279,7 +295,7 @@
             <TextBox
                 x:Name="LTL_Textbox"
                 HorizontalAlignment="Left"
-                Margin="100,298,0,0"
+                Margin="100,293,0,0"
                 TextWrapping="Wrap"
                 Text=""
                 VerticalAlignment="Top"
@@ -319,12 +335,12 @@
                 FontFamily="helvetica"
                 FontWeight="Bold"
                 HorizontalAlignment="Left"
-                Margin="380,262,0,0"
+                Margin="400,237,0,0"
                 VerticalAlignment="Top"/>
             <TextBox
                 x:Name="Departure_Textbox"
                 HorizontalAlignment="Left"
-                Margin="473,266,0,0"
+                Margin="493,241,0,0"
                 TextWrapping="Wrap"
                 Text=""
                 VerticalAlignment="Top"
@@ -339,12 +355,12 @@
                 FontFamily="helvetica"
                 FontWeight="Bold"
                 HorizontalAlignment="Left"
-                Margin="380,293,0,0"
+                Margin="400,268,0,0"
                 VerticalAlignment="Top"/>
             <TextBox
                 x:Name="FTLAval_Textbox"
                 HorizontalAlignment="Left"
-                Margin="473,297,0,0"
+                Margin="493,272,0,0"
                 TextWrapping="Wrap"
                 Text=""
                 VerticalAlignment="Top"
@@ -359,12 +375,12 @@
                 FontFamily="helvetica"
                 FontWeight="Bold"
                 HorizontalAlignment="Left"
-                Margin="380,320,0,0"
+                Margin="400,295,0,0"
                 VerticalAlignment="Top"/>
             <TextBox
                 x:Name="LTLAval_Textbox"
                 HorizontalAlignment="Left"
-                Margin="473,324,0,0"
+                Margin="493,299,0,0"
                 TextWrapping="Wrap"
                 Text=""
                 VerticalAlignment="Top"
@@ -380,7 +396,7 @@
                 FontWeight="Bold"
                 FontFamily="helvetica"
                 HorizontalAlignment="Left"
-                Margin="535,347,0,0"
+                Margin="555,328,0,0"
                 VerticalAlignment="Top"
                 Click="AddCarrierCityBtn_Click"/>
 
@@ -394,7 +410,7 @@
                 FontFamily="helvetica"
                 FontSize="12"
                 HorizontalAlignment="Left"
-                Margin="600,347,0,0"
+                Margin="620,328,0,0"
                 VerticalAlignment="Top"
                 Click="DeleteCarrierCityBtn_Click"/>
 
@@ -557,9 +573,10 @@
         <!--Backup Button-->
         <Button
             Content="Backup"
+            FontWeight="Bold"
             Width="150"
             HorizontalAlignment="Left"
-            Margin="25,107,0,0"
+            Margin="25,155,0,0"
             VerticalAlignment="Top"
             Click="BackupBtn_Click"
             Height="40" Grid.Row="1" Grid.RowSpan="2"
@@ -608,13 +625,15 @@
         <!--Log Files-->
         <Button
             x:Name="LogFileBtn"
+            FontWeight="Bold"
             Content="Log Files"
             Width="150"
             HorizontalAlignment="Left"
-            Margin="25,22,0,0"
+            Margin="25,65,0,0"
             VerticalAlignment="Top"
             Click="LogFileBtn_Click"
             Height="40" Grid.Row="2"
+            
         />
 
         <!--Log file text box-->
@@ -641,10 +660,11 @@
         <!--General config-->
         <Button
             x:Name="GeneralConfiBtn"
+            FontWeight="Bold"
             Content="General Configuration"
             Width="150"
             HorizontalAlignment="Left"
-            Margin="25,64,0,0"
+            Margin="25,110,0,0"
             VerticalAlignment="Top"
             Click="GeneralConfig_Btn"
             Height="40"
@@ -733,7 +753,8 @@
                 FontSize="14"/>
 
         </Grid>
-        <Image x:Name="Logo" HorizontalAlignment="Left" Height="72" Margin="70,3,0,0" VerticalAlignment="Top" Width="103" Source="/Styles/logo.png"/>
+        <Image x:Name="Logo" HorizontalAlignment="Left" Height="101" Margin="57,23,0,0" VerticalAlignment="Top" Width="144" Source="/Styles/logo.png" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+        <Image Grid.Column="1" HorizontalAlignment="Left" Height="26" Margin="404,26,0,0" VerticalAlignment="Top" Width="28" Source="/Styles/Admin.png"/>
 
 
 
