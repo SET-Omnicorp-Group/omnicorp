@@ -201,5 +201,11 @@
     <Resource Include="Styles\password.png" />
     <Resource Include="Styles\user.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Styles\Admin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Styles\portfolio %281%29.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
