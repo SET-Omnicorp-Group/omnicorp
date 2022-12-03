@@ -121,10 +121,10 @@
             Visibility="Hidden"
             FontWeight="Bold"
             HorizontalAlignment="Left" 
-            Margin="4,44,0,0" 
-            Grid.Row="3" 
-            VerticalAlignment="Top" 
-            Checked="AllContractsChecked" Grid.Column="1"/>
+            Margin="31,0,0,0" 
+            Grid.Row="2" 
+            VerticalAlignment="Center" 
+            Checked="AllContractsChecked"/>
 
         <!--Active Contracts-->
         <RadioButton
@@ -133,10 +133,10 @@
             Visibility="Hidden"
             FontWeight="Bold"
             HorizontalAlignment="Left" 
-            Margin="4,71,0,0" 
-            Grid.Row="3" 
+            Margin="31,89,0,0" 
+            Grid.Row="2" 
             VerticalAlignment="Top" 
-            Checked="ActiveContracts_Checked" Grid.Column="1"/>
+            Checked="ActiveContracts_Checked"/>
 
         <!--Processing Contracts-->
         <RadioButton
@@ -144,10 +144,10 @@
             Content="Processing Contracts"
             Visibility="Hidden"
             FontWeight="Bold"
-            HorizontalAlignment="Left" 
-            Margin="4,94,0,0" 
-            Grid.Row="3" 
-            VerticalAlignment="Top" Checked="ProcessingContracts_Checked" Grid.Column="1"/>
+            HorizontalAlignment="Center" 
+            Margin="0,109,0,0" 
+            Grid.Row="2" 
+            VerticalAlignment="Top" Checked="ProcessingContracts_Checked"/>
 
         <!--Completed Contracts-->
         <RadioButton
@@ -155,10 +155,10 @@
             Content="Completed Contracts"
             Visibility="Hidden"
             FontWeight="Bold"
-            HorizontalAlignment="Left" 
-            Margin="4,113,0,0" 
-            Grid.Row="3" 
-            VerticalAlignment="Top" Checked="CompletedContracts_Checked" Grid.Column="1"/>
+            HorizontalAlignment="Center" 
+            Margin="0,128,0,0" 
+            Grid.Row="2" 
+            VerticalAlignment="Top" Checked="CompletedContracts_Checked"/>
 
         <Image x:Name="Logo" HorizontalAlignment="Left" Height="124" Margin="47,0,0,0" VerticalAlignment="Center" Width="167" Source="/Styles/logo.png" Grid.ColumnSpan="2"/>
         <Image Grid.Column="2" HorizontalAlignment="Left" Height="31" Margin="266,12,0,0" VerticalAlignment="Top" Width="26" Source="/Styles/portfolio (1).png"/>

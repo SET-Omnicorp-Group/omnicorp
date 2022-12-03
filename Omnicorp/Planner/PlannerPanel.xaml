@@ -39,7 +39,7 @@
         FontFamily="helvetica"
         Foreground="White"
         HorizontalAlignment="Left"
-        VerticalAlignment="Top" Grid.Column="1" Margin="321,10,0,0"
+        VerticalAlignment="Top" Grid.Column="1" Margin="261,10,0,0"
         />
 
 
@@ -156,17 +156,18 @@
         <Button 
             x:Name="SimulateDayBtn"
             Visibility="Hidden"
+            Width="150"
+            Height="40"
             FontWeight="Bold"
             Content="Simulate Day" 
             HorizontalAlignment="Left"
-            Margin="44,42,0,0" 
+            Margin="540,59,0,0" 
             Grid.Row="3" 
             VerticalAlignment="Top"
-            Height="25"
-            Width="120" Click="SimulateDayBtn_Click"/>
+            Click="SimulateDayBtn_Click" Grid.Column="1"/>
 
         <Image x:Name="Logo" HorizontalAlignment="Left" Height="101" Margin="57,23,0,0" VerticalAlignment="Top" Width="144" Source="/Styles/logo.png" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-        <Image Grid.Column="1" HorizontalAlignment="Left" Height="22" Margin="482,18,0,0" VerticalAlignment="Top" Width="20" Source="/Planner/done.png" RenderTransformOrigin="0.51,0.552"/>
+        <Image Grid.Column="1" HorizontalAlignment="Left" Height="22" Margin="422,18,0,0" VerticalAlignment="Top" Width="20" Source="/Planner/done.png" RenderTransformOrigin="0.51,0.552"/>
 
 
     </Grid>

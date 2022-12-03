@@ -11,6 +11,7 @@ using MySqlX.XDevAPI;
 using System.Threading;
 using System.Configuration;
 using System.Collections.Generic;
+using System.Windows.Media;
 
 namespace Omnicorp.Admin
 {
@@ -46,6 +47,21 @@ namespace Omnicorp.Admin
         // Database button
         private void DatabaseBtn_Click(object sender, RoutedEventArgs e)
         {
+            DatabaseBtn.Background = Brushes.White;
+            DatabaseBtn.Foreground = Brushes.Black;
+
+            BackupBtn.Background = Brushes.Transparent;
+            BackupBtn.Foreground = Brushes.White;
+
+            GeneralConfigBtn.Background = Brushes.Transparent;
+            GeneralConfigBtn.Foreground = Brushes.White;
+
+            LogFileBtn.Background = Brushes.Transparent;
+            LogFileBtn.Foreground = Brushes.White;
+
+
+
+
             RatesBtn.Visibility = Visibility.Visible;
             CarriersBtn.Visibility = Visibility.Visible;
             CorridorsBtn.Visibility = Visibility.Visible;
@@ -432,6 +448,20 @@ namespace Omnicorp.Admin
         // MANAGING LOG
         private void LogFileBtn_Click(object sender, RoutedEventArgs e)
         {
+            LogFileBtn.Background = Brushes.White;
+            LogFileBtn.Foreground = Brushes.Black;
+
+            BackupBtn.Background = Brushes.White;
+            BackupBtn.Foreground = Brushes.Black;
+
+            DatabaseBtn.Background = Brushes.Transparent;
+            DatabaseBtn.Foreground = Brushes.White;
+
+            GeneralConfigBtn.Background = Brushes.Transparent;
+            GeneralConfigBtn.Foreground = Brushes.White;
+
+
+
             LogFileGrid.Visibility = Visibility.Visible;
             string logFile = Application.Current.Resources["logFile"].ToString();
 
@@ -447,6 +477,21 @@ namespace Omnicorp.Admin
         // MANAGING BACKUP
         private void BackupBtn_Click(object sender, RoutedEventArgs e)
         {
+            BackupBtn.Background = Brushes.White;
+            BackupBtn.Foreground = Brushes.Black;
+
+            DatabaseBtn.Background = Brushes.Transparent;
+            DatabaseBtn.Foreground = Brushes.White;
+
+            GeneralConfigBtn.Background = Brushes.Transparent;
+            GeneralConfigBtn.Foreground = Brushes.White;
+
+            LogFileBtn.Background = Brushes.Transparent;
+            LogFileBtn.Foreground = Brushes.White;
+
+
+
+
             LogFileGrid.Visibility = Visibility.Hidden;
             BackupGrid.Visibility = Visibility.Visible;
         }
@@ -478,7 +523,17 @@ namespace Omnicorp.Admin
         // MANAGING BACKUP
         private void GeneralConfig_Btn(object sender, RoutedEventArgs e)
         {
+            GeneralConfigBtn.Background = Brushes.White;
+            GeneralConfigBtn.Foreground = Brushes.Black;
 
+            DatabaseBtn.Background = Brushes.Transparent;
+            DatabaseBtn.Foreground = Brushes.White;
+
+            BackupBtn.Background = Brushes.Transparent;
+            BackupBtn.Foreground = Brushes.White;
+
+            LogFileBtn.Background = Brushes.Transparent;
+            LogFileBtn.Foreground = Brushes.White;
         }
     }
 }

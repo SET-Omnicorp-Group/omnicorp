@@ -39,6 +39,14 @@ namespace Omnicorp.Planner
         // Left hand side planner button
         private void PlannerOrdersBtn_Click(object sender, RoutedEventArgs e)
         {
+            PlannerOrdersBtn.Background = Brushes.White;
+            PlannerOrdersBtn.Foreground = Brushes.Black;
+            PlannerInvoicesBtn.Background = Brushes.Transparent;
+            PlannerInvoicesBtn.Foreground = Brushes.White;
+
+
+            PlannerOrdersBtn.Visibility = Visibility.Visible;
+
             PlannerInvoicesGrid.Visibility = Visibility.Hidden;
             PlannerOrdersGrid.Visibility = Visibility.Visible;
             PlannerOrdersGrid.DataContext = handler.GetOrdersFromDatabaseWhere("Active");
@@ -82,6 +90,14 @@ namespace Omnicorp.Planner
         // Planner invoice grid
         private void PlannerInvoicesBtn_Click(object sender, RoutedEventArgs e)
         {
+            PlannerInvoicesBtn.Background = Brushes.White;
+            PlannerInvoicesBtn.Foreground = Brushes.Black;
+            PlannerOrdersBtn.Background = Brushes.Transparent;
+            PlannerOrdersBtn.Foreground = Brushes.White;
+
+
+
+
             PlannerOrdersGrid.Visibility = Visibility.Hidden;
             PlannerInvoicesGrid.Visibility = Visibility.Visible;
 
