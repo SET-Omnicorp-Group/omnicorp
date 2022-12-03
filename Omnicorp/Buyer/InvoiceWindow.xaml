@@ -33,24 +33,26 @@
         <!-- SAVE BUTTON -->
         <Button
                 Content="SAVE"
+                Name="SaveBtn"
                 FontWeight="Bold"
                 Width="100"
                 Height="25"
                 HorizontalAlignment="Left"
-                Margin="43,657,0,0"
+                Margin="29,604,0,0"
                 Grid.Row="1" 
-                VerticalAlignment="Top" Grid.Column="1"/>
+                VerticalAlignment="Top" Grid.Column="1" Click="SaveBtn_Click"/>
 
         <!-- COPY BUTTON -->
         <Button Grid.Column="1"
-                Content="COPY"
+                Name="CloseBtn"
+                Content="CLOSE"
                 FontWeight="Bold"
                 Width="100"
                 Height="25"
                 HorizontalAlignment="Left"
-                Margin="164,657,0,0"
+                Margin="150,604,0,0"
                 Grid.Row="1" 
-                VerticalAlignment="Top"/>
+                VerticalAlignment="Top" Click="CloseBtn_Click"/>
 
 
         <!-- LABEL FOR INFORMATION-->
@@ -66,6 +68,7 @@
                Grid.Row="1"
                VerticalAlignment="Top" Height="38" Width="109"/>
 
+
         <!-- Client Name -->
         <Label
                Content="Client Name:"
@@ -73,7 +76,7 @@
                FontWeight="Bold"
                FontFamily="helvetica"
                HorizontalAlignment="Left"
-               Margin="90,227,0,0"
+               Margin="90,222,0,0"
                Grid.Row="1"
                VerticalAlignment="Top" Height="38" Width="178"/>
 
@@ -84,7 +87,7 @@
                FontWeight="Bold"
                FontFamily="helvetica"
                HorizontalAlignment="Left"
-               Margin="90,277,0,0"
+               Margin="90,265,0,0"
                Grid.Row="1"
                VerticalAlignment="Top" Height="38" Width="178"/>
 
@@ -96,33 +99,23 @@
                FontWeight="Bold"
                FontFamily="helvetica"
                HorizontalAlignment="Left"
-               Margin="90,325,0,0"
+               Margin="90,308,0,0"
                Grid.Row="1"
                VerticalAlignment="Top" Height="38" Width="188"/>
 
 
         <!-- Van Type -->
-        <Label
-               Content="Van Typer:"
-               FontSize="23"
-               FontWeight="Bold"
-               FontFamily="helvetica"
-               HorizontalAlignment="Left"
-               Margin="90,366,0,0"
-               Grid.Row="1"
-               VerticalAlignment="Top" Height="38" Width="188"/>
 
 
 
         <!-- Invoice Number -->
         <Label
-               Content="Invoice Number:"
+               Content="Invoice Number"
                FontSize="23"
                FontWeight="Bold"
                FontFamily="helvetica"
                HorizontalAlignment="Left"
-               Margin="6,484,0,0"
-               Grid.Row="1"
+               Margin="318,27,0,0"
                VerticalAlignment="Top" Height="38" Width="188" Grid.Column="1"/>
 
 
@@ -145,9 +138,9 @@
                FontWeight="Bold"
                FontFamily="helvetica"
                HorizontalAlignment="Left"
-               Margin="6,560,0,0"
+               Margin="90,351,0,0"
                Grid.Row="1"
-               VerticalAlignment="Top" Height="38" Width="188" Grid.Column="1"/>
+               VerticalAlignment="Top" Height="38" Width="188"/>
 
 
 
@@ -158,13 +151,101 @@
         <!-- EMPTY BOX -->
         <Rectangle
                    HorizontalAlignment="Left"
-                   Visibility="Visible"
+                   Visibility="Hidden"
                    Height="505"
                    Margin="44,115,0,0"
                    Grid.Row="1" Stroke="White"  
                    VerticalAlignment="Top"
                    Width="740"
                    Grid.ColumnSpan="2"/>
+        <Label
+            Name="OrderIdInfo"
+            Content="#"
+            FontSize="23"
+            FontWeight="Bold"
+            FontFamily="helvetica"
+            HorizontalAlignment="Left"
+            Margin="0,179,0,0"
+            Grid.Row="1"
+            VerticalAlignment="Top" Height="38" Width="300" Grid.Column="1"/>
+        <Label
+            x:Name="ClientNameInfo"
+            Content="#"
+            FontSize="23"
+            FontWeight="Bold"
+            FontFamily="helvetica"
+            HorizontalAlignment="Left"
+            Margin="0,222,0,0"
+            Grid.Row="1"
+            VerticalAlignment="Top" Height="38" Width="300" Grid.Column="1"/>
+        <Label
+            x:Name="RouteInfo"
+            Content="#"
+            FontSize="23"
+            FontWeight="Bold"
+            FontFamily="helvetica"
+            HorizontalAlignment="Left"
+            Margin="0,265,0,0"
+            Grid.Row="1"
+            VerticalAlignment="Top" Height="38" Width="300" Grid.Column="1"/>
+        <Label
+            x:Name="JobDescriptionInfo"
+            Content="#"
+            FontSize="23"
+            FontWeight="Bold"
+            FontFamily="helvetica"
+            HorizontalAlignment="Left"
+            Margin="0,308,0,0"
+            Grid.Row="1"
+            VerticalAlignment="Top" Height="38" Width="300" Grid.Column="1"/>
+        <Label
+            x:Name="TotalDistanceInfo"
+            Content="#"
+            FontSize="23"
+            FontWeight="Bold"
+            FontFamily="helvetica"
+            HorizontalAlignment="Left"
+            Margin="0,351,0,0"
+            Grid.Row="1"
+            VerticalAlignment="Top" Height="38" Width="300" Grid.Column="1"/>
+        <Label
+            x:Name="TotalHoursInfo"
+            Content="#"
+            FontSize="23"
+            FontWeight="Bold"
+            FontFamily="helvetica"
+            HorizontalAlignment="Left"
+            Margin="0,394,0,0"
+            Grid.Row="1"
+            VerticalAlignment="Top" Height="38" Width="300" Grid.Column="1"/>
+        <Label
+            x:Name="TotalInfo"
+            Content="#"
+            FontSize="23"
+            FontWeight="Bold"
+            FontFamily="helvetica"
+            HorizontalAlignment="Left"
+            Margin="78,524,0,0"
+            Grid.Row="1"
+            VerticalAlignment="Top" Height="38" Width="300" Grid.Column="1"/>
+        <Label
+            x:Name="InvoiceNumberInfo"
+            Content="#"
+            FontSize="23"
+            FontWeight="Bold"
+            FontFamily="helvetica"
+            HorizontalAlignment="Left"
+            Margin="397,64,0,0"
+            VerticalAlignment="Top" Height="38" Width="30" Grid.Column="1" Grid.RowSpan="2"/>
+        <Label
+            Content="Total Hours:"
+            FontSize="23"
+            FontWeight="Bold"
+            FontFamily="helvetica"
+            HorizontalAlignment="Left"
+            Margin="90,394,0,0"
+            Grid.Row="1"
+            VerticalAlignment="Top" Height="38" Width="188"/>
 
 
     </Grid>

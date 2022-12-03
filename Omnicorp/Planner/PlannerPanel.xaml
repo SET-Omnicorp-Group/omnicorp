@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Omnicorp.Buyer"
         mc:Ignorable="d"
-        Title="Buyer Panel" Height="600" Width="920"
+        Title="Planner Panel" Height="600" Width="920"
         ResizeMode="NoResize">
 
     <Grid Margin="0,0,-2,-6">
@@ -58,7 +58,7 @@
 
         <Button 
             Name="AvailableCarriersBtn"
-            Visibility="Visible"
+            Visibility="Hidden"
             FontWeight="Bold"
             Content="View Available Carriers" 
             HorizontalAlignment="Left"
@@ -82,6 +82,28 @@
             Height="40"
             Width="150" 
             Click="PlannerInvoicesBtn_Click"/>
+
+        <RadioButton 
+            Name="AllInvoicesRadio"
+            Visibility="Hidden"
+            FontWeight="Bold"
+            Content="All Invoices" 
+            Margin="25,10,25,113" 
+            Grid.Row="2"
+            IsChecked="False" 
+            Checked="AllInvoicesRadio_Checked"
+            />
+
+        <RadioButton 
+            Name="LastTwoWeeksRadio"
+            Content="Last Two Weeks" 
+            Visibility="Hidden"
+            FontWeight="Bold"
+            Margin="25,40,25,79" 
+            Grid.Row="2"
+            IsChecked="False"
+            Checked="LastTwoWeekRadio_Checked"
+            />
 
 
         <!--Display Orders-->
@@ -108,15 +130,15 @@
             ItemsSource="{Binding}" 
             Margin="0,55,310,101" 
             Grid.RowSpan="4" 
-            SelectionChanged="PlannerInvoicesGrid_SelectionChanged" Grid.Column="1"/>
+            Grid.Column="1"/>
 
         <RadioButton
             Name="ActiveContractsRadio"
             Content="Active Contracts"
             Visibility="Hidden"
             FontWeight="Bold"
-            HorizontalAlignment="Center" 
-            Margin="0,74,0,0" 
+            HorizontalAlignment="Left" 
+            Margin="25,10,25,113"
             Grid.Row="2" 
             VerticalAlignment="Top" 
             Checked="ActiveContracts_Checked"/>
@@ -128,7 +150,7 @@
             Visibility="Hidden"
             FontWeight="Bold"
             HorizontalAlignment="Left" 
-            Margin="44,97,0,0" 
+            Margin="25,40,25,79"  
             Grid.Row="2" 
             VerticalAlignment="Top" Checked="OnRouteContracts_Checked"/>
 
@@ -139,7 +161,8 @@
             Visibility="Hidden"
             FontWeight="Bold"
             HorizontalAlignment="Left" 
-            Margin="44,122,0,0" 
+            Margin="25,70
+            ,0,0" 
             Grid.Row="2" 
             VerticalAlignment="Top" Checked="DeliveredContracts_Checked"/>
 
@@ -150,8 +173,9 @@
             Visibility="Hidden"
             FontWeight="Bold"
             HorizontalAlignment="Left" 
-            Margin="44,0,0,0" 
-            Grid.Row="3" 
+            Margin="26,100
+            ,0,0" 
+            Grid.Row="2" 
             VerticalAlignment="Top" Checked="CompletedContracts_Checked"/>
         <Button 
             x:Name="SimulateDayBtn"

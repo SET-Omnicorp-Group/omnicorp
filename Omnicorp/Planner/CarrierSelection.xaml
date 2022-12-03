@@ -9,15 +9,17 @@
 
     <Grid>
         <DataGrid 
+            IsReadOnly="true"
+            ColumnWidth="*"
             Name="AvailableCarrierGrid"
             ItemsSource="{Binding}" 
-            Margin="0,0,0,50" SelectionChanged="AvailableCarrierGrid_SelectionChanged"/>
+            Margin="0,0,0,84" SelectionChanged="AvailableCarrierGrid_SelectionChanged"/>
 
         <Button
             Name="SelecCarrierBtn"
             Content="Select Carrier" 
             HorizontalAlignment="Left"
-            Margin="262,296,0,0" 
+            Margin="257,265,0,0" 
             VerticalAlignment="Top"
             Height="28"
             Width="110" Click="SelecCarrierBtn_Click"

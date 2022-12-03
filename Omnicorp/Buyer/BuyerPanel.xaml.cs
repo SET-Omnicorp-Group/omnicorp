@@ -45,33 +45,35 @@ namespace Omnicorp.Buyer
         private void HideDataGrids()
         {
             OrdersGrid.Visibility = Visibility.Hidden;
-            ClientContractGrid.Visibility = Visibility.Hidden;
-            AcceptBtn.Visibility = Visibility.Hidden;
+            MarketplaceGrid.Visibility = Visibility.Hidden;
+            AcceptContractBtn.Visibility = Visibility.Hidden;
         }
 
 
         // Show Radio button for orders 
         private void ShowRadioButtons()
         {
-            ActiveContracts.Visibility = Visibility.Visible;
-            ProcessingContracts.Visibility = Visibility.Visible;
-            CompletedContracts.Visibility = Visibility.Visible;
-            AllContracts.Visibility = Visibility.Visible;
+            ActiveOrders.Visibility = Visibility.Visible;
+            OnRouteOrders.Visibility = Visibility.Visible;
+            DeliveredOrders.Visibility = Visibility.Visible;
+            CompletedOrders.Visibility = Visibility.Visible;
+            AllOrders.Visibility = Visibility.Visible;
         }
 
 
         // Hide Radio button for orders 
         private void HideRadioButtons()
         {
-            ActiveContracts.Visibility = Visibility.Hidden;
-            ProcessingContracts.Visibility = Visibility.Hidden;
-            CompletedContracts.Visibility = Visibility.Hidden;
-            AllContracts.Visibility = Visibility.Hidden;
+            ActiveOrders.Visibility = Visibility.Hidden;
+            OnRouteOrders.Visibility = Visibility.Hidden;
+            DeliveredOrders.Visibility = Visibility.Hidden;
+            CompletedOrders.Visibility = Visibility.Hidden;
+            AllOrders.Visibility = Visibility.Hidden;
         }
 
 
         // Display client contracts datagrid
-        private void ClientContractsBtn(object sender, RoutedEventArgs e)
+        private void MarketplaceBtn_Click(object sender, RoutedEventArgs e)
         {
 
             ContractsBtn.Background = Brushes.White;
@@ -84,15 +86,15 @@ namespace Omnicorp.Buyer
 
             HideDataGrids();
             HideRadioButtons();
-            ClientContractGrid.Visibility = Visibility.Visible;
-            AcceptBtn.Visibility=Visibility.Visible;
-            ClientContractGrid.DataContext = handler.GetContractsFromDatabase();
+            MarketplaceGrid.Visibility = Visibility.Visible;
+            AcceptContractBtn.Visibility=Visibility.Visible;
+            MarketplaceGrid.DataContext = handler.GetContractsFromMarketplaceDatabase();
         }
 
         
 
         // Get value of selected rows
-        private void ClientContractGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void MarketplaceGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataGrid gd = (DataGrid)sender;
             DataRowView rowSelected = gd.SelectedItem as DataRowView;
@@ -119,7 +121,7 @@ namespace Omnicorp.Buyer
         
         
         // Accept contracts button
-        private void AcceptContractsBtn(object sender, RoutedEventArgs e)
+        private void AcceptContractsBtn_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -136,7 +138,7 @@ namespace Omnicorp.Buyer
 
 
         // Orders button
-        private void OrderBtn(object sender, RoutedEventArgs e)
+        private void OrderBtn_Click(object sender, RoutedEventArgs e)
         {
 
             ClientOrdersBtn.Background = Brushes.White;
@@ -150,46 +152,82 @@ namespace Omnicorp.Buyer
 
 
             HideDataGrids();
-            AllContracts.IsChecked = true;
+            AllOrders.IsChecked = true;
             ShowRadioButtons();
             OrdersGrid.Visibility = Visibility.Visible;
-            OrdersGrid.DataContext = handler.GetOrdersFromDatabase();
-        }
-
-
-
-        // Order datagrid
-        private void OrdersGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
 
 
         // All contracts radio button
-        private void AllContractsChecked(object sender, RoutedEventArgs e)
+        private void AllOrders_Checked(object sender, RoutedEventArgs e)
         {
            OrdersGrid.DataContext = handler.GetOrdersFromDatabase();
         }
 
 
         // Active contracts radio button
-        private void ActiveContracts_Checked(object sender, RoutedEventArgs e)
+        private void ActiveOrders_Checked(object sender, RoutedEventArgs e)
         {
-            OrdersGrid.DataContext = handler.GetActiveOrdersFromDatabase();
+            OrdersGrid.DataContext = handler.GetOrdersFromDatabase("Active");
         }
 
 
-        // Processing contracts radio button
-        private void ProcessingContracts_Checked(object sender, RoutedEventArgs e)
+        // OnRoute contracts radio button
+        private void OnRouteOrders_Checked(object sender, RoutedEventArgs e)
         {
-            OrdersGrid.DataContext = handler.GetOnRouteOrdersFromDatabase();
+            OrdersGrid.DataContext = handler.GetOrdersFromDatabase("On Route");
         }
 
-        
+
+        // Delivered contracts radio button
+        private void DeliveredOrders_Checked(object sender, RoutedEventArgs e)
+        {
+            OrdersGrid.DataContext = handler.GetOrdersFromDatabase("Delivered");
+        }
+
+
         // Completed contracts radio button
-        private void CompletedContracts_Checked(object sender, RoutedEventArgs e)
+        private void CompletedOrders_Checked(object sender, RoutedEventArgs e)
         {
-            OrdersGrid.DataContext = handler.GetCompletedOrdersFromDatabase();
+            OrdersGrid.DataContext = handler.GetOrdersFromDatabase("Completed");
+        }
+
+        private void OrdersGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DataGrid gd = (DataGrid)sender;
+            DataRowView rowSelected = gd.SelectedItem as DataRowView;
+
+            if (rowSelected == null)
+            {
+                return;
+            }
+
+            string status = rowSelected[9].ToString();
+            string orderId = rowSelected[0].ToString();
+
+            if (status == "Delivered")
+            {
+                MessageBoxResult res = MessageBox.Show(
+                    "Would you like to complete the order and generate an Invoice?", 
+                    "Complete order?",
+                    MessageBoxButton.YesNo
+                );
+                if(res == MessageBoxResult.Yes)
+                {
+                    handler.GenerateInvoice(orderId);
+                    OrdersGrid.DataContext = handler.GetOrdersFromDatabase("Delivered");
+                    InvoiceWindow invoice = new InvoiceWindow(orderId);
+                    invoice.ShowDialog();
+                }
+            }
+
+            else if (status == "Completed")
+            {
+                InvoiceWindow invoice = new InvoiceWindow(orderId);
+                invoice.ShowDialog();
+            }
+
+           
         }
     }
 }

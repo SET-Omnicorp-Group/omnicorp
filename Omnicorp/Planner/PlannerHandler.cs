@@ -319,7 +319,47 @@ namespace Omnicorp.Planner
 
 
         }
-    
-    
+        
+        
+        public DataTable GetInvoicesFromDatabase()
+        {
+            string query = $"SELECT i.id, i.created_at, o.customer, o.origin, o.destination, o.jobType, o.vanType, o.quantity, i.amount, i.id, r.distance, r.totalHours " +
+                             $"FROM orders o " +
+                             $"INNER JOIN invoices i ON i.orderId = o.id " +
+                             $"INNER JOIN routes r ON r.orderId = o.id;";
+
+            MyQuery myQuery = new MyQuery();
+            MySqlCommand cmd = new MySqlCommand(query, myQuery.conn);
+
+            DataTable dt = new DataTable();
+            dt.Load(cmd.ExecuteReader());
+
+            myQuery.Close();
+            return dt;
+        }
+
+
+        public DataTable GetLastWeeksInvoicesFromDatabase()
+        {
+            DateTime today = DateTime.Now;
+            DateTime twoWeeksAgo = today.AddDays(-14);
+
+            string query = $"SELECT i.id, i.created_at, o.customer, o.origin, o.destination, o.jobType, o.vanType, o.quantity, i.amount, i.id, r.distance, r.totalHours " +
+                             $"FROM orders o " +
+                             $"INNER JOIN invoices i ON i.orderId = o.id " +
+                             $"INNER JOIN routes r ON r.orderId = o.id " +
+                             $"WHERE i.created_at <= '{twoWeeksAgo.ToString("yyyy-MM-dd")}';" ;
+
+            MyQuery myQuery = new MyQuery();
+            MySqlCommand cmd = new MySqlCommand(query, myQuery.conn);
+
+            DataTable dt = new DataTable();
+            dt.Load(cmd.ExecuteReader());
+
+            myQuery.Close();
+
+            return dt;
+        }
+
     }
 }
