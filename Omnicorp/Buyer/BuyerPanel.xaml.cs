@@ -45,8 +45,8 @@ namespace Omnicorp.Buyer
         private void HideDataGrids()
         {
             OrdersGrid.Visibility = Visibility.Hidden;
-            ClientContractGrid.Visibility = Visibility.Hidden;
-            AcceptBtn.Visibility = Visibility.Hidden;
+            MarketplaceGrid.Visibility = Visibility.Hidden;
+            AcceptContractBtn.Visibility = Visibility.Hidden;
         }
 
 
@@ -73,7 +73,7 @@ namespace Omnicorp.Buyer
 
 
         // Display client contracts datagrid
-        private void ClientContractsBtn(object sender, RoutedEventArgs e)
+        private void MarketplaceBtn_Click(object sender, RoutedEventArgs e)
         {
 
             ContractsBtn.Background = Brushes.White;
@@ -86,15 +86,15 @@ namespace Omnicorp.Buyer
 
             HideDataGrids();
             HideRadioButtons();
-            ClientContractGrid.Visibility = Visibility.Visible;
-            AcceptBtn.Visibility=Visibility.Visible;
-            ClientContractGrid.DataContext = handler.GetContractsFromMarketplaceDatabase();
+            MarketplaceGrid.Visibility = Visibility.Visible;
+            AcceptContractBtn.Visibility=Visibility.Visible;
+            MarketplaceGrid.DataContext = handler.GetContractsFromMarketplaceDatabase();
         }
 
         
 
         // Get value of selected rows
-        private void ClientContractGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void MarketplaceGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataGrid gd = (DataGrid)sender;
             DataRowView rowSelected = gd.SelectedItem as DataRowView;
@@ -121,7 +121,7 @@ namespace Omnicorp.Buyer
         
         
         // Accept contracts button
-        private void AcceptContractsBtn(object sender, RoutedEventArgs e)
+        private void AcceptContractsBtn_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -138,7 +138,7 @@ namespace Omnicorp.Buyer
 
 
         // Orders button
-        private void OrderBtn(object sender, RoutedEventArgs e)
+        private void OrderBtn_Click(object sender, RoutedEventArgs e)
         {
 
             ClientOrdersBtn.Background = Brushes.White;
@@ -190,6 +190,42 @@ namespace Omnicorp.Buyer
         private void CompletedOrders_Checked(object sender, RoutedEventArgs e)
         {
             OrdersGrid.DataContext = handler.GetOrdersFromDatabase("Completed");
+        }
+
+        private void OrdersGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DataGrid gd = (DataGrid)sender;
+            DataRowView rowSelected = gd.SelectedItem as DataRowView;
+
+            if (rowSelected == null)
+            {
+                return;
+            }
+
+            string status = rowSelected[9].ToString();
+            string orderId = rowSelected[0].ToString();
+
+            if (status == "Delivered")
+            {
+                MessageBoxResult res = MessageBox.Show(
+                    "Would you like to complete the order and generate an Invoice?", 
+                    "Complete order?",
+                    MessageBoxButton.YesNo
+                );
+                if(res == MessageBoxResult.Yes)
+                {
+                    handler.GenerateInvoice(orderId);
+                    OrdersGrid.DataContext = handler.GetOrdersFromDatabase("Delivered");
+                    handler.SaveInvoiceFile(orderId);
+                }
+            }
+
+            else if (status == "Completed")
+            {
+                MessageBox.Show("Works as COMPLETED");
+            }
+
+           
         }
     }
 }

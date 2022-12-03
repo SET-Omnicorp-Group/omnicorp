@@ -10,6 +10,9 @@ using System.Collections;
 using System.Windows.Controls;
 using System.Data;
 using System.Windows;
+using Org.BouncyCastle.Asn1.X500;
+using System.Windows.Forms;
+using System.IO;
 
 namespace Omnicorp.Buyer
 {
@@ -65,7 +68,6 @@ namespace Omnicorp.Buyer
         }
 
 
-
         public void InsertContractsToOrderDatabase(
             string customer,
             string jobType,
@@ -86,5 +88,161 @@ namespace Omnicorp.Buyer
             cmd.ExecuteNonQuery();
             myQuery.Close();
         }       
+    
+        public void GenerateInvoice(string orderId)
+        {
+            decimal amount = CalculateInvoiceAmount(orderId);
+
+            string addQuery = $"INSERT INTO invoices (orderId, amount) VALUES ('{orderId}', '{amount}');";
+            MyQuery myQuery = new MyQuery();
+            MySqlCommand cmd = new MySqlCommand(addQuery, myQuery.conn);
+            cmd.ExecuteNonQuery();
+            myQuery.Close();
+
+            SetOrderStatus(orderId, "Completed");
+        }
+
+
+        public void SetOrderStatus(string orderId, string status)
+        {
+            string updateQuery = $"UPDATE orders SET status = '{status}' WHERE id = '{orderId}';";
+            MyQuery myQuery = new MyQuery();
+            MySqlCommand cmd = new MySqlCommand(updateQuery, myQuery.conn);
+            cmd.ExecuteNonQuery();
+
+            myQuery.Close();
+        }
+
+    
+        public decimal CalculateInvoiceAmount(string orderId)
+        {
+            string query =  $"SELECT " +
+                            $"o.jobType, o.quantity, o.vanType, " +
+                            $"r.distance, r.totalHours, " +
+                            $"c.ftlRate, c.ltlRate, c.reefCharge " +
+                            $"FROM routes r " +
+                            $"INNER JOIN orders o ON r.orderId = o.id " +
+                            $"INNER JOIN carriers c ON r.carrierId = c.id " +
+                            $"WHERE o.id = '{orderId}';";
+
+            MyQuery myQuery = new MyQuery();
+            MySqlDataReader rdr = myQuery.DataReader(query);
+            rdr.Read();
+
+            string jobType = rdr.GetString(0);
+            int quantity = rdr.GetInt32(1);
+            string vanType = rdr.GetString(2);
+            int distance = rdr.GetInt32(3);
+            decimal totalHours = rdr.GetDecimal(4);
+            decimal ftlRate = rdr.GetDecimal(5);
+            decimal ltlRate = rdr.GetDecimal(6);
+            decimal reefCharge = rdr.GetDecimal(7);
+            decimal carrierCost = decimal.Zero;
+            decimal addReefCost = decimal.Zero;
+            decimal amount = decimal.Zero;
+            decimal tmsFee = decimal.Zero;
+
+            decimal addDaysCharge = CalculateAddDaysCharge(totalHours);
+            carrierCost = addDaysCharge;
+
+
+            if (jobType == "FTL")
+            {
+                carrierCost += (ftlRate * distance);
+            }
+            else // LTL
+            {
+                carrierCost += (ltlRate * distance * quantity);
+            }
+
+            if (vanType == "Reefer")
+            {
+                addReefCost = carrierCost * reefCharge;
+            }
+
+            carrierCost += addReefCost;
+            tmsFee = CalculteTMSFee(carrierCost, jobType);
+            amount = carrierCost + tmsFee;
+
+            myQuery.Close();
+
+            return amount;
+        }
+
+
+        public decimal CalculteTMSFee(decimal carrierCost, string jobType)
+        {
+            decimal feePercent = 0.05m; // Assume its a LTL
+            
+            if(jobType == "FTL")
+            {
+                feePercent = 0.08m;
+            }
+
+            return carrierCost * feePercent;
+        }
+
+
+        public decimal CalculateAddDaysCharge(decimal totalHours)
+        {
+            decimal fractionDays = Math.Floor(totalHours / 12);
+            int numDays = Convert.ToInt32(fractionDays);
+            return numDays * 150;
+        }
+    
+
+        public void SaveInvoiceFile(string orderId)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "txt files (*.txt) | *.txt";
+            if(saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string query = $"SELECT o.customer, o.origin, o.destination, o.jobType, o.vanType, o.quantity, i.amount, i.id, r.distance, r.totalHours " +
+                            $"FROM orders o " +
+                            $"INNER JOIN invoices i ON i.orderId = o.id " +
+                            $"INNER JOIN routes r ON r.orderId = o.id " +
+                            $"WHERE o.id = '{orderId}';";
+
+                MyQuery myQuery = new MyQuery();
+                MySqlDataReader rdr = myQuery.DataReader(query);
+                rdr.Read();
+
+                string customer = rdr.GetString(0);
+                string origin = rdr.GetString(1);
+                string destination = rdr.GetString(2);
+                string jobType = rdr.GetString(3);
+                string vanType = rdr.GetString(4);
+                string quantity = rdr.GetString(5);
+                decimal amount = rdr.GetDecimal(6);
+                string invoiceId = rdr.GetString(7);
+                string distance = rdr.GetString(8);
+                decimal totalHours = rdr.GetDecimal(9);
+
+
+                string content = $"Invoice Id: {invoiceId}\n" +
+                                    $"Order Id: {orderId}\n" +
+                                    $"Order Description: {jobType} - {vanType}\n";
+
+                if (jobType == "LTL")
+                {
+                    content += $"Quantity: {quantity} pallets\n";
+                }
+
+                content += $"Distance: {distance} kms\n" +
+                            $"Total Hours: {String.Format("{0:0.00}",totalHours)} hrs\n" +
+                            $"Total Amount: {String.Format("{0:0.00}", amount)} CAD\n";
+
+
+                File.WriteAllText(saveFileDialog.FileName, content);
+
+                myQuery.Close();
+            }
+            
+
+
+
+
+
+        }
     }
 }

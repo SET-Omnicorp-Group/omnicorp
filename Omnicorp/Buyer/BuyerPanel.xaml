@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Omnicorp.Buyer"
         mc:Ignorable="d"
-        Title="Buyer Panel" Height="600" Width="920"
+        Title="Buyer Panel" Height="600" Width="950"
         Background="White"
         AllowsTransparency="False"
         WindowStyle="SingleBorderWindow" ResizeMode="NoResize">
@@ -46,7 +46,7 @@
 
         <!--Client Contracts button-->
         <Button
-            Name="ContractsBtn"
+            Name="MarketplaceBtn"
             FontWeight="Bold"
             Content="Marketplace"
             HorizontalAlignment="Left"
@@ -55,12 +55,12 @@
             VerticalAlignment="Top"
             Height="40"
             Width="150"
-            Click="ClientContractsBtn"/>
+            Click="MarketplaceBtn_Click"/>
 
 
         <!--Orders button-->
         <Button
-            Name="ClientOrdersBtn"
+            Name="OrdersBtn"
             FontWeight="Bold"
             Content="Orders"
             HorizontalAlignment="Left"
@@ -69,12 +69,12 @@
             VerticalAlignment="Top"
             Height="40"
             Width="150"
-            Click="OrderBtn"/>
+            Click="OrderBtn_Click"/>
 
 
-        <!--Display contracts-->
+        <!--Display marketplace available contracts-->
         <DataGrid
-            Name="ClientContractGrid"
+            Name="MarketplaceGrid"
             Visibility="Hidden"
             IsReadOnly="true"
             ColumnWidth="*"
@@ -82,12 +82,12 @@
             Grid.Column="1"
             ItemsSource="{Binding}"
             Margin="10,51,312,18"
-            Grid.RowSpan="3" SelectionChanged="ClientContractGrid_SelectionChanged" Grid.ColumnSpan="3"/>
+            Grid.RowSpan="3" SelectionChanged="MarketplaceGrid_SelectionChanged" Grid.ColumnSpan="3"/>
 
 
         <!--Accept Contracts button-->
         <Button
-            Name="AcceptBtn"
+            Name="AcceptContractBtn"
             Visibility="Hidden"
             FontWeight="Bold"
             Content="Accept Contracts"
@@ -97,7 +97,7 @@
             VerticalAlignment="Top"
             Height="40"
             Width="150"
-            Click="AcceptContractsBtn"
+            Click="AcceptContractsBtn_Click"
             Grid.Column="3" Grid.RowSpan="2"/>
 
 
@@ -111,7 +111,7 @@
             ItemsSource="{Binding}"
             Margin="0,45,289,108"
             Grid.RowSpan="4"
-            Grid.ColumnSpan="3" Grid.Column="1"/>
+            Grid.ColumnSpan="3" Grid.Column="1" MouseDoubleClick="OrdersGrid_MouseDoubleClick"/>
 
 
         <!--All Contracts-->
@@ -121,7 +121,7 @@
             Visibility="Hidden"
             FontWeight="Bold"
             HorizontalAlignment="Left"
-            Margin="4,40,0,0"
+            Margin="4,20,0,0"
             Grid.Row="2"
             VerticalAlignment="Top"
             Checked="AllOrders_Checked" Grid.Column="0"/>
@@ -133,7 +133,7 @@
             Visibility="Hidden"
             FontWeight="Bold"
             HorizontalAlignment="Left"
-            Margin="4,65,0,0"
+            Margin="4,45,0,0"
             Grid.Row="2"
             Grid.Column="0"
             VerticalAlignment="Top"
@@ -146,7 +146,7 @@
             Visibility="Hidden"
             FontWeight="Bold"
             HorizontalAlignment="Left"
-            Margin="4,90,0,0"
+            Margin="4,70,0,0"
             Grid.Row="2"
             VerticalAlignment="Top" Checked="OnRouteOrders_Checked" Grid.Column="0"/>
 
@@ -157,7 +157,7 @@
             Visibility="Hidden"
             FontWeight="Bold"
             HorizontalAlignment="Left"
-            Margin="4, 115,0,0"
+            Margin="4, 95,0,0"
             Grid.Row="2"
             VerticalAlignment="Top" Checked="DeliveredOrders_Checked" Grid.Column="0"/>
 
@@ -168,7 +168,7 @@
             Visibility="Hidden"
             FontWeight="Bold"
             HorizontalAlignment="Left"
-            Margin="4,140,0,0"
+            Margin="4,120,0,0"
             Grid.Row="2"
             VerticalAlignment="Top" Checked="CompletedOrders_Checked" Grid.Column="0"/>
 
