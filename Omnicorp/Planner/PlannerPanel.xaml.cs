@@ -51,6 +51,8 @@ namespace Omnicorp.Planner
             PlannerOrdersGrid.Visibility = Visibility.Visible;
             PlannerOrdersGrid.DataContext = handler.GetOrdersFromDatabaseWhere("Active");
 
+            AllInvoicesRadio.Visibility = Visibility.Hidden;
+            LastTwoWeeksRadio.Visibility = Visibility.Hidden;
 
             ActiveContractsRadio.IsChecked = true;
             ActiveContractsRadio.Visibility = Visibility.Visible;
@@ -100,6 +102,10 @@ namespace Omnicorp.Planner
 
             PlannerOrdersGrid.Visibility = Visibility.Hidden;
             PlannerInvoicesGrid.Visibility = Visibility.Visible;
+            AllInvoicesRadio.Visibility = Visibility.Visible;
+            AllInvoicesRadio.IsChecked = true;
+            LastTwoWeeksRadio.Visibility = Visibility.Visible;
+
 
             ActiveContractsRadio.Visibility = Visibility.Hidden;
             OnRouteContractsRadio.Visibility = Visibility.Hidden;
@@ -109,11 +115,7 @@ namespace Omnicorp.Planner
         }
 
 
-        // Planner invoice grid
-        private void PlannerInvoicesGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+        
 
         // Active contracts radio button
         private void ActiveContracts_Checked(object sender, RoutedEventArgs e)
@@ -165,6 +167,16 @@ namespace Omnicorp.Planner
         {
             handler.SimulateDay();
             PlannerOrdersGrid.DataContext = handler.GetOrdersFromDatabaseWhere("On Route");
+        }
+
+        private void AllInvoicesRadio_Checked(object sender, RoutedEventArgs e)
+        {
+            PlannerInvoicesGrid.DataContext = handler.GetInvoicesFromDatabase();
+        }
+
+        private void LastTwoWeekRadio_Checked(object sender, RoutedEventArgs e)
+        {
+            PlannerInvoicesGrid.DataContext = handler.GetLastWeeksInvoicesFromDatabase();
         }
     }
 }
