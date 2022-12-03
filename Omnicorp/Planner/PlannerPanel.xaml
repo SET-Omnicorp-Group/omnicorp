@@ -5,9 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Omnicorp.Buyer"
         mc:Ignorable="d"
-        Background="CornflowerBlue"
-        Title="Buyer Panel" Height="450" Width="1000">
-    <Grid Margin="0,0,27,-6">
+        Title="Buyer Panel" Height="600" Width="920"
+        ResizeMode="NoResize">
+
+    <Grid Margin="0,0,-2,-6">
+
+        <Grid.Background>
+            <LinearGradientBrush>
+                <GradientStop Color="#7be9f6" Offset="0.0"/>
+                <GradientStop Color="#f083da" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200px"></ColumnDefinition>
@@ -25,10 +33,13 @@
         <Label 
         Grid.Row="0" 
         Content="Planner Panel" 
+        FontWeight="Bold"
         Grid.ColumnSpan="1" 
-        FontSize="20"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center"
+        FontSize="23"
+        FontFamily="helvetica"
+        Foreground="White"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top" Grid.Column="1" Margin="321,10,0,0"
         />
 
 
@@ -36,24 +47,26 @@
         <Button 
             Name="PlannerOrdersBtn"
             Content="Orders" 
+            FontWeight="Bold"
             HorizontalAlignment="Center"
-            Margin="0,27,0,0" 
+            Margin="0,41,0,0" 
             Grid.Row="1" 
             VerticalAlignment="Top"
-            Height="28"
-            Width="110" 
+            Height="40"
+            Width="150" 
             Click="PlannerOrdersBtn_Click"/>
 
         <Button 
             Name="AvailableCarriersBtn"
-            Visibility="Hidden"
+            Visibility="Visible"
+            FontWeight="Bold"
             Content="View Available Carriers" 
             HorizontalAlignment="Left"
-            Margin="598,27,0,0" 
+            Margin="540,59,0,0" 
             Grid.Row="3" 
             VerticalAlignment="Top"
-            Height="28"
-            Width="140" 
+            Height="40"
+            Width="150" 
             Grid.Column="1" Click="AvailableCarriersBtn_Click"/>
 
 
@@ -61,24 +74,27 @@
         <Button 
             Name="PlannerInvoicesBtn"
             Content="Invoices" 
+            FontWeight="Bold"
             HorizontalAlignment="Center"
-            Margin="0,72,0,0" 
+            Margin="0,86,0,0" 
             Grid.Row="1" 
             VerticalAlignment="Top"
-            Height="28"
-            Width="110" 
+            Height="40"
+            Width="150" 
             Click="PlannerInvoicesBtn_Click"/>
 
 
         <!--Display Orders-->
         <DataGrid 
             Name="PlannerOrdersGrid" 
+            Background="White"
+            IsReadOnly="true"
+            ColumnWidth="*"
             Visibility="Visible"
             ItemsSource="{Binding}" 
-            Margin="182,45,221,108" 
+            Margin="0,55,310,98" 
             Grid.RowSpan="4" 
-            SelectionChanged="PlannerOrdersGrid_SelectionChanged" 
-            Grid.ColumnSpan="2"/>
+            SelectionChanged="PlannerOrdersGrid_SelectionChanged" Grid.Column="1"/>
 
 
 
@@ -86,21 +102,23 @@
         <DataGrid 
             Name="PlannerInvoicesGrid"
             Visibility="Hidden"
-            Grid.Column="1" 
+            IsReadOnly="true"
+            ColumnWidth="*"
+            Background="White"
             ItemsSource="{Binding}" 
-            Margin="10,45,221,24" 
-            Grid.RowSpan="3" 
-            SelectionChanged="PlannerInvoicesGrid_SelectionChanged"/>
+            Margin="0,55,310,101" 
+            Grid.RowSpan="4" 
+            SelectionChanged="PlannerInvoicesGrid_SelectionChanged" Grid.Column="1"/>
 
         <RadioButton
             Name="ActiveContractsRadio"
             Content="Active Contracts"
             Visibility="Hidden"
-            HorizontalAlignment="Left" 
-            Margin="182,32,0,0" 
-            Grid.Row="3" 
+            FontWeight="Bold"
+            HorizontalAlignment="Center" 
+            Margin="0,74,0,0" 
+            Grid.Row="2" 
             VerticalAlignment="Top" 
-            Grid.ColumnSpan="2" 
             Checked="ActiveContracts_Checked"/>
 
         <!--Processing Contracts-->
@@ -108,41 +126,46 @@
             Name="OnRouteContractsRadio"
             Content="On Routes Contracts"
             Visibility="Hidden"
+            FontWeight="Bold"
             HorizontalAlignment="Left" 
-            Margin="182,59,0,0" 
-            Grid.Row="3" 
-            VerticalAlignment="Top" 
-            Grid.ColumnSpan="2" Checked="OnRouteContracts_Checked"/>
+            Margin="44,97,0,0" 
+            Grid.Row="2" 
+            VerticalAlignment="Top" Checked="OnRouteContracts_Checked"/>
 
         <!--Completed Contracts-->
         <RadioButton
             Name="DeliveredContractsRadio"
             Content="Delivered Contracts"
             Visibility="Hidden"
+            FontWeight="Bold"
             HorizontalAlignment="Left" 
-            Margin="182,83,0,0" 
-            Grid.Row="3" 
-            VerticalAlignment="Top" Grid.ColumnSpan="2" Checked="DeliveredContracts_Checked"/>
+            Margin="44,122,0,0" 
+            Grid.Row="2" 
+            VerticalAlignment="Top" Checked="DeliveredContracts_Checked"/>
 
         <!--Completed Contracts-->
         <RadioButton
             Name="CompletedContractsRadio"
             Content="Completed Contracts"
             Visibility="Hidden"
+            FontWeight="Bold"
             HorizontalAlignment="Left" 
-            Margin="182,100,0,0" 
+            Margin="44,0,0,0" 
             Grid.Row="3" 
-            VerticalAlignment="Top" Grid.ColumnSpan="2" Checked="CompletedContracts_Checked"/>
+            VerticalAlignment="Top" Checked="CompletedContracts_Checked"/>
         <Button 
             x:Name="SimulateDayBtn"
             Visibility="Hidden"
+            FontWeight="Bold"
             Content="Simulate Day" 
-            HorizontalAlignment="Center"
-            Margin="0,26,0,0" 
+            HorizontalAlignment="Left"
+            Margin="44,42,0,0" 
             Grid.Row="3" 
             VerticalAlignment="Top"
-            Height="28"
-            Width="110" Click="SimulateDayBtn_Click"/>
+            Height="25"
+            Width="120" Click="SimulateDayBtn_Click"/>
+
+        <Image x:Name="Logo" HorizontalAlignment="Left" Height="101" Margin="57,23,0,0" VerticalAlignment="Top" Width="144" Source="/Styles/logo.png" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
 
 
     </Grid>
