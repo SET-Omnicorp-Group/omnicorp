@@ -214,6 +214,9 @@
   <ItemGroup>
     <Resource Include="Styles\portfolio %281%29.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Planner\done.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
