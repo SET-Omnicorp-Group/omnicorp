@@ -53,20 +53,22 @@ namespace Omnicorp.Buyer
         // Show Radio button for orders 
         private void ShowRadioButtons()
         {
-            ActiveContracts.Visibility = Visibility.Visible;
-            ProcessingContracts.Visibility = Visibility.Visible;
-            CompletedContracts.Visibility = Visibility.Visible;
-            AllContracts.Visibility = Visibility.Visible;
+            ActiveOrders.Visibility = Visibility.Visible;
+            OnRouteOrders.Visibility = Visibility.Visible;
+            DeliveredOrders.Visibility = Visibility.Visible;
+            CompletedOrders.Visibility = Visibility.Visible;
+            AllOrders.Visibility = Visibility.Visible;
         }
 
 
         // Hide Radio button for orders 
         private void HideRadioButtons()
         {
-            ActiveContracts.Visibility = Visibility.Hidden;
-            ProcessingContracts.Visibility = Visibility.Hidden;
-            CompletedContracts.Visibility = Visibility.Hidden;
-            AllContracts.Visibility = Visibility.Hidden;
+            ActiveOrders.Visibility = Visibility.Hidden;
+            OnRouteOrders.Visibility = Visibility.Hidden;
+            DeliveredOrders.Visibility = Visibility.Hidden;
+            CompletedOrders.Visibility = Visibility.Hidden;
+            AllOrders.Visibility = Visibility.Hidden;
         }
 
 
@@ -86,7 +88,7 @@ namespace Omnicorp.Buyer
             HideRadioButtons();
             ClientContractGrid.Visibility = Visibility.Visible;
             AcceptBtn.Visibility=Visibility.Visible;
-            ClientContractGrid.DataContext = handler.GetContractsFromDatabase();
+            ClientContractGrid.DataContext = handler.GetContractsFromMarketplaceDatabase();
         }
 
         
@@ -150,46 +152,44 @@ namespace Omnicorp.Buyer
 
 
             HideDataGrids();
-            AllContracts.IsChecked = true;
+            AllOrders.IsChecked = true;
             ShowRadioButtons();
             OrdersGrid.Visibility = Visibility.Visible;
-            OrdersGrid.DataContext = handler.GetOrdersFromDatabase();
-        }
-
-
-
-        // Order datagrid
-        private void OrdersGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
 
 
         // All contracts radio button
-        private void AllContractsChecked(object sender, RoutedEventArgs e)
+        private void AllOrders_Checked(object sender, RoutedEventArgs e)
         {
            OrdersGrid.DataContext = handler.GetOrdersFromDatabase();
         }
 
 
         // Active contracts radio button
-        private void ActiveContracts_Checked(object sender, RoutedEventArgs e)
+        private void ActiveOrders_Checked(object sender, RoutedEventArgs e)
         {
-            OrdersGrid.DataContext = handler.GetActiveOrdersFromDatabase();
+            OrdersGrid.DataContext = handler.GetOrdersFromDatabase("Active");
         }
 
 
-        // Processing contracts radio button
-        private void ProcessingContracts_Checked(object sender, RoutedEventArgs e)
+        // OnRoute contracts radio button
+        private void OnRouteOrders_Checked(object sender, RoutedEventArgs e)
         {
-            OrdersGrid.DataContext = handler.GetOnRouteOrdersFromDatabase();
+            OrdersGrid.DataContext = handler.GetOrdersFromDatabase("On Route");
         }
 
-        
+
+        // Delivered contracts radio button
+        private void DeliveredOrders_Checked(object sender, RoutedEventArgs e)
+        {
+            OrdersGrid.DataContext = handler.GetOrdersFromDatabase("Delivered");
+        }
+
+
         // Completed contracts radio button
-        private void CompletedContracts_Checked(object sender, RoutedEventArgs e)
+        private void CompletedOrders_Checked(object sender, RoutedEventArgs e)
         {
-            OrdersGrid.DataContext = handler.GetCompletedOrdersFromDatabase();
+            OrdersGrid.DataContext = handler.GetOrdersFromDatabase("Completed");
         }
     }
 }

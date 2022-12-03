@@ -33,8 +33,8 @@
 
 
         <!-- Label for login welcome -->
-        <Label 
-        Content="BUYER PANEL" 
+        <Label
+        Content="BUYER PANEL"
         FontFamily="helvetica"
         FontSize="23"
         FontWeight="Bold"
@@ -45,120 +45,132 @@
 
 
         <!--Client Contracts button-->
-        <Button 
+        <Button
             Name="ContractsBtn"
             FontWeight="Bold"
-            Content="Marketplace" 
+            Content="Marketplace"
             HorizontalAlignment="Left"
-            Margin="25,30,0,0" 
-            Grid.Row="1" 
+            Margin="25,30,0,0"
+            Grid.Row="1"
             VerticalAlignment="Top"
             Height="40"
-            Width="150" 
+            Width="150"
             Click="ClientContractsBtn"/>
 
 
         <!--Orders button-->
-        <Button 
+        <Button
             Name="ClientOrdersBtn"
             FontWeight="Bold"
-            Content="Orders" 
+            Content="Orders"
             HorizontalAlignment="Left"
-            Margin="25,80,0,0" 
-            Grid.Row="1" 
+            Margin="25,80,0,0"
+            Grid.Row="1"
             VerticalAlignment="Top"
             Height="40"
-            Width="150" 
+            Width="150"
             Click="OrderBtn"/>
 
 
         <!--Display contracts-->
-        <DataGrid 
+        <DataGrid
             Name="ClientContractGrid"
             Visibility="Hidden"
             IsReadOnly="true"
             ColumnWidth="*"
             Background="White"
-            Grid.Column="1" 
-            ItemsSource="{Binding}" 
-            Margin="10,51,312,18" 
+            Grid.Column="1"
+            ItemsSource="{Binding}"
+            Margin="10,51,312,18"
             Grid.RowSpan="3" SelectionChanged="ClientContractGrid_SelectionChanged" Grid.ColumnSpan="3"/>
 
 
         <!--Accept Contracts button-->
-        <Button 
+        <Button
             Name="AcceptBtn"
             Visibility="Hidden"
             FontWeight="Bold"
-            Content="Accept Contracts" 
+            Content="Accept Contracts"
             HorizontalAlignment="Left"
-            Margin="0,147,0,0" 
-            Grid.Row="2" 
+            Margin="0,147,0,0"
+            Grid.Row="2"
             VerticalAlignment="Top"
             Height="40"
-            Width="150" 
-            Click="AcceptContractsBtn" 
+            Width="150"
+            Click="AcceptContractsBtn"
             Grid.Column="3" Grid.RowSpan="2"/>
 
 
         <!--Display Orders-->
-        <DataGrid 
-            Name="OrdersGrid" 
+        <DataGrid
+            Name="OrdersGrid"
             Visibility="Hidden"
             IsReadOnly="true"
             ColumnWidth="*"
             Background="White"
-            ItemsSource="{Binding}" 
-            Margin="0,45,289,108" 
-            Grid.RowSpan="4" 
-            SelectionChanged="OrdersGrid_SelectionChanged" Grid.ColumnSpan="3" Grid.Column="1"/>
+            ItemsSource="{Binding}"
+            Margin="0,45,289,108"
+            Grid.RowSpan="4"
+            Grid.ColumnSpan="3" Grid.Column="1"/>
 
 
         <!--All Contracts-->
         <RadioButton
-            x:Name="AllContracts" 
-            Content="All Contracts"
+            x:Name="AllOrders"
+            Content="All Orders"
             Visibility="Hidden"
             FontWeight="Bold"
-            HorizontalAlignment="Left" 
-            Margin="31,0,0,0" 
-            Grid.Row="2" 
-            VerticalAlignment="Center" 
-            Checked="AllContractsChecked"/>
+            HorizontalAlignment="Left"
+            Margin="4,40,0,0"
+            Grid.Row="2"
+            VerticalAlignment="Top"
+            Checked="AllOrders_Checked" Grid.Column="0"/>
 
         <!--Active Contracts-->
         <RadioButton
-            Name="ActiveContracts"
-            Content="Active Contracts"
+            Name="ActiveOrders"
+            Content="Active Orders"
             Visibility="Hidden"
             FontWeight="Bold"
-            HorizontalAlignment="Left" 
-            Margin="31,89,0,0" 
-            Grid.Row="2" 
-            VerticalAlignment="Top" 
-            Checked="ActiveContracts_Checked"/>
+            HorizontalAlignment="Left"
+            Margin="4,65,0,0"
+            Grid.Row="2"
+            Grid.Column="0"
+            VerticalAlignment="Top"
+            Checked="ActiveOrders_Checked"/>
+
+        <!--OnRoute Contracts-->
+        <RadioButton
+            Name="OnRouteOrders"
+            Content="On Route Routes"
+            Visibility="Hidden"
+            FontWeight="Bold"
+            HorizontalAlignment="Left"
+            Margin="4,90,0,0"
+            Grid.Row="2"
+            VerticalAlignment="Top" Checked="OnRouteOrders_Checked" Grid.Column="0"/>
 
         <!--Processing Contracts-->
         <RadioButton
-            Name="ProcessingContracts"
-            Content="Processing Contracts"
+            Name="DeliveredOrders"
+            Content="Delivered Orders"
             Visibility="Hidden"
             FontWeight="Bold"
-            HorizontalAlignment="Center" 
-            Margin="0,109,0,0" 
-            Grid.Row="2" 
-            VerticalAlignment="Top" Checked="ProcessingContracts_Checked"/>
+            HorizontalAlignment="Left"
+            Margin="4, 115,0,0"
+            Grid.Row="2"
+            VerticalAlignment="Top" Checked="DeliveredOrders_Checked" Grid.Column="0"/>
 
         <!--Completed Contracts-->
         <RadioButton
-            Name="CompletedContracts"
-            Content="Completed Contracts"
+            Name="CompletedOrders"
+            Content="Completed Orders (Invoices)"
             Visibility="Hidden"
             FontWeight="Bold"
-            HorizontalAlignment="Center" 
-            Margin="0,128,0,0" 
-            Grid.Row="2" 
-            VerticalAlignment="Top" Checked="CompletedContracts_Checked"/>
+            HorizontalAlignment="Left"
+            Margin="4,140,0,0"
+            Grid.Row="2"
+            VerticalAlignment="Top" Checked="CompletedOrders_Checked" Grid.Column="0"/>
 
         <Image x:Name="Logo" HorizontalAlignment="Left" Height="124" Margin="47,0,0,0" VerticalAlignment="Center" Width="167" Source="/Styles/logo.png" Grid.ColumnSpan="2"/>
         <Image Grid.Column="2" HorizontalAlignment="Left" Height="31" Margin="266,12,0,0" VerticalAlignment="Top" Width="26" Source="/Styles/portfolio (1).png"/>

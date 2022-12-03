@@ -16,7 +16,7 @@ namespace Omnicorp.Buyer
     internal class BuyerHandler
     {
 
-        public DataTable GetContractsFromDatabase()
+        public DataTable GetContractsFromMarketplaceDatabase()
         {
             // Query data from contracts
             string query = $"SELECT Client_Name, Origin, Destination, Quantity," +
@@ -42,47 +42,19 @@ namespace Omnicorp.Buyer
         }
 
 
-        public DataTable GetActiveOrdersFromDatabase()
+        public DataTable GetOrdersFromDatabase(string status = null)
         {
             // Query data from contracts
-            string activeOrderQuery = $"SELECT * FROM orders \r\nWHERE status = \"Active\";" ;
+            string query = $"SELECT * FROM orders ";
+            if(status != null)
+            {
+                query += $"WHERE status = '{status}'" ;
+            }
+            query += ";";
+                
 
             MyQuery myQuery = new MyQuery();
-            MySqlCommand cmd = new MySqlCommand(activeOrderQuery, myQuery.conn);
-
-            DataTable dt = new DataTable();
-            dt.Load(cmd.ExecuteReader());
-
-            myQuery.Close();
-
-            return dt;
-        }
-
-
-        public DataTable GetOnRouteOrdersFromDatabase()
-        {
-            // Query data from contracts
-            string activeOrderQuery = $"SELECT * FROM orders\r\nWHERE status = \"Processing\";";
-
-            MyQuery myQuery = new MyQuery();
-            MySqlCommand cmd = new MySqlCommand(activeOrderQuery, myQuery.conn);
-
-            DataTable dt = new DataTable();
-            dt.Load(cmd.ExecuteReader());
-
-            myQuery.Close();
-
-            return dt;
-        }
-
-
-        public DataTable GetCompletedOrdersFromDatabase()
-        {
-            // Query data from contracts
-            string activeOrderQuery = $"SELECT * FROM orders \r\nWHERE status = \"Completed\";";
-
-            MyQuery myQuery = new MyQuery();
-            MySqlCommand cmd = new MySqlCommand(activeOrderQuery, myQuery.conn);
+            MySqlCommand cmd = new MySqlCommand(query, myQuery.conn);
 
             DataTable dt = new DataTable();
             dt.Load(cmd.ExecuteReader());
@@ -113,26 +85,6 @@ namespace Omnicorp.Buyer
             MySqlCommand cmd = new MySqlCommand(addQuery, myQuery.conn);
             cmd.ExecuteNonQuery();
             myQuery.Close();
-        }
-
-
-        // Delete accepted contract row
-        public DataTable GetOrdersFromDatabase()
-        {
-            string query = $"SELECT * FROM `orders`;";
-
-            MyQuery myQuery = new MyQuery();
-            MySqlCommand cmd = new MySqlCommand(query, myQuery.conn);
-
-            DataTable dt = new DataTable();
-            dt.Load(cmd.ExecuteReader());
-
-            myQuery.Close();
-
-            return dt;
-        }
-
-
-        
+        }       
     }
 }
