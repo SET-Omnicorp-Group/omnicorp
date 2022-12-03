@@ -1,4 +1,14 @@
-﻿using ClassLibrary;
+﻿/*
+* FILE          :   BuyerPanel.xaml.cs
+* PROJECT       :   SENG2020 - Omnicorp  project
+* PROGRAMMERS   :   - Ali Anwar - 8765779
+*                   - Bruno Borges Russian - 8717542
+*                   - Dhruvkumar Patel - 8777164
+*                   - Thalys Baiao Lopes - 8760875
+* FIRST VERSION :   Nov, 19, 2022
+* DESCRIPTION   :   The file is used to design the Buyer panel window
+*/
+using ClassLibrary;
 using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using System;
@@ -19,10 +29,26 @@ namespace Omnicorp.Buyer
     /// <summary>
     /// Interaction logic for buyer_panel.xaml
     /// </summary>
+
+    /*
+    * CLASS NAME	:   BuyerPanel
+    * DESCRIPTION	:   The purpose of this class is to perform the buyer user functionality.
+    *
+    * DATA MEMBERS  :
+    *                   - Dictionary    activeGameSessions, as the sessions active on the current server
+    *                   - string        Client_Name, client name
+    *                   - string        Origin, origin of the order
+    *                   - string        Destination, order destination
+    *                   - int           Quantity, quantity of the order
+    *                   - string        JobType, as FTL or LTL
+    *                   - string        VanType, as the type of the van refrigerator or dry
+    *
+    *
+    */
     public partial class BuyerPanel : Window
     {
 
-        // Accessor fields 
+        // Accessor fields
         BuyerHandler handler;
 
         public string Client_Name { get; set; }
@@ -32,16 +58,31 @@ namespace Omnicorp.Buyer
         public string JobType { get; set; }
         public string VanType { get; set; }
 
-
+        /*
+        * METHOD		:  BuyerPanel
+        * DESCRIPTION	:   try to initilize the buyer functionality
+        * PARAMETERS    :
+        *                   - None
+        * RETURNS       :
+        *                   - None
+        */
         public BuyerPanel()
         {
             InitializeComponent();
             handler = new BuyerHandler();
-            HideDataGrids(); 
+            HideDataGrids();
         }
 
 
         // Hide grids
+        /*
+        * METHOD		:  HideDataGrids
+        * DESCRIPTION	:   try to visible the various button functionality
+        * PARAMETERS    : None
+        *
+        * RETURNS       :
+        *                   - None
+        */
         private void HideDataGrids()
         {
             OrdersGrid.Visibility = Visibility.Hidden;
@@ -50,7 +91,17 @@ namespace Omnicorp.Buyer
         }
 
 
-        // Show Radio button for orders 
+        // Show Radio button for orders
+
+       /*
+       * METHOD		:  ShowRadioButtons
+       * DESCRIPTION	:   try to visible the radio button functionality
+       * PARAMETERS    : None
+       *
+       * RETURNS       :
+       *                   - None
+       */
+
         private void ShowRadioButtons()
         {
             ActiveOrders.Visibility = Visibility.Visible;
@@ -61,7 +112,15 @@ namespace Omnicorp.Buyer
         }
 
 
-        // Hide Radio button for orders 
+        // Hide Radio button for orders
+      /*
+      * METHOD		:  HideRadioButtons
+      * DESCRIPTION	:   try to hide the radio button functionality
+      * PARAMETERS    : None
+      *
+      * RETURNS       :
+      *                   - None
+      */
         private void HideRadioButtons()
         {
             ActiveOrders.Visibility = Visibility.Hidden;
@@ -72,7 +131,15 @@ namespace Omnicorp.Buyer
         }
 
 
-        // Display client contracts datagrid
+        /*
+        * METHOD        :  MarketplaceBtn_Click
+        * DESCRIPTION	:   try to show client contract display
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void MarketplaceBtn_Click(object sender, RoutedEventArgs e)
         {
 
@@ -91,9 +158,18 @@ namespace Omnicorp.Buyer
             MarketplaceGrid.DataContext = handler.GetContractsFromMarketplaceDatabase();
         }
 
-        
+
 
         // Get value of selected rows
+        /*
+        * METHOD        :  MarketplaceGrid_SelectionChanged
+        * DESCRIPTION	:   try to get the data of selected rows
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void MarketplaceGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataGrid gd = (DataGrid)sender;
@@ -118,9 +194,19 @@ namespace Omnicorp.Buyer
             VanType = rowSelected[5].ToString();
         }
 
-        
-        
+
+
         // Accept contracts button
+
+        /*
+        * METHOD        :  AcceptContractsBtn_Click
+        * DESCRIPTION	:   try to accept the contract
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void AcceptContractsBtn_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -138,6 +224,16 @@ namespace Omnicorp.Buyer
 
 
         // Orders button
+
+        /*
+        * METHOD        :  OrderBtn_Click
+        * DESCRIPTION	:   try to show the order
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void OrderBtn_Click(object sender, RoutedEventArgs e)
         {
 
@@ -148,7 +244,7 @@ namespace Omnicorp.Buyer
             ContractsBtn.Background = Brushes.Transparent;
             ContractsBtn.Foreground = Brushes.White;
 
-            
+
 
 
             HideDataGrids();
@@ -159,6 +255,15 @@ namespace Omnicorp.Buyer
 
 
         // All contracts radio button
+        /*
+        * METHOD		:  AllOrders_Checked
+        * DESCRIPTION	:   try to get the all contract data
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void AllOrders_Checked(object sender, RoutedEventArgs e)
         {
            OrdersGrid.DataContext = handler.GetOrdersFromDatabase();
@@ -166,20 +271,47 @@ namespace Omnicorp.Buyer
 
 
         // Active contracts radio button
+        /*
+        * METHOD        :  ActiveOrders_Checked
+        * DESCRIPTION	:   try to get the active contract data
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void ActiveOrders_Checked(object sender, RoutedEventArgs e)
         {
             OrdersGrid.DataContext = handler.GetOrdersFromDatabase("Active");
         }
 
 
-        // OnRoute contracts radio button
+        // Processing contracts radio button
+
+        /*
+        * METHOD        :  OnRouteOrders_Checked
+        * DESCRIPTION	:   try to get the processing contract data
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void OnRouteOrders_Checked(object sender, RoutedEventArgs e)
         {
             OrdersGrid.DataContext = handler.GetOrdersFromDatabase("On Route");
         }
 
 
-        // Delivered contracts radio button
+        /*
+        * METHOD        :  DeliveredOrders_Checked
+        * DESCRIPTION	:   try to get the delivered contract data
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void DeliveredOrders_Checked(object sender, RoutedEventArgs e)
         {
             OrdersGrid.DataContext = handler.GetOrdersFromDatabase("Delivered");
@@ -187,6 +319,15 @@ namespace Omnicorp.Buyer
 
 
         // Completed contracts radio button
+        /*
+        * METHOD        :  CompletedOrders_Checked
+        * DESCRIPTION	:   try to get the completed contract data
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void CompletedOrders_Checked(object sender, RoutedEventArgs e)
         {
             OrdersGrid.DataContext = handler.GetOrdersFromDatabase("Completed");
@@ -208,7 +349,7 @@ namespace Omnicorp.Buyer
             if (status == "Delivered")
             {
                 MessageBoxResult res = MessageBox.Show(
-                    "Would you like to complete the order and generate an Invoice?", 
+                    "Would you like to complete the order and generate an Invoice?",
                     "Complete order?",
                     MessageBoxButton.YesNo
                 );
@@ -227,7 +368,7 @@ namespace Omnicorp.Buyer
                 invoice.ShowDialog();
             }
 
-           
+
         }
     }
 }

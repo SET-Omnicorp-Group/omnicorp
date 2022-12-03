@@ -1,4 +1,14 @@
-﻿using Microsoft.Win32;
+﻿/*
+* FILE          :   AdminPanel.xaml.cs
+* PROJECT       :   SENG2020 - Omnicorp  project
+* PROGRAMMERS   :   - Ali Anwar - 8765779
+*                   - Bruno Borges Russian - 8717542
+*                   - Dhruvkumar Patel - 8777164
+*                   - Thalys Baiao Lopes - 8760875
+* FIRST VERSION :   Nov, 19, 2022
+* DESCRIPTION   :   The file is used to design the admin panel window
+*/
+using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
@@ -20,7 +30,24 @@ namespace Omnicorp.Admin
     /// Interaction logic for admin_panel.xaml
     /// </summary>
     /// 
-    
+
+    /*
+    * CLASS NAME	:   AdminPanel
+    * DESCRIPTION	:   The purpose of this class is to perform the admin user functionality.
+    * 
+    * DATA MEMBERS  :   
+    *                   - Dictionary    activeGameSessions, as the sessions active on the current server
+    *                   - string        FltRate, full loaded truck rate
+    *                   - string        LtlRate, half loaded truck rate
+    *                   - string        CarrierName, name of the carrier that delievery the package
+    *                   - decimal       FtlRateCarriers, as the Full loaded trucs carriers
+    *                   - decimal       LtlRateCarriers, as the half loaded trucks carrier
+    *                   - decimal       ReefCharge, as the refrigerator charge of the carrier
+    *                   - string        DepotCity, as the depotcity of the carrier
+    *                   - decimal       FtlAval, as a Ftl availability
+    *                   - decimal       LtlAval, as the Ltl availability
+    *                   
+    */
     public partial class AdminPanel : Window
     {
 
@@ -45,6 +72,16 @@ namespace Omnicorp.Admin
         }
 
         // Database button
+        
+        /*
+        * METHOD		:  DatabaseBtn_Click
+        * DESCRIPTION	:   try to visible the various button functionality
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void DatabaseBtn_Click(object sender, RoutedEventArgs e)
         {
             DatabaseBtn.Background = Brushes.White;
@@ -72,12 +109,23 @@ namespace Omnicorp.Admin
             LogFileGrid.Visibility = Visibility.Hidden;
         }
 
-        
 
 
 
-        
+
+
         // MANAGING RATES
+       
+
+        /*
+        * METHOD		: RatesBtn_Click
+        * DESCRIPTION	:   try to perform rates functionality
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void RatesBtn_Click(object sender, RoutedEventArgs e)
         {
             HideBtns();
@@ -85,8 +133,16 @@ namespace Omnicorp.Admin
 
             UpdateRatesDatagridContent();
         }
-                
-        
+
+
+        /*
+         * METHOD		: UpdateRatesDatagridContent()
+         * DESCRIPTION	:   try to the grid view
+         * PARAMETERS    :None
+         *                  
+         * RETURNS       :
+         *                   - None
+         */
         private void UpdateRatesDatagridContent()
         {
             Dictionary<string, string> data = handler.GetRatesFromDatabase();
@@ -94,7 +150,15 @@ namespace Omnicorp.Admin
             Ltl_Textbox.Text = data["LTL"].ToString();
         }
 
-
+        /*
+         * METHOD		: SaveFTLRate(object sender, RoutedEventArgs e)
+         * DESCRIPTION	:   try to save Ftl rates to datbase
+         * PARAMETERS    :
+         *                   - object   sender, as the sender of the object
+         *                   - RoutedEventArgs    e, events
+         * RETURNS       :
+         *                   - None
+         */
         private void SaveFTLRate(object sender, RoutedEventArgs e)
         {
             decimal amount = decimal.Parse(Ftl_Textbox.Text);
@@ -112,8 +176,16 @@ namespace Omnicorp.Admin
             MessageBox.Show(message, title);
             UpdateRatesDatagridContent();
         }
-        
-        
+
+        /*
+        * METHOD		: SaveLTLRate(object sender, RoutedEventArgs e)
+        * DESCRIPTION	:   try to save Ltl rates to database
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void SaveLTLRate(object sender, RoutedEventArgs e)
         {
             decimal amount = decimal.Parse(Ltl_Textbox.Text);
@@ -131,13 +203,22 @@ namespace Omnicorp.Admin
             MessageBox.Show(message, title);
             UpdateRatesDatagridContent();
         }
-        
+
 
 
 
 
 
         // MANAGING CARRIERS
+        /*
+        * METHOD		: CarriersBtn_Click(object sender, RoutedEventArgs e)
+        * DESCRIPTION	:   try to perform Carriers functionality and hide the button and visible carrier grid view
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void CarriersBtn_Click(object sender, RoutedEventArgs e)
         {
             HideBtns();
@@ -147,12 +228,29 @@ namespace Omnicorp.Admin
         }
 
 
+        /*
+        * METHOD		: UpdateCarriersDatagridContent
+        * DESCRIPTION	:   try to update Carriers functionality 
+        * PARAMETERS    :
+        *                  None
+        * RETURNS       :
+        *                   - None
+        */
         private void UpdateCarriersDatagridContent()
         {
             CarriersData.DataContext = handler.GetCarriersFromDatabase();
         }
 
 
+        /*
+        * METHOD		: CarriersDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        * DESCRIPTION	:   try to changed the selection of carrier grid view
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void CarriersDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataGrid gd = (DataGrid)sender;
@@ -181,6 +279,15 @@ namespace Omnicorp.Admin
         }
 
 
+        /*
+        * METHOD		: UpdateCarriersCityDatagridContent(string carrierName)
+        * DESCRIPTION	:   try to update carrier city data content
+        * PARAMETERS    :
+        *                   - string   carrierName, as the name of the carrier
+        *                   
+        * RETURNS       :
+        *                   - None
+        */
         private void UpdateCarriersCityDatagridContent(string carrierName)
         {
             if (carrierName == null)
@@ -191,6 +298,16 @@ namespace Omnicorp.Admin
         }
 
 
+        /*
+       * METHOD		:  CarriersCityData_SelectionChanged(object sender, SelectionChangedEventArgs e)
+       * DESCRIPTION	:   try to changed the selection view of carrier city data
+       * PARAMETERS    :
+       *                  - object   sender, as the sender of the object
+       *                   - RoutedEventArgs    e, events
+       *                   
+       * RETURNS       :
+       *                   - None
+       */
         private void CarriersCityData_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataGrid gd = (DataGrid)sender;
@@ -211,6 +328,16 @@ namespace Omnicorp.Admin
         }
 
 
+        /*
+        * METHOD		:  DeleteCarrierCityBtn_Click(object sender, RoutedEventArgs e)
+        * DESCRIPTION	:   try to delete the selection view of carrier city data
+        * PARAMETERS    :
+        *                  - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        *                   
+        * RETURNS       :
+        *                   - None
+        */
         private void DeleteCarrierCityBtn_Click(object sender, RoutedEventArgs e)
         {
             string carrierName = CarrierDetailName.Content.ToString();
@@ -236,7 +363,17 @@ namespace Omnicorp.Admin
 
         }
 
-        
+
+       /*
+       * METHOD		:  AddCarrierCityBtn_Click(object sender, RoutedEventArgs e)
+       * DESCRIPTION	:   try to add carrier city 
+       * PARAMETERS    :
+       *                  - object   sender, as the sender of the object
+       *                   - RoutedEventArgs    e, events
+       *                   
+       * RETURNS       :
+       *                   - None
+       */
         private void AddCarrierCityBtn_Click(object sender, RoutedEventArgs e)
         {
 
@@ -279,7 +416,16 @@ namespace Omnicorp.Admin
             MessageBox.Show(message, title);
         }
 
-
+        /*
+       * METHOD		:  UpdateCarrierBtn_Click(object sender, RoutedEventArgs e)
+       * DESCRIPTION	:   try to update carrier city value
+       * PARAMETERS    :
+       *                  - object   sender, as the sender of the object
+       *                   - RoutedEventArgs    e, events
+       *                   
+       * RETURNS       :
+       *                   - None
+       */
         private void UpdateCarrierBtn_Click(object sender, RoutedEventArgs e)
         {
             string message = "Carrier values have been updated.";
@@ -328,6 +474,16 @@ namespace Omnicorp.Admin
         }
 
 
+        /*
+       * METHOD		:  ClearCarrierFieldsBtn_Click(object sender, RoutedEventArgs e)
+       * DESCRIPTION	:   try to clear carrier value
+       * PARAMETERS    :
+       *                  - object   sender, as the sender of the object
+       *                   - RoutedEventArgs    e, events
+       *                   
+       * RETURNS       :
+       *                   - None
+       */
         private void ClearCarrierFieldsBtn_Click(object sender, RoutedEventArgs e)
         {
             ReeferCharge_Textbox.Text = string.Empty;
@@ -342,6 +498,16 @@ namespace Omnicorp.Admin
 
 
         // MANAGING CORRIDORS
+        /*
+      * METHOD		:  Corridors_Btn(object sender, RoutedEventArgs e)
+      * DESCRIPTION	:   try to manage corridors
+      * PARAMETERS    :
+      *                  - object   sender, as the sender of the object
+      *                   - RoutedEventArgs    e, events
+      *                   
+      * RETURNS       :
+      *                   - None
+      */
         private void Corridors_Btn(object sender, RoutedEventArgs e)
         {
             HideBtns();
@@ -350,21 +516,50 @@ namespace Omnicorp.Admin
             UpdateCorridorsDatagridContent();
         }
 
-                
+    /*
+    * METHOD		:  UpdateCorridorsDatagridContent()
+    * DESCRIPTION	:   try to updates corridors value
+    * PARAMETERS    :
+    *                  - object   sender, as the sender of the object
+    *                   - RoutedEventArgs    e, events
+    *                   
+    * RETURNS       :
+    *                   - None
+    */
         private void UpdateCorridorsDatagridContent()
         {
             Corridors_Data.DataContext = handler.GetCorridorsFromDatabase();
         }
 
 
+        /*
+       * METHOD		:  HideBtns()
+       * DESCRIPTION	:   try to hide the buttons, rates,carrier and routs
+       * PARAMETERS    :
+       *                  - object   sender, as the sender of the object
+       *                   - RoutedEventArgs    e, events
+       *                   
+       * RETURNS       :
+       *                   - None
+       */
         private void HideBtns()
         {
             RatesBtn.Visibility = Visibility.Hidden;
             CarriersBtn.Visibility = Visibility.Hidden;
             CorridorsBtn.Visibility = Visibility.Hidden;
         }
-      
 
+
+        /*
+      * METHOD		:  CorridorsData_SelectionChanged(object sender, SelectionChangedEventArgs e)
+      * DESCRIPTION	:   try to perform actions on corridors data
+      * PARAMETERS    :
+      *                  - object   sender, as the sender of the object
+      *                   - RoutedEventArgs    e, events
+      *                   
+      * RETURNS       :
+      *                   - None
+      */
         private void CorridorsData_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataGrid gd = (DataGrid)sender;
@@ -389,14 +584,32 @@ namespace Omnicorp.Admin
 
         }
 
-        
+        /*
+        * METHOD		:  ClearCorridorsFieldsBtn_Click(object sender, RoutedEventArgs e)
+        * DESCRIPTION	:   try to clear corridors data
+        * PARAMETERS    :
+        *                  - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        *                   
+        * RETURNS       :
+        *                   - None
+        */
         private void ClearCorridorsFieldsBtn_Click(object sender, RoutedEventArgs e)
         {
             Distance_Textbox.Text = string.Empty;
             Time_Textbox.Text = string.Empty;
         }
 
-
+     /*
+     * METHOD		: UpdateCorridorsBtn_Click(object sender, RoutedEventArgs e)
+     * DESCRIPTION	:   try to updates corridors data
+     * PARAMETERS    :
+     *                  - object   sender, as the sender of the object
+     *                   - RoutedEventArgs    e, events
+     *                   
+     * RETURNS       :
+     *                   - None
+     */
         private void UpdateCorridorsBtn_Click(object sender, RoutedEventArgs e)
         {
             
@@ -446,6 +659,16 @@ namespace Omnicorp.Admin
 
 
         // MANAGING LOG
+        /*
+        * METHOD		: LogFileBtn_Click(object sender, RoutedEventArgs e)
+        * DESCRIPTION	:   try to manage the log data
+        * PARAMETERS    :
+        *                  - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        *                   
+        * RETURNS       :
+        *                   - None
+        */
         private void LogFileBtn_Click(object sender, RoutedEventArgs e)
         {
             LogFileBtn.Background = Brushes.White;
@@ -475,6 +698,16 @@ namespace Omnicorp.Admin
 
 
         // MANAGING BACKUP
+        /*
+       * METHOD		: BackupBtn_Click(object sender, RoutedEventArgs e)
+       * DESCRIPTION	:   try to take backup of the data
+       * PARAMETERS    :
+       *                  - object   sender, as the sender of the object
+       *                   - RoutedEventArgs    e, events
+       *                   
+       * RETURNS       :
+       *                   - None
+       */
         private void BackupBtn_Click(object sender, RoutedEventArgs e)
         {
             BackupBtn.Background = Brushes.White;
@@ -497,6 +730,16 @@ namespace Omnicorp.Admin
         }
 
 
+      /*
+      * METHOD		: SaveBackupBtn_Click(object sender, RoutedEventArgs e)
+      * DESCRIPTION	:   try to save the data from the database 
+      * PARAMETERS    :
+      *                  - object   sender, as the sender of the object
+      *                   - RoutedEventArgs    e, events
+      *                   
+      * RETURNS       :
+      *                   - None
+      */
         private void SaveBackupBtn_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog sf = new SaveFileDialog();
@@ -521,6 +764,16 @@ namespace Omnicorp.Admin
 
 
         // MANAGING BACKUP
+        /*
+        * METHOD		: GeneralConfig_Btn(object sender, RoutedEventArgs e)
+        * DESCRIPTION	:   try to perform general configuration 
+        * PARAMETERS    :
+        *                  - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        *                   
+        * RETURNS       :
+        *                   - None
+        */
         private void GeneralConfig_Btn(object sender, RoutedEventArgs e)
         {
             GeneralConfigBtn.Background = Brushes.White;

@@ -1,4 +1,14 @@
-﻿using Microsoft.Win32;
+﻿/*
+* FILE          :   LoginWindow.xaml.cs
+* PROJECT       :   SENG2020 - Omnicorp project
+* PROGRAMMERS   :   - Ali Anwar - 8765779
+*                   - Bruno Borges Russian - 8717542
+*                   - Dhruvkumar Patel - 8777164
+*                   - Thalys Baiao Lopes - 8760875
+* FIRST VERSION :   Nov, 19, 2022
+* DESCRIPTION   :   The file is used to  declare the MainWindow Class
+*/
+using Microsoft.Win32;
 using System;
 using System.IO;
 using System.Windows;
@@ -18,6 +28,12 @@ namespace Omnicorp
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+     /*
+    * CLASS NAME	:   MainWindow
+    * DESCRIPTION	:   The purpose of this class is to develop the main window for login 
+    *
+    */
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -27,6 +43,18 @@ namespace Omnicorp
         }
 
         // Login submit button
+
+        /*
+        * METHOD		: Login_Button(object sender, RoutedEventArgs e)
+        * DESCRIPTION	:   try to perform login configuration 
+        * PARAMETERS    :
+        *                  - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        *                   
+        * RETURNS       :
+        *                   - None
+        */
+
         private void Login_Button(object sender, RoutedEventArgs e)
         {
             LoginHandler loginHandler = new LoginHandler();
@@ -47,8 +75,18 @@ namespace Omnicorp
             Username_Text.Focus();
             Password_Text.Clear();
         }
-        
 
+
+        /*
+       * METHOD		: LoginEnabled(object sender, RoutedEventArgs e)
+       * DESCRIPTION	:   try to perform login configuration 
+       * PARAMETERS    :
+       *                  - object   sender, as the sender of the object
+       *                   - RoutedEventArgs    e, events
+       *                   
+       * RETURNS       :
+       *                   - None
+       */
         private void LoginEnabled(object sender, TextChangedEventArgs e)
         {
             int userNameBuff = Username_Text.Text.Length;

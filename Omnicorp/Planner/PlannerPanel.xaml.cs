@@ -1,4 +1,14 @@
-﻿using Omnicorp.Buyer;
+﻿/*
+* FILE          :   PlannerHandler.xaml.cs
+* PROJECT       :   SENG2020 - Omnicorp  project
+* PROGRAMMERS   :   - Ali Anwar - 8765779
+*                   - Bruno Borges Russian - 8717542
+*                   - Dhruvkumar Patel - 8777164
+*                   - Thalys Baiao Lopes - 8760875
+* FIRST VERSION :   Nov, 19, 2022
+* DESCRIPTION   :   The file is used to design the plannerHandler window
+*/
+using Omnicorp.Buyer;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -20,6 +30,16 @@ namespace Omnicorp.Planner
     /// <summary>
     /// Interaction logic for PlannerPanel.xaml
     /// </summary>
+
+    /*
+    * CLASS NAME	:   PlannerPanel
+    * DESCRIPTION	:   The purpose of this class is to perform the planner user functionality.
+    * 
+    * DATA MEMBERS  :   
+    *                   
+    *                   - string        SelectedOrderId, order Id
+    *                   
+    */
     public partial class PlannerPanel : Window
     {
         PlannerHandler handler;
@@ -37,6 +57,15 @@ namespace Omnicorp.Planner
 
 
         // Left hand side planner button
+        /*
+        * METHOD		:  PlannerOrdersBtn_Click
+        * DESCRIPTION	:   try to visible the planner left hand side button functionality
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void PlannerOrdersBtn_Click(object sender, RoutedEventArgs e)
         {
             PlannerOrdersBtn.Background = Brushes.White;
@@ -64,6 +93,16 @@ namespace Omnicorp.Planner
 
 
         // Planner order grid
+
+        /*
+        * METHOD		:  PlannerOrdersGrid_SelectionChanged
+        * DESCRIPTION	:   try to visible the planner order grid if order is active functionality
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void PlannerOrdersGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataGrid gd = (DataGrid)sender;
@@ -90,6 +129,15 @@ namespace Omnicorp.Planner
         }
 
         // Planner invoice grid
+        /*
+        * METHOD		:  PlannerInvoicesBtn_Click
+        * DESCRIPTION	:   try to show the invoice of the order
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void PlannerInvoicesBtn_Click(object sender, RoutedEventArgs e)
         {
             PlannerInvoicesBtn.Background = Brushes.White;
@@ -118,6 +166,16 @@ namespace Omnicorp.Planner
         
 
         // Active contracts radio button
+
+        /*
+        * METHOD		:  ActiveContracts_Checked
+        * DESCRIPTION	:   try to check the active order radio button
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void ActiveContracts_Checked(object sender, RoutedEventArgs e)
         {
             PlannerOrdersGrid.DataContext = handler.GetOrdersFromDatabaseWhere("Active");
@@ -126,6 +184,16 @@ namespace Omnicorp.Planner
 
 
         // Processing contracts radio button
+
+        /*
+        * METHOD		:  OnRouteContracts_Checked
+        * DESCRIPTION	:   try to check the OnRoute order radio button
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void OnRouteContracts_Checked(object sender, RoutedEventArgs e)
         {
             PlannerOrdersGrid.DataContext = handler.GetOrdersFromDatabaseWhere("On Route");
@@ -134,6 +202,16 @@ namespace Omnicorp.Planner
 
 
         // Processing contracts radio button
+
+        /*
+        * METHOD		:  DeliveredContracts_Checked
+        * DESCRIPTION	:   try to check the delivered order radio button
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void DeliveredContracts_Checked(object sender, RoutedEventArgs e)
         {
             PlannerOrdersGrid.DataContext = handler.GetOrdersFromDatabaseWhere("Delivered");
@@ -142,6 +220,15 @@ namespace Omnicorp.Planner
 
 
         // Completed contracts radio button
+        /*
+        * METHOD		:  CompletedContracts_Checked
+        * DESCRIPTION	:   try to check the completed order radio button
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void CompletedContracts_Checked(object sender, RoutedEventArgs e)
         {
             PlannerOrdersGrid.DataContext = handler.GetOrdersFromDatabaseWhere("Completed");
@@ -149,12 +236,30 @@ namespace Omnicorp.Planner
         }
 
         // Hide grids
+        /*
+        * METHOD		:  CompletedContracts_Checked
+        * DESCRIPTION	:   try to hide the order data grid
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void HideDataGrids()
         {
             PlannerOrdersGrid.Visibility = Visibility.Hidden;
             PlannerInvoicesGrid.Visibility = Visibility.Hidden;
         }
 
+       /*
+       * METHOD		:  AvailableCarriersBtn_Click
+       * DESCRIPTION	:   try to show the available carrier
+       * PARAMETERS    :
+       *                   - object   sender, as the sender of the object
+       *                   - RoutedEventArgs    e, events
+       * RETURNS       :
+       *                   - None
+       */
         private void AvailableCarriersBtn_Click(object sender, RoutedEventArgs e)
         {
             CarrierSelection cs = new CarrierSelection(SelectedOrderId);
@@ -163,6 +268,15 @@ namespace Omnicorp.Planner
             PlannerOrdersGrid.DataContext = handler.GetOrdersFromDatabaseWhere("Active");
         }
 
+        /*
+        * METHOD		:  SimulateDayBtn_Click
+        * DESCRIPTION	:   try to show the On route order data and perform simulate day functionlity
+        * PARAMETERS    :
+        *                   - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        * RETURNS       :
+        *                   - None
+        */
         private void SimulateDayBtn_Click(object sender, RoutedEventArgs e)
         {
             handler.SimulateDay();

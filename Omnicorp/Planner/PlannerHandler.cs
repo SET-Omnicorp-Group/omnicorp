@@ -1,4 +1,14 @@
-﻿using ClassLibrary;
+﻿/*
+* FILE          :   PlannerHandler.cs
+* PROJECT       :   SENG2020 - Omnicorp  project
+* PROGRAMMERS   :   - Ali Anwar - 8765779
+*                   - Bruno Borges Russian - 8717542
+*                   - Dhruvkumar Patel - 8777164
+*                   - Thalys Baiao Lopes - 8760875
+* FIRST VERSION :   Nov, 19, 2022
+* DESCRIPTION   :   The file is used to declare the  PlannerHandler Class
+*/
+using ClassLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +27,21 @@ using System.Windows.Forms;
 
 namespace Omnicorp.Planner
 {
+    /*
+    * CLASS NAME	:   PlannerHandler
+    * DESCRIPTION	:   The purpose of this class is to get the orders data,carriers data from the database in the class
+    *
+    */
     internal class PlannerHandler
     {
+        /*
+        * METHOD		: GetOrdersFromDatabaseWhere
+        * DESCRIPTION	: try to get order data from the database
+        * PARAMETERS    : -string status, as status of the order
+        *                  
+        * RETURNS       :
+        *                - data in form of data table
+        */
         public DataTable GetOrdersFromDatabaseWhere(string status)
         {
             // Query data from contracts
@@ -48,7 +71,14 @@ namespace Omnicorp.Planner
             return dt;
         }
 
-
+        /*
+        * METHOD		: GetAvailableCarriersForOrder
+        * DESCRIPTION	: try to get available carrier data from the database
+        * PARAMETERS    : -string orderId, as id of the order
+        *                  
+        * RETURNS       :
+        *                - data in form of data table
+        */
         public DataTable GetAvailableCarriersForOrder(string orderId)
         {
             MyQuery myQuery = new MyQuery();
@@ -90,7 +120,14 @@ namespace Omnicorp.Planner
             return dt;
         }
 
-
+        /*
+        * METHOD		: GetOrderQuantity
+        * DESCRIPTION	: try to get order Quantity data from the database
+        * PARAMETERS    : -string orderId, as id of the order
+        *                  
+        * RETURNS       :
+        *                - quantity
+        */
         public int GetOrderQuantity(string orderId)
         {
             MyQuery myQuery = new MyQuery();
@@ -105,7 +142,14 @@ namespace Omnicorp.Planner
             return quantity;
         }
 
-
+        /*
+        * METHOD		: GetCurrentRate
+        * DESCRIPTION	: try to get current rate from the database
+        * PARAMETERS    : -string orderId, as id of the order
+        *                  
+        * RETURNS       :
+        *                - None
+        */
         public decimal GetCurrentRate(string orderId)
         {
             MyQuery myQuery = new MyQuery();
@@ -120,7 +164,15 @@ namespace Omnicorp.Planner
             return amount;
         }
 
-
+        /*
+        * METHOD		: UpdateCarrierAvailability
+        * DESCRIPTION	: try to update carrier availability from the database
+        * PARAMETERS    : -string carrierId, as id of the carrier
+        *               : -string orderId, as id of the order
+        *                  
+        * RETURNS       :
+        *                - None
+        */
         public void UpdateCarrierAvailability(string carrierId, string orderId)
         {
             int orderQuantity = GetOrderQuantity(orderId);
@@ -142,8 +194,16 @@ namespace Omnicorp.Planner
             myQuery.Close();
 
         }
-        
 
+       /*
+       * METHOD		: InsertRoute
+       * DESCRIPTION	: try to insert the route to the database
+       * PARAMETERS    : -string carrierId, as id of the carrier
+       *               : -string orderId, as id of the order
+       *                  
+       * RETURNS       :
+       *                - None
+       */
         public void InsertRoute(string carrierId, string orderId)
         {
             MyQuery myQuery = new MyQuery();
@@ -170,7 +230,15 @@ namespace Omnicorp.Planner
             
         }
 
-
+        /*
+        * METHOD		: GetCorridorSequence
+        * DESCRIPTION	: try to get the corridor sequence from the database
+        * PARAMETERS    : -string cityName, as the name of the city
+        *               : -string orderId, as id of the order
+        *                  
+        * RETURNS       :
+        *                - city
+        */
         public int GetCorridorSequence(string cityName)
         {
             MyQuery myQuery = new MyQuery();
@@ -182,7 +250,16 @@ namespace Omnicorp.Planner
             return int.Parse(rdr.GetString(0));
         }
 
-
+        /*
+        * METHOD		: CalculateTotalHours
+        * DESCRIPTION	: try to calculate total hours
+        * PARAMETERS    : -string origin, as the origin of the order
+        *               : -string destination, as the destination of the order
+        *               : -string jobtype, as it represent the FTL or LTL
+        *                  
+        * RETURNS       :
+        *                - time
+        */
         public decimal CalculateTotalHours(string origin, string destination, string jobType)
         {
 
@@ -232,7 +309,16 @@ namespace Omnicorp.Planner
             return time;
         }
 
-
+        /*
+        * METHOD		: CalculateDistance
+        * DESCRIPTION	: try to calculate total distance
+        * PARAMETERS    : -string origin, as the origin of the order
+        *               : -string destination, as the destination of the order
+        *               : -string jobtype, as it represent the FTL or LTL
+        *                  
+        * RETURNS       :
+        *                - distance
+        */
         public int CalculateDistance(string origin, string destination)
         {
 
@@ -268,7 +354,13 @@ namespace Omnicorp.Planner
             return distance;
         }
 
-
+       /*
+       * METHOD		: SetOrderToOnRoute
+       * DESCRIPTION	: try to route of the order
+       * PARAMETERS    : -string orderId, as the id of the order                  
+       * RETURNS       :
+       *                - None
+       */
         public void SetOrderToOnRoute(string orderId)
         {
             string updateQuery = $"UPDATE orders SET status = 'On Route' WHERE id = '{orderId}'";
@@ -279,6 +371,14 @@ namespace Omnicorp.Planner
         }
 
 
+        /*
+        * METHOD		: CreateNewRoute
+        * DESCRIPTION	: try to create new route of the order
+        * PARAMETERS    : -string orderId, as the id of the order
+        *               : -string carrierId, as the id of the carrier
+        * RETURNS       :
+        *                - None
+        */
         public void CreateNewRoute(string orderId, string carrierId)
         {
             // decrement the avail. of the selected carrier
@@ -291,8 +391,19 @@ namespace Omnicorp.Planner
             SetOrderToOnRoute(orderId);
 
         }
-    
 
+        /*
+        * METHOD		: SimulateDay
+        * DESCRIPTION	: For orders that take more than 12 hours to deliver,
+        *                 the SimulateDay() method fast forwards the date and 
+        *                 time of the delivery in order to display progress for
+        *                 order. The method evaluates total hours and compares
+        *                 it to the time driven.
+        * PARAMETERS    : -string orderId, as the id of the order
+        *               : -string carrierId, as the id of the carrier
+        * RETURNS       :
+        *                - None
+        */
         public void SimulateDay()
         {
             MyQuery myQuery = new MyQuery();
