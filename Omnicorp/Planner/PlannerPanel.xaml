@@ -116,11 +116,21 @@
 
         <!--Completed Contracts-->
         <RadioButton
+            Name="DeliveredContractsRadio"
+            Content="Delivered Contracts"
+            Visibility="Hidden"
+            HorizontalAlignment="Left" 
+            Margin="182,83,0,0" 
+            Grid.Row="3" 
+            VerticalAlignment="Top" Grid.ColumnSpan="2" Checked="DeliveredContracts_Checked"/>
+
+        <!--Completed Contracts-->
+        <RadioButton
             Name="CompletedContractsRadio"
             Content="Completed Contracts"
             Visibility="Hidden"
             HorizontalAlignment="Left" 
-            Margin="182,83,0,0" 
+            Margin="182,100,0,0" 
             Grid.Row="3" 
             VerticalAlignment="Top" Grid.ColumnSpan="2" Checked="CompletedContracts_Checked"/>
         <Button 

@@ -311,7 +311,7 @@ namespace Omnicorp.Planner
             myQuery = new MyQuery();
             string updateOrders = "UPDATE orders " +
                                     "INNER JOIN routes ON orders.id = routes.orderId " +
-                                    "SET orders.status = 'Completed'" +
+                                    "SET orders.status = 'Delivered'" +
                                     "WHERE routes.progress = 100;";
             cmd = new MySqlCommand(updateOrders, myQuery.conn);
             cmd.ExecuteNonQuery();

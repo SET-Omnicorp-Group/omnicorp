@@ -47,6 +47,7 @@ namespace Omnicorp.Planner
             ActiveContractsRadio.IsChecked = true;
             ActiveContractsRadio.Visibility = Visibility.Visible;
             OnRouteContractsRadio.Visibility = Visibility.Visible;
+            DeliveredContractsRadio.Visibility = Visibility.Visible;
             CompletedContractsRadio.Visibility = Visibility.Visible;
             AvailableCarriersBtn.Visibility = Visibility.Hidden;
         }
@@ -86,6 +87,7 @@ namespace Omnicorp.Planner
 
             ActiveContractsRadio.Visibility = Visibility.Hidden;
             OnRouteContractsRadio.Visibility = Visibility.Hidden;
+            DeliveredContractsRadio.Visibility = Visibility.Hidden;
             CompletedContractsRadio.Visibility = Visibility.Hidden;
             AvailableCarriersBtn.Visibility = Visibility.Hidden;
         }
@@ -110,6 +112,14 @@ namespace Omnicorp.Planner
         {
             PlannerOrdersGrid.DataContext = handler.GetOrdersFromDatabaseWhere("On Route");
             SimulateDayBtn.Visibility = Visibility.Visible;
+        }
+
+
+        // Processing contracts radio button
+        private void DeliveredContracts_Checked(object sender, RoutedEventArgs e)
+        {
+            PlannerOrdersGrid.DataContext = handler.GetOrdersFromDatabaseWhere("Delivered");
+            SimulateDayBtn.Visibility = Visibility.Hidden;
         }
 
 
