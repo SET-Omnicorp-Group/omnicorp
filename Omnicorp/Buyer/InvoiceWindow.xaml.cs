@@ -22,11 +22,13 @@ namespace Omnicorp.Buyer
     /// </summary>
     public partial class InvoiceWindow : Window
     {
-        BuyerHandler handler;
+        private BuyerHandler handler;
+        private string orderId;
 
         public InvoiceWindow(string orderId)
         {
             InitializeComponent();
+            this.orderId = orderId;
             handler = new BuyerHandler();
             DisplayInvoiceInfo(orderId);
         }
@@ -61,7 +63,17 @@ namespace Omnicorp.Buyer
             JobDescriptionInfo.Content = $"{jobType} | {vanType}";
             TotalDistanceInfo.Content = distance;
             TotalHoursInfo.Content = String.Format("{0:0.00}", totalHours);
-            TotalInfo.Content = String.Format("{0:0.00}", amount);
+            TotalInfo.Content = String.Format("{0:0.00}", amount) + " CAD";
+        }
+
+        private void SaveBtn_Click(object sender, RoutedEventArgs e)
+        {
+            handler.SaveInvoiceFile(orderId);
+        }
+
+        private void CloseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

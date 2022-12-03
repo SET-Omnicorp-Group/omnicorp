@@ -219,16 +219,18 @@ namespace Omnicorp.Buyer
                 decimal totalHours = rdr.GetDecimal(9);
 
 
-                string content = $"Invoice Id: {invoiceId}\n" +
+                string content =    $"Invoice Id: {invoiceId}\n" +
                                     $"Order Id: {orderId}\n" +
-                                    $"Order Description: {jobType} - {vanType}\n";
+                                    $"Customer: {customer}\n" +
+                                    $"Route: {origin} -> {destination}\n" +
+                                    $"Job Description: {jobType} - {vanType}\n";
 
                 if (jobType == "LTL")
                 {
                     content += $"Quantity: {quantity} pallets\n";
                 }
 
-                content += $"Distance: {distance} kms\n" +
+                content += $"Total Distance: {distance} kms\n" +
                             $"Total Hours: {String.Format("{0:0.00}",totalHours)} hrs\n" +
                             $"Total Amount: {String.Format("{0:0.00}", amount)} CAD\n";
 

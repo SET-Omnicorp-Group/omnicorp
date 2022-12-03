@@ -216,13 +216,15 @@ namespace Omnicorp.Buyer
                 {
                     handler.GenerateInvoice(orderId);
                     OrdersGrid.DataContext = handler.GetOrdersFromDatabase("Delivered");
-                    handler.SaveInvoiceFile(orderId);
+                    InvoiceWindow invoice = new InvoiceWindow(orderId);
+                    invoice.ShowDialog();
                 }
             }
 
             else if (status == "Completed")
             {
-                MessageBox.Show("Works as COMPLETED");
+                InvoiceWindow invoice = new InvoiceWindow(orderId);
+                invoice.ShowDialog();
             }
 
            
