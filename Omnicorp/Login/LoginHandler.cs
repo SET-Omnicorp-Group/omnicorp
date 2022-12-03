@@ -1,4 +1,14 @@
-﻿using ClassLibrary;
+﻿/*
+* FILE          :   LoginHandler.cs
+* PROJECT       :   SENG2020 - Omnicorp Project
+* PROGRAMMERS   :   - Ali Anwar - 8765779
+*                   - Bruno Borges Russian - 8717542
+*                   - Dhruvkumar Patel - 8777164
+*                   - Thalys Baiao Lopes - 8760875
+* FIRST VERSION :   Nov, 19, 2022
+* DESCRIPTION   :   The file is used to  declare the LoginHandler Class
+*/
+using ClassLibrary;
 using Omnicorp.Admin;
 using Omnicorp.Buyer;
 using Omnicorp.Exceptions;
@@ -14,9 +24,22 @@ using System.Windows.Input;
 
 namespace Omnicorp
 {
+    /*
+    * CLASS NAME	:   LoginHandler
+    * DESCRIPTION	:   The purpose of this class is to develop the login functionality for buyer,admin and planer  
+    *
+    */
     public class LoginHandler
     {
 
+        /*
+        * METHOD		:  TryLogin
+        * DESCRIPTION	:   this method try login according to role 
+        * PARAMETERS    : -string usernameInput, as it represent the username of the user as its admin,buyer or planner
+        *                  -string passwordInput, as it represent the password of the user
+        * RETURNS       :
+        *                   None
+        */
         public void TryLogin(string usernameInput, string passwordInput)
         {
             
@@ -45,6 +68,14 @@ namespace Omnicorp
         }
 
         // Validate password of the user
+        /*
+        * METHOD		:  VerifyPassword
+        * DESCRIPTION	:   this method try varify the password  
+        * PARAMETERS    : -string =passwordDb, as it represent the passwordDb that store in database of the user as its admin,buyer or planner
+        *                  -string passwordInput, as it represent the password of the user
+        * RETURNS       :
+        *                   None
+        */
         public void VerifyPassword(string passwordDb, string passwordInput)
         {
             if (passwordInput != passwordDb)
@@ -55,6 +86,14 @@ namespace Omnicorp
 
 
         // Validate role of the user
+        /*
+       * METHOD		:  VerifyUserRole
+       * DESCRIPTION	:   this method try varify the the role of the user  
+       * PARAMETERS    : -string =role, as it represent the role of the user that is admin,buyer and planner 
+       *                  
+       * RETURNS       :
+       *                   None
+       */
         public void VerifyUserRole(string role)
         {
             // If role of user is admin, open admin panel

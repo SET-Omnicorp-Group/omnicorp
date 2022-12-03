@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*
+* FILE          :   MyQuery.cs
+* PROJECT       :   SENG2020 - Omnicorp  project
+* PROGRAMMERS   :   - Ali Anwar - 8765779
+*                   - Bruno Borges Russian - 8717542
+*                   - Dhruvkumar Patel - 8777164
+*                   - Thalys Baiao Lopes - 8760875
+* FIRST VERSION :   Nov, 19, 2022
+* DESCRIPTION   :   The file is used to declare the MyQuery Class
+*/
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -8,10 +18,24 @@ using MySql.Data.MySqlClient;
 
 namespace ClassLibrary
 {
+   /*
+   * CLASS NAME	:   MyQuery
+   * DESCRIPTION	:   The purpose of this class is to perform the query operation 
+   *
+   */
     public class MyQuery
     {
         public MySqlConnection conn;
 
+
+     /*
+     * METHOD		:  MyQuery
+     * DESCRIPTION	:  perform the database query 
+     * PARAMETERS    : None
+     *                  
+     * RETURNS       :
+     *                   None
+     */
         public MyQuery()
         {
             string server = ConfigurationManager.AppSettings["server"];
@@ -37,6 +61,14 @@ namespace ClassLibrary
             }
         }
 
+   /*
+   * METHOD		:  DataReader
+   * DESCRIPTION	:  perform the database query 
+   * PARAMETERS    : -string query, as it represent the query
+   *                  
+   * RETURNS       :
+   *                   None
+   */
         public MySqlDataReader DataReader(string query)
         {
             MySqlCommand cmd = new MySqlCommand(query, conn);  // Enter command into omnicorp database
@@ -44,6 +76,14 @@ namespace ClassLibrary
             return rdr;
         }
 
+        /*
+        * METHOD		:  GetLogFileFromDatabase
+        * DESCRIPTION	:  get log data from the database 
+        * PARAMETERS    : None
+        *                  
+        * RETURNS       :
+        *                   logfile
+        */
         public string GetLogFileFromDatabase()
         {
             string query = "SELECT content FROM configs WHERE name = 'logFile';";
@@ -55,6 +95,15 @@ namespace ClassLibrary
             return logFile;
         }
 
+        /*
+        * METHOD		:  UpdateLogFileToDatabase
+        * DESCRIPTION	:  update log data from the database 
+        * PARAMETERS    : -string logfile, as it represent the log file
+        *                  
+        * RETURNS       :
+        *                  none
+        */
+
         public void UpdateLogFileToDatabase(string logFile)
         {
             string updateQuery = $"UPDATE content SET content = {logFile} WHERE name = logFile;";
@@ -62,6 +111,15 @@ namespace ClassLibrary
             cmd.ExecuteNonQuery();
         }
 
+
+        /*
+        * METHOD		:  Close()
+        * DESCRIPTION	:  close the connection
+        * PARAMETERS    : None
+        *                  
+        * RETURNS       :
+        *                  none
+        */
         public void Close()
         {
             conn.Close();
