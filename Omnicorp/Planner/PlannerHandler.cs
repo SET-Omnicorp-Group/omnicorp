@@ -34,7 +34,7 @@ namespace Omnicorp.Planner
                             $"    o.status as 'Status', " +
                             $"    r.progress as 'Progress' " +
                             $"FROM orders o " +
-                            $"INNER JOIN routes r ON o.id = r.orderId " +
+                            $"LEFT JOIN routes r ON o.id = r.orderId " +
                             $"WHERE o.status = '{status}';";
 
             MyQuery myQuery = new MyQuery();
