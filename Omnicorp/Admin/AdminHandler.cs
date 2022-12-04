@@ -67,7 +67,7 @@ namespace Omnicorp.Admin
       * DESCRIPTION	:   try to updates rates value to the database
       * PARAMETERS    :
       *                   - decimal   amount, as the it store amount from rates table from database
-      *                   - string    amount, as it store category from the rates table from database 
+      *                   - string    amount, as it store category from the rates table from database
       * RETURNS       :
       *                   - category,amount
       */
@@ -80,6 +80,8 @@ namespace Omnicorp.Admin
             MySqlCommand cmd = new MySqlCommand(updateQuery, myQuery.conn);
             cmd.ExecuteNonQuery();
             myQuery.Close();
+
+            Logger.Log("Update Rates", "Admin updates rates in rates table");
         }
 
 
@@ -87,14 +89,14 @@ namespace Omnicorp.Admin
       * METHOD		:  GetCarriersFromDatabase
       * DESCRIPTION	: try to get Carriers data from the database
       * PARAMETERS    : None
-      *                  
+      *
       * RETURNS       :
       *                   - data in form of data table
       */
         public DataTable GetCarriersFromDatabase()
         {
             string query = @"SELECT DISTINCT CompanyName AS 'Name', ftlRate AS 'FTLRate', ltlRate AS 'LTLRate', reefCharge AS 'reefCharge' FROM carriers";
-            
+
             MyQuery myQuery = new MyQuery();
             MySqlCommand cmd = new MySqlCommand(query, myQuery.conn);
 
@@ -110,7 +112,7 @@ namespace Omnicorp.Admin
       * METHOD		:  GetCarriersDepotsFromDatabase
       * DESCRIPTION	: try to get Carriers depots data from the database using mySql query command
       * PARAMETERS    : string carrierName,
-      *                  
+      *
       * RETURNS       :
       *                   - data in form of data table
       */
@@ -132,9 +134,9 @@ namespace Omnicorp.Admin
         /*
        * METHOD		:  GetCorridorsFromDatabase()
        * DESCRIPTION	: try to get corridors data from the database using mySql query command
-       * PARAMETERS    : None                 
+       * PARAMETERS    : None
        * RETURNS       : routs data in form of data table
-       *                  
+       *
        */
         public DataTable GetCorridorsFromDatabase()
         {
@@ -157,7 +159,7 @@ namespace Omnicorp.Admin
       * PARAMETERS    : string carrierName, as name of the carrier
       *               : string depotCity, as the city of carrier depot
       * RETURNS       : Nothing
-      *                  
+      *
       */
         public void DeleteCarrierCityFromDatabase(string carrierName, string depotCity)
         {
@@ -167,17 +169,19 @@ namespace Omnicorp.Admin
             MySqlCommand cmd = new MySqlCommand(deleteQuery, myQuery.conn);
             cmd.ExecuteNonQuery();
             myQuery.Close();
+
+            Logger.Log("Delete Carrier City", "Admin delete carrier city in carrier table");
         }
 
 
       /*
       * METHOD		: AddCarrierCityToDatabase(
-            string carrierName, 
-            string depotCity, 
-            decimal ftlAval, 
-            decimal ltlAval, 
-            decimal ftlRate, 
-            decimal ltlRate, 
+            string carrierName,
+            string depotCity,
+            decimal ftlAval,
+            decimal ltlAval,
+            decimal ftlRate,
+            decimal ltlRate,
             decimal reefCharge
         )
       * DESCRIPTION	: try to add carrier city to the database using mySql query command
@@ -187,17 +191,17 @@ namespace Omnicorp.Admin
       *               : decimal ltlAval, as the ltl availability for thr carrier
       *               : decimal ftlRate, as the ftl rates for the carrier
       *               : decimal ltlRates, as the ltl rates for the carrier
-      *               : decimal reefCharge, as the carrier has the refrigarator facility 
+      *               : decimal reefCharge, as the carrier has the refrigarator facility
       * RETURNS       : Nothing
-      *                  
+      *
       */
         public void AddCarrierCityToDatabase(
-            string carrierName, 
-            string depotCity, 
-            decimal ftlAval, 
-            decimal ltlAval, 
-            decimal ftlRate, 
-            decimal ltlRate, 
+            string carrierName,
+            string depotCity,
+            decimal ftlAval,
+            decimal ltlAval,
+            decimal ftlRate,
+            decimal ltlRate,
             decimal reefCharge
         )
         {
@@ -216,23 +220,25 @@ namespace Omnicorp.Admin
             MySqlCommand cmd = new MySqlCommand(addQuery, myQuery.conn);
             cmd.ExecuteNonQuery();
             myQuery.Close();
+
+            Logger.Log("Add Carrier City", "Admin add carrier city in carrier table");
         }
 
 
       /*
       * METHOD		: UpdateCarrierToDatabase(
-            string carrierName,  
-            decimal ftlRate, 
-            decimal ltlRate, 
+            string carrierName,
+            decimal ftlRate,
+            decimal ltlRate,
             decimal reefCharge
         )
       * DESCRIPTION	: try to update carrier city to the database using mySql query command
       * PARAMETERS    : string carrierName, as name of the carrier
       *               : decimal ftlRate, as the ftl rates for the carrier
       *               : decimal ltlRates, as the ltl rates for the carrier
-      *               : decimal reefCharge, as the carrier has the refrigarator facility 
+      *               : decimal reefCharge, as the carrier has the refrigarator facility
       * RETURNS       : Nothing
-      *                  
+      *
       */
         public void UpdateCarrierToDatabase(string carrierName, decimal ftlRate, decimal ltlRate, decimal reefCharge)
         {
@@ -240,31 +246,33 @@ namespace Omnicorp.Admin
             ValidatePositiveAmount(ltlRate);
             ValidatePositiveAmount(reefCharge);
 
-            string updateQuery =$"UPDATE carriers SET " + 
+            string updateQuery =$"UPDATE carriers SET " +
                                 $"reefCharge = {reefCharge}, ftlRate = {ftlRate}, ltlRate = {ltlRate} " +
                                 $"WHERE companyName = \"{carrierName}\"; ";
-            
+
             MyQuery myQuery = new MyQuery();
             MySqlCommand cmd = new MySqlCommand(updateQuery, myQuery.conn);
             cmd.ExecuteNonQuery();
             myQuery.Close();
+
+            Logger.Log("Update Carrier", "Admin update carrier in carrier table");
         }
 
 
         /*
       * METHOD		: UpdateCorridorToDatabase(
-            string destination,  
-            decimal distance, 
-            decimal time, 
-           
+            string destination,
+            decimal distance,
+            decimal time,
+
         )
       * DESCRIPTION	: try to update corridor to the database using mySql query command
       * PARAMETERS    : string destination, as name of the carrier
-      *               : decimal distance, as the distance 
-      *               : decimal time, as the time to complete the order 
-      *                
+      *               : decimal distance, as the distance
+      *               : decimal time, as the time to complete the order
+      *
       * RETURNS       : Nothing
-      *                  
+      *
       */
         public void UpdateCorridorToDatabase(string destination, decimal distance, decimal time)
         {
@@ -277,6 +285,8 @@ namespace Omnicorp.Admin
             MySqlCommand cmd = new MySqlCommand(updateQuery, myQuery.conn);
             cmd.ExecuteNonQuery();
             myQuery.Close();
+
+            Logger.Log("Update Corridor", "Admin update corridor in corridor table");
         }
 
         /*
@@ -286,7 +296,7 @@ namespace Omnicorp.Admin
         * DESCRIPTION	: try to take backup of all the database data
         * PARAMETERS    : string filePath, as path of the file that store the database backup data
         * RETURNS       : Nothing
-        *                  
+        *
         */
         public void BackupDatabase(string filePath)
         {
@@ -294,11 +304,12 @@ namespace Omnicorp.Admin
 
             MySqlCommand cmd = new MySqlCommand("", myQuery.conn);
             MySqlBackup mb = new MySqlBackup(cmd);
-            
+
             mb.ExportToFile(filePath);
-            
+
             myQuery.conn.Close();
 
+            Logger.Log("Omnicorp database backup executed", "Admin performed backup on omnicorp database");
         }
 
         /*
@@ -306,7 +317,7 @@ namespace Omnicorp.Admin
         * DESCRIPTION	: try to validate amount
         * PARAMETERS    : decimal amount, as check amount of ftl and ltl rates
         * RETURNS       : Nothing
-        *                  
+        *
         */
         public void ValidatePositiveAmount(decimal amount)
         {
@@ -321,13 +332,13 @@ namespace Omnicorp.Admin
         /*
         * METHOD		: UpdateMarketplaceConfig
         * DESCRIPTION	: update the marketplace configs
-        * PARAMETERS    : 
+        * PARAMETERS    :
         *                   - string    server
         *                   - string    database
         *                   - string    port
         *                   - string    username
         *                   - string    password
-        * RETURNS       : 
+        * RETURNS       :
         *                   - None
         */
         public void UpdateMarketplaceConfig(string server, string database, string port, string username, string password)
