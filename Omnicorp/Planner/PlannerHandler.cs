@@ -193,7 +193,7 @@ namespace Omnicorp.Planner
             cmd.ExecuteNonQuery();
             myQuery.Close();
 
-            Logger.Log("Update carrier availability", "Planner update the carrier availability in carriers table");
+            Logger.Log("Update carrier availability", "Planner update the carrier availability in carriers table", System.Windows.Application.Current.Resources["logFile"].ToString());
         }
 
 
@@ -230,7 +230,7 @@ namespace Omnicorp.Planner
             cmd.ExecuteNonQuery();
             myQuery.Close();
 
-            Logger.Log("Insert route", "Planner insert route into routes table");
+            Logger.Log("Insert route", "Planner insert route into routes table", System.Windows.Application.Current.Resources["logFile"].ToString());
 
 
         }
@@ -374,7 +374,7 @@ namespace Omnicorp.Planner
             cmd.ExecuteNonQuery();
             myQuery.Close();
 
-            Logger.Log("Update carriers status", "Planner update carrier status to 'On Route' ");
+            Logger.Log("Update carriers status", "Planner update carrier status to 'On Route' ", System.Windows.Application.Current.Resources["logFile"].ToString());
 
         }
 
@@ -467,7 +467,7 @@ namespace Omnicorp.Planner
                              $"FROM orders o " +
                              $"INNER JOIN invoices i ON i.orderId = o.id " +
                              $"INNER JOIN routes r ON r.orderId = o.id " +
-                             $"WHERE i.created_at <= '{twoWeeksAgo.ToString("yyyy-MM-dd")}';" ;
+                             $"WHERE i.created_at >= '{twoWeeksAgo.ToString("yyyy-MM-dd")}';" ;
 
             MyQuery myQuery = new MyQuery();
             MySqlCommand cmd = new MySqlCommand(query, myQuery.conn);

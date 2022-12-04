@@ -81,7 +81,7 @@ namespace Omnicorp.Admin
             cmd.ExecuteNonQuery();
             myQuery.Close();
 
-            Logger.Log("Update Rates", "Admin updates rates in rates table");
+            Logger.Log("Update Rates", "Admin updates rates in rates table", Application.Current.Resources["logFile"].ToString());
         }
 
 
@@ -170,7 +170,7 @@ namespace Omnicorp.Admin
             cmd.ExecuteNonQuery();
             myQuery.Close();
 
-            Logger.Log("Delete Carrier City", "Admin delete carrier city in carrier table");
+            Logger.Log("Delete Carrier City", "Admin delete carrier city in carrier table", System.Windows.Application.Current.Resources["logFile"].ToString());
         }
 
 
@@ -221,7 +221,7 @@ namespace Omnicorp.Admin
             cmd.ExecuteNonQuery();
             myQuery.Close();
 
-            Logger.Log("Add Carrier City", "Admin add carrier city in carrier table");
+            Logger.Log("Add Carrier City", "Admin add carrier city in carrier table", System.Windows.Application.Current.Resources["logFile"].ToString());
         }
 
 
@@ -255,7 +255,7 @@ namespace Omnicorp.Admin
             cmd.ExecuteNonQuery();
             myQuery.Close();
 
-            Logger.Log("Update Carrier", "Admin update carrier in carrier table");
+            Logger.Log("Update Carrier", "Admin update carrier in carrier table", System.Windows.Application.Current.Resources["logFile"].ToString());
         }
 
 
@@ -279,14 +279,14 @@ namespace Omnicorp.Admin
             ValidatePositiveAmount(distance);
             ValidatePositiveAmount(time);
 
-            string updateQuery = $"UPDATE corridors SET distance = {distance}, time = {time} WHERE destination = \"{destination}\";";
+            string updateQuery = $"UPDATE corridors SET kms = {distance}, time = {time} WHERE destination = \"{destination}\";";
 
             MyQuery myQuery = new MyQuery();
             MySqlCommand cmd = new MySqlCommand(updateQuery, myQuery.conn);
             cmd.ExecuteNonQuery();
             myQuery.Close();
 
-            Logger.Log("Update Corridor", "Admin update corridor in corridor table");
+            Logger.Log("Update Corridor", "Admin update corridor in corridor table", System.Windows.Application.Current.Resources["logFile"].ToString());
         }
 
         /*
@@ -309,7 +309,7 @@ namespace Omnicorp.Admin
 
             myQuery.conn.Close();
 
-            Logger.Log("Omnicorp database backup executed", "Admin performed backup on omnicorp database");
+            Logger.Log("Omnicorp database backup executed", "Admin performed backup on omnicorp database", System.Windows.Application.Current.Resources["logFile"].ToString());
         }
 
         /*

@@ -29,17 +29,15 @@ namespace Omnicorp
             * RETURNS       :
             *                   - None
             */
-            public static void Log(string action, string message)
+            public static void Log(string action, string message, string logFile)
             {
                 StreamWriter file = null;
                 DateTime now = DateTime.Now;
                 string formated = $"{now.ToString()} [{action}] <{message}>";
-                
-                string curDir = Directory.GetCurrentDirectory();
 
                 try
                 {
-                    file = new StreamWriter("logFile.txt ", true);
+                    file = new StreamWriter(logFile, true);
                     file.WriteLine(formated);
                 }
                 catch (Exception)

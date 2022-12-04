@@ -29,7 +29,7 @@ namespace Tests
     */
     internal class TestAdminHandler
     {
-        private AdminHandler handler = new AdminHandler(false);
+        private AdminHandler handler = new AdminHandler();
 
 
         [Test]

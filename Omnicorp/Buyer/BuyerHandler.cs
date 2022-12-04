@@ -118,7 +118,7 @@ namespace Omnicorp.Buyer
             cmd.ExecuteNonQuery();
             myQuery.Close();
 
-            Logger.Log("Insert Contracts", "Buyer put contracts into the order database");
+            Logger.Log("Insert Contracts", "Buyer put contracts into the order database", System.Windows.Application.Current.Resources["logFile"].ToString());
         }
 
         public void GenerateInvoice(string orderId)
