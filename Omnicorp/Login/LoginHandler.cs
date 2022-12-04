@@ -57,6 +57,7 @@ namespace Omnicorp
                 // Validate if user and password entered in textbox match query
                 VerifyPassword(passwordDb, passwordInput);      // verify user password
                 VerifyUserRole(roleDb);                         // Validate role of user
+
                 
                 myQuery.Close();
             }
@@ -64,15 +65,43 @@ namespace Omnicorp
             {
                 throw new InvalidUserException("Incorrect username or password");
             }
-            return; // Exit function
+
+            SetLogPathToCurrentApplication();
+            return;
         }
 
-        // Validate password of the user
+
+
+        public void SetLogPathToCurrentApplication()
+        {
+            MyQuery myQuery = new MyQuery();
+            try
+            {
+                Application.Current.Resources["logFile"] = myQuery.GetLogFileFromDatabase();
+            }
+            catch (Exception)
+            {
+                string defaultLogFile = "c:\\omnicorp\\log.txt";
+                MessageBox.Show($"Unable to find log file directory config.\nSetting default value to {defaultLogFile}");
+                Application.Current.Resources["logFile"] = defaultLogFile;
+
+                defaultLogFile = defaultLogFile.Replace("\\", "\\\\");
+                string addQuery = $"INSERT INTO configs (name, content) VALUES ('logFile', '{defaultLogFile}');";
+                MySqlCommand cmd = new MySqlCommand(addQuery, myQuery.conn);
+                cmd.ExecuteNonQuery();
+            }
+            myQuery.Close();
+        }
+
+
+
+
         /*
         * METHOD		:  VerifyPassword
         * DESCRIPTION	:   this method try varify the password  
-        * PARAMETERS    : -string =passwordDb, as it represent the passwordDb that store in database of the user as its admin,buyer or planner
-        *                  -string passwordInput, as it represent the password of the user
+        * PARAMETERS    : 
+        *                   -string passwordDb, as it represent the passwordDb that store in database of the user as its admin,buyer or planner
+        *                   -string passwordInput, as it represent the password of the user
         * RETURNS       :
         *                   None
         */

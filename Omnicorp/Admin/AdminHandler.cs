@@ -30,42 +30,16 @@ namespace Omnicorp.Admin
     */
     public class AdminHandler
     {
-       
-       
-        public AdminHandler(bool enableLog = true)
-        {
-            MyQuery myQuery = new MyQuery();
-            if (enableLog)
-            {
-                try
-                {
-                    Application.Current.Resources["logFile"] = myQuery.GetLogFileFromDatabase();
-                }
-                catch (Exception)
-                {
-                    string defaultLogFile = "c:\\omnicorp\\log.txt";
-                    MessageBox.Show($"Unable to find log file directory config.\nSetting default value to {defaultLogFile}");
-                    Application.Current.Resources["logFile"] = defaultLogFile;
 
-                    defaultLogFile = defaultLogFile.Replace("\\", "\\\\");
-                    string addQuery = $"INSERT INTO configs (name, content) VALUES ('logFile', '{defaultLogFile}');";
-                    MySqlCommand cmd = new MySqlCommand(addQuery, myQuery.conn);
-                    cmd.ExecuteNonQuery();
-                }
-                myQuery.Close();
-            }
-        }
 
-      /*
-      * METHOD		:   public Dictionary<string, string> GetRatesFromDatabase()
-      * DESCRIPTION	:   to create get the data from the rates table in databse using dictionary
-      * PARAMETERS    :
-      *                   - string    category, as the it store category from rates table from database
-      *                   - string    amount, as it store amount from the rates table from database 
-      * RETURNS       :
-      *                   - category,ampunt
-      */
-
+        /*
+        * METHOD		:   GetRatesFromDatabase
+        * DESCRIPTION	:   to create get the data from the rates table in databse using dictionary
+        * PARAMETERS    :
+        *                   - None
+        * RETURNS       :
+        *                   - Dictionary<string, string>
+        */
         public Dictionary<string, string> GetRatesFromDatabase()
         {
             MyQuery myQuery = new MyQuery();
