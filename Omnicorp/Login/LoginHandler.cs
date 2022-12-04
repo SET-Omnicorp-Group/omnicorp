@@ -71,7 +71,14 @@ namespace Omnicorp
         }
 
 
-
+        /*
+        * METHOD		:  SetLogPathToCurrentApplication
+        * DESCRIPTION	:  this method reads the logpath from the database and set to the current resources for all aplication
+        * PARAMETERS    : 
+        *                   - None
+        * RETURNS       :
+        *                   - None
+        */
         public void SetLogPathToCurrentApplication()
         {
             MyQuery myQuery = new MyQuery();
@@ -114,15 +121,14 @@ namespace Omnicorp
         }
 
 
-        // Validate role of the user
         /*
-       * METHOD		:  VerifyUserRole
-       * DESCRIPTION	:   this method try varify the the role of the user  
-       * PARAMETERS    : -string =role, as it represent the role of the user that is admin,buyer and planner 
-       *                  
-       * RETURNS       :
-       *                   None
-       */
+        * METHOD		:  VerifyUserRole
+        * DESCRIPTION	:   this method try varify the the role of the user  
+        * PARAMETERS    : -string =role, as it represent the role of the user that is admin,buyer and planner 
+        *                  
+        * RETURNS       :
+        *                   None
+        */
         public void VerifyUserRole(string role)
         {
             // If role of user is admin, open admin panel

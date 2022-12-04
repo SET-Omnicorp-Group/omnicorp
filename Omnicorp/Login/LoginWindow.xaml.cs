@@ -45,7 +45,7 @@ namespace Omnicorp
         // Login submit button
 
         /*
-        * METHOD		: Login_Button(object sender, RoutedEventArgs e)
+        * METHOD		: LoginBtn_Click
         * DESCRIPTION	:   try to perform login configuration 
         * PARAMETERS    :
         *                  - object   sender, as the sender of the object
@@ -55,7 +55,7 @@ namespace Omnicorp
         *                   - None
         */
 
-        private void Login_Button(object sender, RoutedEventArgs e)
+        private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
             LoginHandler loginHandler = new LoginHandler();
             string usernameInput = Username_Text.Text;
@@ -103,10 +103,6 @@ namespace Omnicorp
             }
         }
 
-        private void Window_MouseDown()
-        {
-
-        }
 
         private void Password_Text_PasswordChanged(object sender, RoutedEventArgs e)
         {
