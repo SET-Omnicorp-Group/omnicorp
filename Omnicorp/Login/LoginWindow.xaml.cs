@@ -74,6 +74,10 @@ namespace Omnicorp
             {
                 MessageBox.Show(ex.Message, "Login Error");
             }
+            catch (Exception)
+            {
+                MessageBox.Show("Unable to connect to database. \nCheck App.config file.", "Error");
+            }
 
             Username_Text.Clear();
             Username_Text.Focus();
