@@ -84,29 +84,12 @@ namespace Omnicorp.Admin
         */
         private void DatabaseBtn_Click(object sender, RoutedEventArgs e)
         {
-            DatabaseBtn.Background = Brushes.White;
-            DatabaseBtn.Foreground = Brushes.Black;
-
-            BackupBtn.Background = Brushes.Transparent;
-            BackupBtn.Foreground = Brushes.White;
-
-            GeneralConfigBtn.Background = Brushes.Transparent;
-            GeneralConfigBtn.Foreground = Brushes.White;
-
-            LogFileBtn.Background = Brushes.Transparent;
-            LogFileBtn.Foreground = Brushes.White;
-
-
-
+            ActivateButton("DatabaseBtn");
+            HideAllElements();
 
             RatesBtn.Visibility = Visibility.Visible;
             CarriersBtn.Visibility = Visibility.Visible;
             CorridorsBtn.Visibility = Visibility.Visible;
-            RatesGrid_Click.Visibility = Visibility.Hidden;
-            CarriersGrid_Click.Visibility = Visibility.Hidden;
-            CorridorsGrid_Click.Visibility = Visibility.Hidden;
-            BackupGrid.Visibility = Visibility.Hidden;
-            LogFileGrid.Visibility = Visibility.Hidden;
         }
 
 
@@ -128,8 +111,8 @@ namespace Omnicorp.Admin
         */
         private void RatesBtn_Click(object sender, RoutedEventArgs e)
         {
-            HideBtns();
-            RatesGrid_Click.Visibility = Visibility.Visible;
+            HideAllElements();
+            RatesGrid.Visibility = Visibility.Visible;
 
             UpdateRatesDatagridContent();
         }
@@ -221,8 +204,8 @@ namespace Omnicorp.Admin
         */
         private void CarriersBtn_Click(object sender, RoutedEventArgs e)
         {
-            HideBtns();
-            CarriersGrid_Click.Visibility = Visibility.Visible;
+            HideAllElements();
+            CarriersGrid.Visibility = Visibility.Visible;
             
             UpdateCarriersDatagridContent();
         }
@@ -510,8 +493,8 @@ namespace Omnicorp.Admin
       */
         private void Corridors_Btn(object sender, RoutedEventArgs e)
         {
-            HideBtns();
-            CorridorsGrid_Click.Visibility = Visibility.Visible;
+            HideAllElements();
+            CorridorsGrid.Visibility = Visibility.Visible;
             
             UpdateCorridorsDatagridContent();
         }
@@ -531,23 +514,6 @@ namespace Omnicorp.Admin
             Corridors_Data.DataContext = handler.GetCorridorsFromDatabase();
         }
 
-
-        /*
-       * METHOD		:  HideBtns()
-       * DESCRIPTION	:   try to hide the buttons, rates,carrier and routs
-       * PARAMETERS    :
-       *                  - object   sender, as the sender of the object
-       *                   - RoutedEventArgs    e, events
-       *                   
-       * RETURNS       :
-       *                   - None
-       */
-        private void HideBtns()
-        {
-            RatesBtn.Visibility = Visibility.Hidden;
-            CarriersBtn.Visibility = Visibility.Hidden;
-            CorridorsBtn.Visibility = Visibility.Hidden;
-        }
 
 
         /*
@@ -660,10 +626,10 @@ namespace Omnicorp.Admin
 
         // MANAGING LOG
         /*
-        * METHOD		: LogFileBtn_Click(object sender, RoutedEventArgs e)
+        * METHOD		:   LogFileBtn_Click(object sender, RoutedEventArgs e)
         * DESCRIPTION	:   try to manage the log data
         * PARAMETERS    :
-        *                  - object   sender, as the sender of the object
+        *                   - object   sender, as the sender of the object
         *                   - RoutedEventArgs    e, events
         *                   
         * RETURNS       :
@@ -671,20 +637,9 @@ namespace Omnicorp.Admin
         */
         private void LogFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            LogFileBtn.Background = Brushes.White;
-            LogFileBtn.Foreground = Brushes.Black;
-
-            BackupBtn.Background = Brushes.White;
-            BackupBtn.Foreground = Brushes.Black;
-
-            DatabaseBtn.Background = Brushes.Transparent;
-            DatabaseBtn.Foreground = Brushes.White;
-
-            GeneralConfigBtn.Background = Brushes.Transparent;
-            GeneralConfigBtn.Foreground = Brushes.White;
-
-
-
+            ActivateButton("LogFileBtn");
+            HideAllElements();
+            
             LogFileGrid.Visibility = Visibility.Visible;
             string logFile = Application.Current.Resources["logFile"].ToString();
 
@@ -697,65 +652,36 @@ namespace Omnicorp.Admin
 
 
 
-        // MANAGING BACKUP
         /*
-       * METHOD		: BackupBtn_Click(object sender, RoutedEventArgs e)
-       * DESCRIPTION	:   try to take backup of the data
-       * PARAMETERS    :
-       *                  - object   sender, as the sender of the object
-       *                   - RoutedEventArgs    e, events
-       *                   
-       * RETURNS       :
-       *                   - None
-       */
+        * METHOD		: BackupBtn_Click
+        * DESCRIPTION	:   try to save the data from the database 
+        * PARAMETERS    :
+        *                  - object   sender, as the sender of the object
+        *                   - RoutedEventArgs    e, events
+        *                   
+        * RETURNS       :
+        *                   - None
+        */
         private void BackupBtn_Click(object sender, RoutedEventArgs e)
         {
-            BackupBtn.Background = Brushes.White;
-            BackupBtn.Foreground = Brushes.Black;
-
-            DatabaseBtn.Background = Brushes.Transparent;
-            DatabaseBtn.Foreground = Brushes.White;
-
-            GeneralConfigBtn.Background = Brushes.Transparent;
-            GeneralConfigBtn.Foreground = Brushes.White;
-
-            LogFileBtn.Background = Brushes.Transparent;
-            LogFileBtn.Foreground = Brushes.White;
-
-
-
-
-            LogFileGrid.Visibility = Visibility.Hidden;
-            BackupGrid.Visibility = Visibility.Visible;
-        }
-
-
-      /*
-      * METHOD		: SaveBackupBtn_Click(object sender, RoutedEventArgs e)
-      * DESCRIPTION	:   try to save the data from the database 
-      * PARAMETERS    :
-      *                  - object   sender, as the sender of the object
-      *                   - RoutedEventArgs    e, events
-      *                   
-      * RETURNS       :
-      *                   - None
-      */
-        private void SaveBackupBtn_Click(object sender, RoutedEventArgs e)
-        {
+            HideAllElements();
+            ActivateButton("BackupBtn");
             SaveFileDialog sf = new SaveFileDialog();
             sf.Filter = "SQL Files | *.sql"; ;
-            sf.ShowDialog();
+            bool? res = sf.ShowDialog();
 
-            string filePath = sf.FileName.ToString();
-
-            try
+            if (res == true)
             {
-                handler.BackupDatabase(filePath);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Backup unsuccessful. Check logfile for details.", "Error");
-                // @TODO LOG HERE
+                string filePath = sf.FileName.ToString();
+                try
+                {
+                    handler.BackupDatabase(filePath);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Backup unsuccessful. Check logfile for details.", "Error");
+                    // @TODO LOG HERE
+                }
             }
         }
 
@@ -765,7 +691,7 @@ namespace Omnicorp.Admin
 
         // MANAGING BACKUP
         /*
-        * METHOD		: GeneralConfig_Btn(object sender, RoutedEventArgs e)
+        * METHOD		: GeneralConfigBtn_Click(object sender, RoutedEventArgs e)
         * DESCRIPTION	:   try to perform general configuration 
         * PARAMETERS    :
         *                  - object   sender, as the sender of the object
@@ -774,10 +700,27 @@ namespace Omnicorp.Admin
         * RETURNS       :
         *                   - None
         */
-        private void GeneralConfig_Btn(object sender, RoutedEventArgs e)
+        private void GeneralConfigBtn_Click(object sender, RoutedEventArgs e)
         {
-            GeneralConfigBtn.Background = Brushes.White;
-            GeneralConfigBtn.Foreground = Brushes.Black;
+            ActivateButton("GeneralConfigBtn");
+            HideAllElements();
+            GeneralConfigGrid.Visibility = Visibility.Visible;
+        }
+
+
+
+        /*
+        * METHOD		: ActivateButton
+        * DESCRIPTION	: change the style of all buttons and enhance the one selected
+        * PARAMETERS    :
+        *                   - string    btn, as the button name to be activated
+        * RETURNS       :
+        *                   - None
+        */
+        private void ActivateButton(string btn)
+        {
+            GeneralConfigBtn.Background = Brushes.Transparent;
+            GeneralConfigBtn.Foreground = Brushes.White;
 
             DatabaseBtn.Background = Brushes.Transparent;
             DatabaseBtn.Foreground = Brushes.White;
@@ -787,6 +730,43 @@ namespace Omnicorp.Admin
 
             LogFileBtn.Background = Brushes.Transparent;
             LogFileBtn.Foreground = Brushes.White;
+
+            if(btn == "GeneralConfigBtn")
+            {
+                GeneralConfigBtn.Background = Brushes.White;
+                GeneralConfigBtn.Foreground = Brushes.Black;
+            }
+            else if (btn == "DatabaseBtn")
+            {
+                DatabaseBtn.Background = Brushes.White;
+                DatabaseBtn.Foreground = Brushes.Black;
+            }
+            else if(btn == "BackupBtn")
+            {
+                BackupBtn.Background = Brushes.White;
+                BackupBtn.Foreground = Brushes.Black;
+            }
+            else if(btn == "LogFileBtn")
+            {
+                LogFileBtn.Background = Brushes.White;
+                LogFileBtn.Foreground = Brushes.Black;
+            }
+        }
+
+        public void HideAllElements()
+        {
+            LogFileGrid.Visibility = Visibility.Hidden;
+            GeneralConfigGrid.Visibility = Visibility.Hidden;
+
+            // Databases subgrids
+            RatesGrid.Visibility = Visibility.Hidden;
+            CarriersGrid.Visibility = Visibility.Hidden;
+            CorridorsGrid.Visibility = Visibility.Hidden;
+
+            // Secondary Buttons
+            RatesBtn.Visibility = Visibility.Hidden;
+            CarriersBtn.Visibility = Visibility.Hidden;
+            CorridorsBtn.Visibility = Visibility.Hidden;
         }
     }
 }

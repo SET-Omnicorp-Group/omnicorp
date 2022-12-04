@@ -95,7 +95,7 @@
 
         <!--(1) Rate Datagrid -->
         <Grid
-            x:Name="RatesGrid_Click"
+            x:Name="RatesGrid"
             Visibility="Hidden"
             Background="Transparent"
             Margin="10,10,10,10" Grid.Column="1" Grid.Row="1"
@@ -121,7 +121,6 @@
             Margin="76,25,0,0"
             Grid.Row="1"
             TextWrapping="Wrap"
-            Text="TextBox"
             VerticalAlignment="Top"
             Width="120" />
 
@@ -160,7 +159,6 @@
             Margin="76,52,0,0"
             Grid.Row="1"
             TextWrapping="Wrap"
-            Text="TextBox"
             VerticalAlignment="Top"
             Width="120"/>
 
@@ -183,7 +181,7 @@
 
         <!--(2) Carriers Datagrid -->
         <Grid
-            x:Name="CarriersGrid_Click"
+            x:Name="CarriersGrid"
             Visibility="Hidden"
             Background="Transparent"
             Margin="10,10,10,10" Grid.Column="1" Grid.Row="1"
@@ -419,8 +417,8 @@
 
         <!--(3) Corridors Datagrid -->
         <Grid
-            x:Name="CorridorsGrid_Click"
-            Visibility="Hidden"
+            x:Name="CorridorsGrid"
+            Visibility="Visible"
             Background="Transparent"
             Margin="10,10,10,10" Grid.Row="1" Grid.Column="1"
         >
@@ -445,7 +443,7 @@
                 FontWeight="Bold"
                 FontSize="10"
                 HorizontalAlignment="Left"
-                Margin="10,262,0,0"
+                Margin="10,263,0,0"
                 VerticalAlignment="Top"
             />
             <TextBox
@@ -466,7 +464,7 @@
                 FontWeight="Bold"
                 FontSize="10"
                 HorizontalAlignment="Left"
-                Margin="10,293,0,0"
+                Margin="10,294,0,0"
                 VerticalAlignment="Top"
             />
             <TextBox
@@ -503,8 +501,11 @@
             <!--West-->
             <Label
                 Content="West"
-                HorizontalAlignment="Center"
-                Margin="0,262,0,0"
+                Foreground="Black"
+                FontWeight="Bold"
+                FontSize="10"
+                HorizontalAlignment="Left"
+                Margin="270,263,0,0"
                 VerticalAlignment="Top"
             />
             <TextBox
@@ -521,8 +522,11 @@
             <!--East-->
             <Label
                 Content="East"
-                HorizontalAlignment="Center"
-                Margin="0,289,0,0"
+                Foreground="Black"
+                FontWeight="Bold"
+                FontSize="10"
+                HorizontalAlignment="Left"
+                Margin="270,294,0,0"
                 VerticalAlignment="Top"
             />
             <TextBox
@@ -584,51 +588,6 @@
             Height="40" Grid.Row="1" Grid.RowSpan="2"
         />
 
-
-        <!--Backup grid-->
-        <Grid
-            x:Name="BackupGrid"
-
-            Background="White"
-            Margin="10,10,10,10"
-            Visibility="Hidden"
-            Grid.Column="1"
-            Grid.Row="1"
-        >
-
-            <!--Backup config label-->
-            <Label
-                Content="Backup Configuration"
-                HorizontalAlignment="Left"
-                Margin="208,10,0,0"
-                VerticalAlignment="Top"
-                Height="40"
-                Width="246"
-                FontSize="22"
-                FontFamily="helvetica"
-                FontWeight="Bold"/>
-
-            <!--Backup path-->
-
-            <!--Backup path textbox-->
-
-            <!--Select path-->
-            <Button
-                Content="Save Backup"
-                FontWeight="Bold"
-                Width="150"
-                Height="40"
-                HorizontalAlignment="Left"
-                Margin="-178,417,0,0"
-                VerticalAlignment="Top"
-                Click="SaveBackupBtn_Click"/>
-
-
-            <!--Backup btn-->
-
-        </Grid>
-
-
         <!--Log Files-->
         <Button
             Name="LogFileBtn"
@@ -647,7 +606,6 @@
         <Grid
             x:Name="LogFileGrid"
             Visibility="Hidden"
-            Background="#FFB1B1B1"
             Margin="10,10,10,10" Grid.Column="1" Grid.Row="1"
         >
             <TextBox
@@ -657,8 +615,8 @@
                 TextWrapping="Wrap"
                 Text=""
                 VerticalAlignment="Center"
-                Width="570"
-                Height="350"
+                Width="680"
+                Height="469"
             />
 
         </Grid>
@@ -673,7 +631,7 @@
             HorizontalAlignment="Left"
             Margin="25,110,0,0"
             VerticalAlignment="Top"
-            Click="GeneralConfig_Btn"
+            Click="GeneralConfigBtn_Click"
             Height="40"
             Grid.Row="2"
         />
@@ -681,11 +639,7 @@
         <Grid
             x:Name="GeneralConfigGrid"
             Visibility="Hidden"
-            
             Background="White"
-            
-            
-            
             Margin="10,10,10,10"
             Grid.Row="1"
             Grid.Column="1" 
