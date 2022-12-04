@@ -124,5 +124,33 @@ namespace ClassLibrary
         {
             conn.Close();
         }
+
+
+
+        /*
+        * METHOD		:  GetMarketplaceConfigs
+        * DESCRIPTION	:  get all marketplace configs from the TMS Database
+        * PARAMETERS    : 
+        *                   - None
+        * RETURNS       :
+        *                   - Dictionary<string, string>    configs, as a dictionary with all configs
+        */
+        public Dictionary<string, string> GetMarketplaceConfigs()
+        {
+            string query = "SELECT * FROM configs WHERE name = 'marketplace%';";
+            Dictionary<string, string> configs = new Dictionary<string, string>();
+
+            
+            MySqlDataReader rdr = DataReader(query);
+
+            while (rdr.Read())
+            {
+                string key = rdr.GetString(0).ToString();
+                string value = rdr.GetString(1).ToString();
+
+                configs.Add(key, value);
+            }
+            return configs;
+        }
     }
 }

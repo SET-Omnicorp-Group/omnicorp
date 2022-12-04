@@ -37,15 +37,14 @@ namespace ClassLibrary
         */
         public MarketplaceQuery()
         {
-            string server = ConfigurationManager.AppSettings["server"];
-            string database = ConfigurationManager.AppSettings["database"];
-            string uid = ConfigurationManager.AppSettings["uid"];
-            string password = ConfigurationManager.AppSettings["password"];
+            MyQuery myQuery = new MyQuery();
+            Dictionary<string, string> configs = myQuery.GetMarketplaceConfigs();
+            myQuery.Close();
 
-            string connString = $"server=159.89.117.198;" +
-                                $"database=cmp;" +
-                                $"uid=DevOSHT;" +
-                                $"pwd=Snodgr4ss!;";
+            string connString = $"server={configs["marketplaceServer"]};" +
+                                $"database={configs["marketplaceDatabase"]};" +
+                                $"uid={configs["marketplaceUser"]};" +
+                                $"pwd={configs["marketplacePassword"]};";
             conn = new MySqlConnection(connString);
 
             try
@@ -59,14 +58,18 @@ namespace ClassLibrary
                 return;
             }
         }
-   /*
-   * METHOD		:  DataReader
-   * DESCRIPTION	:  perform the database query 
-   * PARAMETERS    : -string query, as it represent the query
-   *                  
-   * RETURNS       :
-   *                   None
-   */
+
+
+
+
+        /*
+        * METHOD		:  DataReader
+        * DESCRIPTION	:  perform the database query 
+        * PARAMETERS    : -string query, as it represent the query
+        *                  
+        * RETURNS       :
+        *                   None
+        */
         public MySqlDataReader DataReader(string query)
         {
             MySqlCommand cmd = new MySqlCommand(query, conn);  // Enter command into omnicorp database
