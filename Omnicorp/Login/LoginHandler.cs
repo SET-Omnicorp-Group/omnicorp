@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Windows;
 using System.Windows.Input;
+using System.IO;
 
 namespace Omnicorp
 {
@@ -42,7 +43,7 @@ namespace Omnicorp
         */
         public void TryLogin(string usernameInput, string passwordInput)
         {
-            
+            SetLogPathToCurrentApplication();
             MyQuery myQuery = new MyQuery();
 
             string query = $"SELECT role, password FROM users WHERE username = '{usernameInput}';";
@@ -66,7 +67,7 @@ namespace Omnicorp
                 throw new InvalidUserException("Incorrect username or password");
             }
 
-            SetLogPathToCurrentApplication();
+            
             return;
         }
 
@@ -81,10 +82,22 @@ namespace Omnicorp
         */
         public void SetLogPathToCurrentApplication()
         {
-            MyQuery myQuery = new MyQuery();
             try
             {
-                Application.Current.Resources["logFile"] = myQuery.GetLogFileFromDatabase();
+                MyQuery myQuery = new MyQuery();
+                string path = myQuery.GetLogFileFromDatabase();
+                myQuery.Close();
+
+                Application.Current.Resources["logFile"] = path;
+                if (!System.IO.File.Exists(path))
+                {
+                    System.IO.File.Create(path).Close();
+                }
+                System.IO.File.SetLastWriteTimeUtc(path, DateTime.UtcNow);
+            }
+            catch (DirectoryNotFoundException dnf)
+            {
+                throw new DirectoryNotFoundException(dnf.Message);
             }
             catch (Exception)
             {
@@ -94,10 +107,13 @@ namespace Omnicorp
 
                 defaultLogFile = defaultLogFile.Replace("\\", "\\\\");
                 string addQuery = $"INSERT INTO configs (name, content) VALUES ('logFile', '{defaultLogFile}');";
+                
+                MyQuery myQuery = new MyQuery();
                 MySqlCommand cmd = new MySqlCommand(addQuery, myQuery.conn);
                 cmd.ExecuteNonQuery();
+                myQuery.Close();
             }
-            myQuery.Close();
+            
         }
 
 

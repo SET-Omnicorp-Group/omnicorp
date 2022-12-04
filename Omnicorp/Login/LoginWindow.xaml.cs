@@ -66,6 +66,10 @@ namespace Omnicorp
                 loginHandler.TryLogin(usernameInput, passwordInput);
                 this.Close();
             }
+            catch (DirectoryNotFoundException)
+            {
+                MessageBox.Show("Invalid directory for logfile. \nIf this is the first time using the software, create folder c:\\omnicorp. \nAdmin can change the logfile after first access.", "Error");
+            }
             catch (InvalidUserException ex)
             {
                 MessageBox.Show(ex.Message, "Login Error");
