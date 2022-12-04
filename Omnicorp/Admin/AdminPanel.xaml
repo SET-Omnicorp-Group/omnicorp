@@ -425,7 +425,7 @@
         >
 
             <DataGrid
-                Name="Corridors_Data"
+                Name="CorridorsData"
                 IsReadOnly="true"
                 ColumnWidth="*"
                 HorizontalAlignment="Center"

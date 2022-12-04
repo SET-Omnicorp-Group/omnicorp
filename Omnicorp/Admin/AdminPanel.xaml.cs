@@ -494,7 +494,7 @@ namespace Omnicorp.Admin
     */
         private void UpdateCorridorsDatagridContent()
         {
-            Corridors_Data.DataContext = handler.GetCorridorsFromDatabase();
+            CorridorsData.DataContext = handler.GetCorridorsFromDatabase();
         }
 
 
@@ -584,7 +584,8 @@ namespace Omnicorp.Admin
                     decimal timeField = decimal.Parse(time);
 
                     handler.UpdateCorridorToDatabase(destination, distance, timeField);
-                    UpdateCarriersDatagridContent();
+                    UpdateCorridorsDatagridContent();
+                    
                 }
                 catch (FormatException)
                 {
