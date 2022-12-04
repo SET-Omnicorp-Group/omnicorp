@@ -112,9 +112,9 @@
             Background="White"
             IsReadOnly="true"
             ColumnWidth="*"
-            Visibility="Visible"
+            Visibility="Hidden"
             ItemsSource="{Binding}" 
-            Margin="0,55,310,98" 
+            Margin="0,55,310,22" 
             Grid.RowSpan="4" 
             SelectionChanged="PlannerOrdersGrid_SelectionChanged" Grid.Column="1"/>
 
@@ -123,12 +123,12 @@
         <!--Display Invoices-->
         <DataGrid 
             Name="PlannerInvoicesGrid"
-            Visibility="Hidden"
             IsReadOnly="true"
             ColumnWidth="*"
             Background="White"
+            Visibility="Hidden"
             ItemsSource="{Binding}" 
-            Margin="0,55,310,101" 
+            Margin="0,55,310,22" 
             Grid.RowSpan="4" 
             Grid.Column="1"/>
 
@@ -184,11 +184,10 @@
             Height="40"
             FontWeight="Bold"
             Content="Simulate Day" 
-            HorizontalAlignment="Left"
-            Margin="540,59,0,0" 
+            HorizontalAlignment="Center" 
             Grid.Row="3" 
             VerticalAlignment="Top"
-            Click="SimulateDayBtn_Click" Grid.Column="1"/>
+            Click="SimulateDayBtn_Click"/>
 
         <Image x:Name="Logo" HorizontalAlignment="Left" Height="101" Margin="57,23,0,0" VerticalAlignment="Top" Width="144" Source="/Styles/logo.png" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
         <Image Grid.Column="1" HorizontalAlignment="Left" Height="22" Margin="422,18,0,0" VerticalAlignment="Top" Width="20" Source="/Planner/done.png" RenderTransformOrigin="0.51,0.552"/>
