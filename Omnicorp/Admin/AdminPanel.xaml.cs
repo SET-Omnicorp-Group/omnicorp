@@ -37,35 +37,16 @@ namespace Omnicorp.Admin
     * DESCRIPTION	:   The purpose of this class is to perform the admin user functionality.
     * 
     * DATA MEMBERS  :   
-    *                   - Dictionary    activeGameSessions, as the sessions active on the current server
-    *                   - string        FltRate, full loaded truck rate
-    *                   - string        LtlRate, half loaded truck rate
-    *                   - string        CarrierName, name of the carrier that delievery the package
-    *                   - decimal       FtlRateCarriers, as the Full loaded trucs carriers
-    *                   - decimal       LtlRateCarriers, as the half loaded trucks carrier
-    *                   - decimal       ReefCharge, as the refrigerator charge of the carrier
-    *                   - string        DepotCity, as the depotcity of the carrier
-    *                   - decimal       FtlAval, as a Ftl availability
-    *                   - decimal       LtlAval, as the Ltl availability
+    *                   - AdminHandler handler, as the handler for the logic
     *                   
     */
     public partial class AdminPanel : Window
     {
 
-        // Accessor fields
         AdminHandler handler;
 
 
-        public string FltRate { get; set; }
-        public string LtlRate { get; set; }
-        public string CarrierName { get; set; }
-        public decimal FtlRateCarriers { get; set; }
-        public decimal LtlRateCarriers { get; set; }
-        public decimal ReefCharge { get; set; }
-        public string DepotCity { get; set; }
-        public decimal FtlAval { get; set; }
-        public decimal LtlAval { get; set; }
-
+        
         public AdminPanel()
         {
             InitializeComponent();
