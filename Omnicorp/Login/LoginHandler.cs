@@ -84,12 +84,28 @@ namespace Omnicorp
         {
             try
             {
+                string defaultLogFile = "c:/omnicorp/log.txt";
+                
                 MyQuery myQuery = new MyQuery();
                 string path = myQuery.GetLogFileFromDatabase();
                 myQuery.Close();
 
+                if(path == String.Empty)
+                {
+                    MessageBox.Show($"Unable to find log file directory config.\nSetting default value to {defaultLogFile}");
+                    path = defaultLogFile.Replace('/', '\\');
+                    Application.Current.Resources["logFile"] = path;
+
+                    string addQuery = $"INSERT INTO configs (name, content) VALUES ('logFile', '{defaultLogFile}');";
+
+                    myQuery = new MyQuery();
+                    MySqlCommand cmd = new MySqlCommand(addQuery, myQuery.conn);
+                    cmd.ExecuteNonQuery();
+                    myQuery.Close();
+                }
+
                 Application.Current.Resources["logFile"] = path;
-                if (!System.IO.File.Exists(path))
+                if (!System.IO.File.Exists(path))                               // Create file it not exists
                 {
                     System.IO.File.Create(path).Close();
                 }
@@ -97,21 +113,11 @@ namespace Omnicorp
             }
             catch (DirectoryNotFoundException dnf)
             {
-                throw new DirectoryNotFoundException(dnf.Message);
+                throw new DirectoryNotFoundException(dnf.Message);              // If folder does not exists
             }
             catch (Exception)
             {
-                string defaultLogFile = "c:\\omnicorp\\log.txt";
-                MessageBox.Show($"Unable to find log file directory config.\nSetting default value to {defaultLogFile}");
-                Application.Current.Resources["logFile"] = defaultLogFile;
-
-                defaultLogFile = defaultLogFile.Replace("\\", "\\\\");
-                string addQuery = $"INSERT INTO configs (name, content) VALUES ('logFile', '{defaultLogFile}');";
-                
-                MyQuery myQuery = new MyQuery();
-                MySqlCommand cmd = new MySqlCommand(addQuery, myQuery.conn);
-                cmd.ExecuteNonQuery();
-                myQuery.Close();
+                //
             }
             
         }
