@@ -38,7 +38,7 @@ namespace Omnicorp.Planner
         * METHOD		: GetOrdersFromDatabaseWhere
         * DESCRIPTION	: try to get order data from the database
         * PARAMETERS    : -string status, as status of the order
-        *                  
+        *
         * RETURNS       :
         *                - data in form of data table
         */
@@ -75,14 +75,14 @@ namespace Omnicorp.Planner
         * METHOD		: GetAvailableCarriersForOrder
         * DESCRIPTION	: try to get available carrier data from the database
         * PARAMETERS    : -string orderId, as id of the order
-        *                  
+        *
         * RETURNS       :
         *                - data in form of data table
         */
         public DataTable GetAvailableCarriersForOrder(string orderId)
         {
             MyQuery myQuery = new MyQuery();
-            
+
             // Query data from contract
             string orderDetailQuery = $"SELECT jobType, quantity, origin FROM orders \r\nWHERE id = \"{orderId}\";";
             MySqlDataReader rdr = myQuery.DataReader(orderDetailQuery);
@@ -91,7 +91,7 @@ namespace Omnicorp.Planner
             string jobType = rdr.GetString(0).ToString();
             string quantity = rdr.GetString(1).ToString();
             string origin = rdr.GetString(2).ToString();
-            
+
             myQuery.Close();
 
             string availableCarriers = string.Empty;
@@ -124,7 +124,7 @@ namespace Omnicorp.Planner
         * METHOD		: GetOrderQuantity
         * DESCRIPTION	: try to get order Quantity data from the database
         * PARAMETERS    : -string orderId, as id of the order
-        *                  
+        *
         * RETURNS       :
         *                - quantity
         */
@@ -146,7 +146,7 @@ namespace Omnicorp.Planner
         * METHOD		: GetCurrentRate
         * DESCRIPTION	: try to get current rate from the database
         * PARAMETERS    : -string orderId, as id of the order
-        *                  
+        *
         * RETURNS       :
         *                - None
         */
@@ -169,7 +169,7 @@ namespace Omnicorp.Planner
         * DESCRIPTION	: try to update carrier availability from the database
         * PARAMETERS    : -string carrierId, as id of the carrier
         *               : -string orderId, as id of the order
-        *                  
+        *
         * RETURNS       :
         *                - None
         */
@@ -193,14 +193,16 @@ namespace Omnicorp.Planner
             cmd.ExecuteNonQuery();
             myQuery.Close();
 
+            Logger.Log("Update carrier availability", "Planner update the carrier availability in carriers table");
         }
+
 
        /*
        * METHOD		: InsertRoute
        * DESCRIPTION	: try to insert the route to the database
        * PARAMETERS    : -string carrierId, as id of the carrier
        *               : -string orderId, as id of the order
-       *                  
+       *
        * RETURNS       :
        *                - None
        */
@@ -220,14 +222,17 @@ namespace Omnicorp.Planner
             int distance = CalculateDistance(origin, destionation);
             decimal currentRate = GetCurrentRate(orderId);
 
-            string query =  $"INSERT INTO routes (orderId, distance, carrierId, currentRate, totalHours) " + 
+            string query =  $"INSERT INTO routes (orderId, distance, carrierId, currentRate, totalHours) " +
                             $"VALUE ('{orderId}', '{distance}', '{carrierId}', '{currentRate}', '{totalHours}');";
 
             myQuery = new MyQuery();
             MySqlCommand cmd = new MySqlCommand(query, myQuery.conn);
             cmd.ExecuteNonQuery();
             myQuery.Close();
-            
+
+            Logger.Log("Insert route", "Planner insert route into routes table");
+
+
         }
 
         /*
@@ -235,7 +240,7 @@ namespace Omnicorp.Planner
         * DESCRIPTION	: try to get the corridor sequence from the database
         * PARAMETERS    : -string cityName, as the name of the city
         *               : -string orderId, as id of the order
-        *                  
+        *
         * RETURNS       :
         *                - city
         */
@@ -256,7 +261,7 @@ namespace Omnicorp.Planner
         * PARAMETERS    : -string origin, as the origin of the order
         *               : -string destination, as the destination of the order
         *               : -string jobtype, as it represent the FTL or LTL
-        *                  
+        *
         * RETURNS       :
         *                - time
         */
@@ -315,7 +320,7 @@ namespace Omnicorp.Planner
         * PARAMETERS    : -string origin, as the origin of the order
         *               : -string destination, as the destination of the order
         *               : -string jobtype, as it represent the FTL or LTL
-        *                  
+        *
         * RETURNS       :
         *                - distance
         */
@@ -357,7 +362,7 @@ namespace Omnicorp.Planner
        /*
        * METHOD		: SetOrderToOnRoute
        * DESCRIPTION	: try to route of the order
-       * PARAMETERS    : -string orderId, as the id of the order                  
+       * PARAMETERS    : -string orderId, as the id of the order
        * RETURNS       :
        *                - None
        */
@@ -368,6 +373,9 @@ namespace Omnicorp.Planner
             MySqlCommand cmd = new MySqlCommand(updateQuery, myQuery.conn);
             cmd.ExecuteNonQuery();
             myQuery.Close();
+
+            Logger.Log("Update carriers status", "Planner update carrier status to 'On Route' ");
+
         }
 
 
@@ -395,7 +403,7 @@ namespace Omnicorp.Planner
         /*
         * METHOD		: SimulateDay
         * DESCRIPTION	: For orders that take more than 12 hours to deliver,
-        *                 the SimulateDay() method fast forwards the date and 
+        *                 the SimulateDay() method fast forwards the date and
         *                 time of the delivery in order to display progress for
         *                 order. The method evaluates total hours and compares
         *                 it to the time driven.
@@ -430,8 +438,8 @@ namespace Omnicorp.Planner
 
 
         }
-        
-        
+
+
         public DataTable GetInvoicesFromDatabase()
         {
             string query = $"SELECT i.id, i.created_at, o.customer, o.origin, o.destination, o.jobType, o.vanType, o.quantity, i.amount, i.id, r.distance, r.totalHours " +

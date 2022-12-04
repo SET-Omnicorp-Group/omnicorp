@@ -117,6 +117,8 @@ namespace Omnicorp.Buyer
             MySqlCommand cmd = new MySqlCommand(addQuery, myQuery.conn);
             cmd.ExecuteNonQuery();
             myQuery.Close();
+
+            Logger.Log("Insert Contracts", "Buyer put contracts into the order database");
         }
 
         public void GenerateInvoice(string orderId)
