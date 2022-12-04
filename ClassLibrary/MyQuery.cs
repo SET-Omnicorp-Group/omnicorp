@@ -91,8 +91,13 @@ namespace ClassLibrary
             MySqlDataReader rdr = cmd.ExecuteReader();  // Read rows in in user table
             rdr.Read();
 
-            string logFile = rdr.GetString(0);
-            logFile = logFile.Replace("/", "\\");
+            string logFile = String.Empty;
+
+            if (rdr.HasRows)
+            {
+                logFile = rdr.GetString(0);
+                logFile = logFile.Replace("/", "\\");
+            }
             return logFile;
         }
 
