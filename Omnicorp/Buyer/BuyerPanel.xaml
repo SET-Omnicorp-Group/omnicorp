@@ -109,7 +109,7 @@
             Visibility="Hidden"
             FontWeight="Bold"
             HorizontalAlignment="Left"
-            Margin="4,20,0,0"
+            Margin="30,20,0,0"
             Grid.Row="2"
             VerticalAlignment="Top"
             Checked="AllOrders_Checked" Grid.Column="0"/>
@@ -121,7 +121,7 @@
             Visibility="Hidden"
             FontWeight="Bold"
             HorizontalAlignment="Left"
-            Margin="4,45,0,0"
+            Margin="30,45,0,0"
             Grid.Row="2"
             Grid.Column="0"
             VerticalAlignment="Top"
@@ -134,7 +134,7 @@
             Visibility="Hidden"
             FontWeight="Bold"
             HorizontalAlignment="Left"
-            Margin="4,70,0,0"
+            Margin="30,70,0,0"
             Grid.Row="2"
             VerticalAlignment="Top" Checked="OnRouteOrders_Checked" Grid.Column="0"/>
 
@@ -145,20 +145,20 @@
             Visibility="Hidden"
             FontWeight="Bold"
             HorizontalAlignment="Left"
-            Margin="4, 95,0,0"
+            Margin="30, 95,0,0"
             Grid.Row="2"
             VerticalAlignment="Top" Checked="DeliveredOrders_Checked" Grid.Column="0"/>
 
         <!--Completed Contracts-->
         <RadioButton
             Name="CompletedOrders"
-            Content="Completed Orders (Invoices)"
+            Content="Completed Orders&#xD;&#xA;(Invoices)"
             Visibility="Hidden"
             FontWeight="Bold"
             HorizontalAlignment="Left"
-            Margin="4,120,0,0"
+            Margin="30,120,0,0"
             Grid.Row="2"
-            VerticalAlignment="Top" Checked="CompletedOrders_Checked" Grid.Column="0"/>
+            VerticalAlignment="Top" Checked="CompletedOrders_Checked" Grid.Column="0" Height="41" Grid.RowSpan="2"/>
 
         <Image x:Name="Logo" HorizontalAlignment="Left" Height="124" Margin="47,0,0,0" VerticalAlignment="Center" Width="167" Source="/Styles/logo.png" Grid.ColumnSpan="2"/>
         <Image Grid.Column="2" HorizontalAlignment="Left" Height="31" Margin="266,12,0,0" VerticalAlignment="Top" Width="26" Source="/Styles/portfolio (1).png"/>

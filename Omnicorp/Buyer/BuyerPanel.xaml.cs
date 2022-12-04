@@ -158,44 +158,9 @@ namespace Omnicorp.Buyer
 
 
 
-        // Get value of selected rows
-        /*
-        * METHOD        :  MarketplaceGrid_SelectionChanged
-        * DESCRIPTION	:   try to get the data of selected rows
-        * PARAMETERS    :
-        *                   - object   sender, as the sender of the object
-        *                   - RoutedEventArgs    e, events
-        * RETURNS       :
-        *                   - None
-        */
-        private void MarketplaceGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            DataGrid gd = (DataGrid)sender;
-            DataRowView rowSelected = gd.SelectedItem as DataRowView;
-
-            if (rowSelected == null)
-            {
-                Client_Name = String.Empty;
-                Origin = String.Empty;
-                Destination = String.Empty;
-                Quantity = 0;
-                JobType = "";
-                VanType = "";
-                return;
-            }
-
-            Client_Name = rowSelected[0].ToString();
-            Origin = rowSelected[1].ToString();
-            Destination = rowSelected[2].ToString();
-            Quantity = Convert.ToInt32(rowSelected[3]);
-            JobType = rowSelected[4].ToString();
-            VanType = rowSelected[5].ToString();
-        }
-
-
 
         /*
-        * METHOD        :  OrderBtn_Click
+        * METHOD        :   OrderBtn_Click
         * DESCRIPTION	:   try to show the order
         * PARAMETERS    :
         *                   - object   sender, as the sender of the object
@@ -355,9 +320,31 @@ namespace Omnicorp.Buyer
        */
         private void MarketplaceGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+
+            DataGrid gd = (DataGrid)sender;
+            DataRowView rowSelected = gd.SelectedItem as DataRowView;
+
+            if (rowSelected == null)
+            {
+                Client_Name = String.Empty;
+                Origin = String.Empty;
+                Destination = String.Empty;
+                Quantity = 0;
+                JobType = "";
+                VanType = "";
+                return;
+            }
+
+            string customer = rowSelected[0].ToString();
+            string origin = rowSelected[1].ToString();
+            string destination = rowSelected[2].ToString();
+            int quantity = Convert.ToInt32(rowSelected[3]);
+            string jobType = rowSelected[4].ToString();
+            string vanType = rowSelected[5].ToString();
+
             try
             {
-                handler.InsertContractsToOrderDatabase(Client_Name, JobType, Quantity, VanType, Origin, Destination, "Active");
+                handler.InsertContractsToOrderDatabase(customer, jobType, quantity, vanType, origin, destination, "Active");
                 MessageBox.Show("Client contract has been saved to orders");
             }
 
