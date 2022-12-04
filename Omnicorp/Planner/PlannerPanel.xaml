@@ -56,20 +56,6 @@
             Width="150" 
             Click="PlannerOrdersBtn_Click"/>
 
-        <Button 
-            Name="AvailableCarriersBtn"
-            Visibility="Hidden"
-            FontWeight="Bold"
-            Content="View Available Carriers" 
-            HorizontalAlignment="Left"
-            Margin="540,59,0,0" 
-            Grid.Row="3" 
-            VerticalAlignment="Top"
-            Height="40"
-            Width="150" 
-            Grid.Column="1" Click="AvailableCarriersBtn_Click"/>
-
-
         <!--Invoices button-->
         <Button 
             Name="PlannerInvoicesBtn"
@@ -112,11 +98,11 @@
             Background="White"
             IsReadOnly="true"
             ColumnWidth="*"
-            Visibility="Hidden"
+            Visibility="Visible"
             ItemsSource="{Binding}" 
             Margin="0,55,310,22" 
             Grid.RowSpan="4" 
-            SelectionChanged="PlannerOrdersGrid_SelectionChanged" Grid.Column="1"/>
+            Grid.Column="1" MouseDoubleClick="PlannerOrdersGrid_MouseDoubleClick"/>
 
 
 

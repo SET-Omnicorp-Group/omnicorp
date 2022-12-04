@@ -88,7 +88,6 @@ namespace Omnicorp.Planner
             OnRouteContractsRadio.Visibility = Visibility.Visible;
             DeliveredContractsRadio.Visibility = Visibility.Visible;
             CompletedContractsRadio.Visibility = Visibility.Visible;
-            AvailableCarriersBtn.Visibility = Visibility.Hidden;
         }
 
 
@@ -102,7 +101,7 @@ namespace Omnicorp.Planner
         *                   - RoutedEventArgs    e, events
         * RETURNS       :
         *                   - None
-        */
+        
         private void PlannerOrdersGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataGrid gd = (DataGrid)sender;
@@ -117,16 +116,39 @@ namespace Omnicorp.Planner
             if (orderStatus == "Active")
             {
                 SelectedOrderId = rowSelected[0].ToString();
-                AvailableCarriersBtn.Visibility = Visibility.Visible;
             }
             else
             {
                 SelectedOrderId = string.Empty;
-                AvailableCarriersBtn.Visibility = Visibility.Hidden;
             }
 
 
         }
+        */
+
+        private void PlannerOrdersGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DataGrid gd = (DataGrid)sender;
+            DataRowView rowSelected = gd.SelectedItem as DataRowView;
+            string orderStatus = string.Empty;
+            string orderId = string.Empty;
+
+            if (rowSelected != null)
+            {
+                orderStatus = rowSelected[7].ToString();
+                orderId = rowSelected[0].ToString();
+            }
+
+            if (orderStatus == "Active")
+            {
+                CarrierSelection cs = new CarrierSelection(orderId);
+                cs.ShowDialog();
+
+                PlannerOrdersGrid.DataContext = handler.GetOrdersFromDatabaseWhere("Active");
+            }
+            
+        }
+
 
         // Planner invoice grid
         /*
@@ -159,7 +181,6 @@ namespace Omnicorp.Planner
             OnRouteContractsRadio.Visibility = Visibility.Hidden;
             DeliveredContractsRadio.Visibility = Visibility.Hidden;
             CompletedContractsRadio.Visibility = Visibility.Hidden;
-            AvailableCarriersBtn.Visibility = Visibility.Hidden;
         }
 
 
@@ -251,22 +272,8 @@ namespace Omnicorp.Planner
             PlannerInvoicesGrid.Visibility = Visibility.Hidden;
         }
 
-       /*
-       * METHOD		:  AvailableCarriersBtn_Click
-       * DESCRIPTION	:   try to show the available carrier
-       * PARAMETERS    :
-       *                   - object   sender, as the sender of the object
-       *                   - RoutedEventArgs    e, events
-       * RETURNS       :
-       *                   - None
-       */
-        private void AvailableCarriersBtn_Click(object sender, RoutedEventArgs e)
-        {
-            CarrierSelection cs = new CarrierSelection(SelectedOrderId);
-            cs.ShowDialog();
 
-            PlannerOrdersGrid.DataContext = handler.GetOrdersFromDatabaseWhere("Active");
-        }
+
 
         /*
         * METHOD		:  SimulateDayBtn_Click
@@ -292,5 +299,7 @@ namespace Omnicorp.Planner
         {
             PlannerInvoicesGrid.DataContext = handler.GetLastWeeksInvoicesFromDatabase();
         }
+
+        
     }
 }
