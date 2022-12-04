@@ -20,6 +20,8 @@ using System.Collections;
 using System.Windows.Controls;
 using System.Data;
 using System.Windows;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace Omnicorp.Admin
 {
@@ -343,6 +345,24 @@ namespace Omnicorp.Admin
             MySqlCommand cmd = new MySqlCommand(query, myQuery.conn);
             cmd.ExecuteNonQuery();
             myQuery.Close();
+        }
+
+        public void UpdateLogfile(string path)
+        {
+            string[] splited = path.Split('\\');
+            string newPath = String.Join("/", splited);
+            MyQuery myQuery = new MyQuery();
+
+            string updateQuery = $"UPDATE configs SET content = '{newPath}' WHERE name = 'logFile';";
+            MySqlCommand cmd = new MySqlCommand(updateQuery, myQuery.conn);
+            cmd.ExecuteNonQuery();
+            myQuery.Close();
+
+            if (!System.IO.File.Exists(path))
+            {
+                System.IO.File.Create(path).Close();
+            }
+            System.IO.File.SetLastWriteTimeUtc(path, DateTime.UtcNow);
         }
     }
 }

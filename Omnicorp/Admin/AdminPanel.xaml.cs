@@ -23,6 +23,7 @@ using System.Configuration;
 using System.Collections.Generic;
 using System.Windows.Media;
 using ClassLibrary;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace Omnicorp.Admin
 {
@@ -699,6 +700,9 @@ namespace Omnicorp.Admin
             UsernameInput.Text = configs["marketplaceUsername"];
             PasswordInput.Text = configs["marketplacePassword"];
 
+
+            LogfileInput.Text = Application.Current.Resources["logFile"].ToString();
+
         }
 
 
@@ -774,6 +778,7 @@ namespace Omnicorp.Admin
             {
                 handler.UpdateMarketplaceConfig(server, database, port, username, password);
                 MessageBox.Show("Marketplace configs update.", "Success");
+                HideAllElements();
             }
             catch(Exception ex)
             {
@@ -781,6 +786,31 @@ namespace Omnicorp.Admin
             }
             
 
+        }
+
+        private void ChangeLogfileBtn_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog sf = new SaveFileDialog();
+            sf.Filter = "Logfile (.log)|*.log|Text File (.txt)|*.txt|All files|*.*";
+            bool? res = sf.ShowDialog();
+
+            if (res == true)
+            {
+                string filePath = sf.FileName.ToString();
+                try
+                {
+                    handler.UpdateLogfile(filePath);
+                    Application.Current.Resources["logFile"] = filePath;
+                    MessageBox.Show("Logfile was updated.", "Success");
+                    HideAllElements();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Logfile update unsuccessful. Check logfile for details.", "Error");
+                    // @TODO LOG HERE
+                }
+            }
+            
         }
     }
 }

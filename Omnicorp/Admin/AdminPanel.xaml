@@ -639,7 +639,7 @@
 
         <Grid
             x:Name="GeneralConfigGrid"
-            Visibility="Visible"
+            Visibility="Hidden"
             Margin="10,10,10,10"
             Grid.Row="1"
             Grid.Column="1" 
@@ -805,6 +805,11 @@
                 Width="400"
                 Height="24"
                 FontSize="14" />
+            <Button
+                x:Name="ChangeLogfileBtn"
+                Content="Change Logfile"
+                FontWeight="Bold"
+                Margin="235,420,315,29" Click="ChangeLogfileBtn_Click" />
 
         </Grid>
         <Image x:Name="Logo" HorizontalAlignment="Left" Height="101" Margin="57,23,0,0" VerticalAlignment="Top" Width="144" Source="/Styles/logo.png" Grid.ColumnSpan="2" Grid.RowSpan="2"/>

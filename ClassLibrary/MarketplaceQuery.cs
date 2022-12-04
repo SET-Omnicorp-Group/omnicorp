@@ -44,7 +44,7 @@ namespace ClassLibrary
             string connString = $"server={configs["marketplaceServer"]};" +
                                 $"port={configs["marketplacePort"]};" +
                                 $"database={configs["marketplaceDatabase"]};" +
-                                $"uid={configs["marketplaceUser"]};" +
+                                $"uid={configs["marketplaceUsername"]};" +
                                 $"pwd={configs["marketplacePassword"]};";
             conn = new MySqlConnection(connString);
 

@@ -92,6 +92,7 @@ namespace ClassLibrary
             rdr.Read();
 
             string logFile = rdr.GetString(0);
+            logFile = logFile.Replace("/", "\\");
             return logFile;
         }
 
