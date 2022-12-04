@@ -299,21 +299,50 @@ namespace Omnicorp.Admin
 
         }
 
-       /*
-       * METHOD		:ValidatePositiveAmount(
-             decimal amount
-         )
-       * DESCRIPTION	: try to validate amount
-       * PARAMETERS    : decimal amount, as check amount of ftl and ltl rates
-       * RETURNS       : Nothing
-       *                  
-       */
+        /*
+        * METHOD		:ValidatePositiveAmount(decimal amount)
+        * DESCRIPTION	: try to validate amount
+        * PARAMETERS    : decimal amount, as check amount of ftl and ltl rates
+        * RETURNS       : Nothing
+        *                  
+        */
         public void ValidatePositiveAmount(decimal amount)
         {
             if (amount < 0)
             {
                 throw new ArgumentException("Parameter cannot be negative.");
             }
+        }
+
+
+
+        /*
+        * METHOD		: UpdateMarketplaceConfig
+        * DESCRIPTION	: update the marketplace configs
+        * PARAMETERS    : 
+        *                   - string    server
+        *                   - string    database
+        *                   - string    port
+        *                   - string    username
+        *                   - string    password
+        * RETURNS       : 
+        *                   - None
+        */
+        public void UpdateMarketplaceConfig(string server, string database, string port, string username, string password)
+        {
+            string query = $"INSERT INTO configs (name, content) " +
+                            $"VALUES " +
+                            $"  ('marketplaceServer', '{server}')," +
+                            $"  ('marketplaceDatabase', '{database}')," +
+                            $"  ('marketplacePort', '{port}')," +
+                            $"  ('marketplaceUsername', '{username}')," +
+                            $"  ('marketplacePassword', '{password}') " +
+                            $"ON DUPLICATE KEY UPDATE name=VALUES(name), content=VALUES(content);";
+
+            MyQuery myQuery = new MyQuery();
+            MySqlCommand cmd = new MySqlCommand(query, myQuery.conn);
+            cmd.ExecuteNonQuery();
+            myQuery.Close();
         }
     }
 }

@@ -137,7 +137,7 @@ namespace ClassLibrary
         */
         public Dictionary<string, string> GetMarketplaceConfigs()
         {
-            string query = "SELECT * FROM configs WHERE name = 'marketplace%';";
+            string query = "SELECT * FROM configs WHERE name LIKE 'marketplace%';";
             Dictionary<string, string> configs = new Dictionary<string, string>();
 
             

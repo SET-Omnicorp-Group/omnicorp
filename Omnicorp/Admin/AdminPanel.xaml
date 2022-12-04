@@ -75,6 +75,7 @@
             Height="40"/>
 
 
+
             <!-- Corridors Btn -->
 
         </StackPanel>
@@ -418,7 +419,7 @@
         <!--(3) Corridors Datagrid -->
         <Grid
             x:Name="CorridorsGrid"
-            Visibility="Visible"
+            Visibility="Hidden"
             Background="Transparent"
             Margin="10,10,10,10" Grid.Row="1" Grid.Column="1"
         >
@@ -638,8 +639,7 @@
 
         <Grid
             x:Name="GeneralConfigGrid"
-            Visibility="Hidden"
-            Background="White"
+            Visibility="Visible"
             Margin="10,10,10,10"
             Grid.Row="1"
             Grid.Column="1" 
@@ -647,31 +647,31 @@
 
             <!--Backup config label-->
             <Label
-                Content="General Configuration"
+                Content="Marketplace Database"
                 HorizontalAlignment="Left"
-                Margin="180,5,0,0"
+                Margin="220,50,0,0"
                 VerticalAlignment="Top"
                 FontFamily="helvetica"
                 FontWeight="Bold"
                 Height="40"
-                Width="240"
-                FontSize="22"/>
+                Width="180"
+                FontSize="16"/>
 
             <!--Server details-->
             <Label
                 Content="Server:"
                 FontWeight="Bold"
                 HorizontalAlignment="Left"
-                Margin="10,75,0,0"
+                Margin="10,90,0,0"
                 VerticalAlignment="Top"
                 Height="29"
-                Width="65"
+                Width="100"
                 FontSize="14"/>
 
             <TextBox
-                IsReadOnly="True"
+                Name="ServerInput"
                 HorizontalAlignment="Left"
-                Margin="80,80,0,0"
+                Margin="110,90,0,0"
                 TextWrapping="Wrap"
                 Text=""
                 VerticalAlignment="Top"
@@ -679,46 +679,132 @@
                 Height="24"
                 FontSize="14" />
 
-            <!--Server port details-->
+            <!--Database details-->
             <Label
-                Content="Port:"
+                Content="Database:"
                 FontWeight="Bold"
                 HorizontalAlignment="Left"
-                Margin="10,109,0,0"
+                Margin="10,120,0,0"
                 VerticalAlignment="Top"
                 Height="29"
-                Width="65"
+                Width="100"
                 FontSize="14"/>
 
             <TextBox
-                IsReadOnly="True"
+                Name="DatabaseInput"
                 HorizontalAlignment="Left"
-                Margin="80,112,0,0"
+                Margin="110,120,0,0"
                 TextWrapping="Wrap"
                 Text=""
                 VerticalAlignment="Top"
-                Width="130"
+                Width="150"
                 Height="24"
                 FontSize="14" />
-            <TextBox
-                IsReadOnly="True"
-                HorizontalAlignment="Left"
-                Margin="80,141,0,0"
-                TextWrapping="Wrap"
-                Text=""
-                VerticalAlignment="Top"
-                Width="130"
-                Height="24"
-                FontSize="14" />
+
+            <!-- Port details-->
             <Label
                 Content="Port:"
                 FontWeight="Bold"
                 HorizontalAlignment="Left"
-                Margin="10,133,0,0"
+                Margin="10,150,0,0"
                 VerticalAlignment="Top"
                 Height="29"
-                Width="65"
+                Width="100"
                 FontSize="14"/>
+
+            <TextBox
+                Name="PortInput"
+                HorizontalAlignment="Left"
+                Margin="110,150,0,0"
+                TextWrapping="Wrap"
+                Text=""
+                VerticalAlignment="Top"
+                Width="150"
+                Height="24"
+                FontSize="14" />
+
+            <!-- Username Input-->
+            <Label
+                Content="Username:"
+                FontWeight="Bold"
+                HorizontalAlignment="Left"
+                Margin="10,180,0,0"
+                VerticalAlignment="Top"
+                Height="29"
+                Width="100"
+                FontSize="14"/>
+            <TextBox
+                Name="UsernameInput"
+                HorizontalAlignment="Left"
+                Margin="110,180,0,0"
+                TextWrapping="Wrap"
+                Text=""
+                VerticalAlignment="Top"
+                Width="150"
+                Height="24"
+                FontSize="14" />
+
+            <!-- Password Input-->
+            <Label
+                Content="Password:"
+                FontWeight="Bold"
+                HorizontalAlignment="Left"
+                Margin="10,210,0,0"
+                VerticalAlignment="Top"
+                Height="29"
+                Width="100"
+                FontSize="14"/>
+            <TextBox
+                Name="PasswordInput"
+                HorizontalAlignment="Left"
+                Margin="110,210,0,0"
+                TextWrapping="Wrap"
+                Text=""
+                VerticalAlignment="Top"
+                Width="150"
+                Height="24"
+                FontSize="14" />
+
+
+            <Button
+                x:Name="MarketplaceDatabaseBtn"
+                Content="Save Config"
+                FontWeight="Bold"
+                Margin="235,260,315,189" 
+                Click="MarketplaceDatabaseBtn_Click"/>
+
+            <!-- LOGFILE path-->
+            <Label
+                Content="Log File"
+                HorizontalAlignment="Left"
+                Margin="262,331,0,0"
+                VerticalAlignment="Top"
+                FontFamily="helvetica"
+                FontWeight="Bold"
+                Height="40"
+                Width="76"
+                FontSize="16"/>
+
+            <Label
+                Content="Current:"
+                FontWeight="Bold"
+                HorizontalAlignment="Left"
+                Margin="10,376,0,0"
+                VerticalAlignment="Top"
+                Height="29"
+                Width="100"
+                FontSize="14"/>
+            <TextBox
+                x:Name="LogfileInput"
+                IsReadOnly="True"
+                HorizontalAlignment="Left"
+                Margin="110,376,0,0"
+                TextWrapping="Wrap"
+                Text=""
+                VerticalAlignment="Top"
+                Width="400"
+                Height="24"
+                FontSize="14" />
 
         </Grid>
         <Image x:Name="Logo" HorizontalAlignment="Left" Height="101" Margin="57,23,0,0" VerticalAlignment="Top" Width="144" Source="/Styles/logo.png" Grid.ColumnSpan="2" Grid.RowSpan="2"/>

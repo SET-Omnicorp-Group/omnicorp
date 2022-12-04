@@ -42,6 +42,7 @@ namespace ClassLibrary
             myQuery.Close();
 
             string connString = $"server={configs["marketplaceServer"]};" +
+                                $"port={configs["marketplacePort"]};" +
                                 $"database={configs["marketplaceDatabase"]};" +
                                 $"uid={configs["marketplaceUser"]};" +
                                 $"pwd={configs["marketplacePassword"]};";

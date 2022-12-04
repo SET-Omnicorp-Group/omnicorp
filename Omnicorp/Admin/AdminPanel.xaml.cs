@@ -22,6 +22,7 @@ using System.Threading;
 using System.Configuration;
 using System.Collections.Generic;
 using System.Windows.Media;
+using ClassLibrary;
 
 namespace Omnicorp.Admin
 {
@@ -705,6 +706,18 @@ namespace Omnicorp.Admin
             ActivateButton("GeneralConfigBtn");
             HideAllElements();
             GeneralConfigGrid.Visibility = Visibility.Visible;
+
+            Dictionary<string, string> configs = new Dictionary<string, string>();
+            MyQuery myQuery = new MyQuery();
+            configs = myQuery.GetMarketplaceConfigs();
+            myQuery.Close();
+
+            ServerInput.Text = configs["marketplaceServer"];
+            DatabaseInput.Text = configs["marketplaceDatabase"];
+            PortInput.Text = configs["marketplacePort"];
+            UsernameInput.Text = configs["marketplaceUsername"];
+            PasswordInput.Text = configs["marketplacePassword"];
+
         }
 
 
@@ -767,6 +780,26 @@ namespace Omnicorp.Admin
             RatesBtn.Visibility = Visibility.Hidden;
             CarriersBtn.Visibility = Visibility.Hidden;
             CorridorsBtn.Visibility = Visibility.Hidden;
+        }
+
+        private void MarketplaceDatabaseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string server = ServerInput.Text;
+            string database = DatabaseInput.Text;
+            string port = PortInput.Text;
+            string username = UsernameInput.Text;
+            string password = PasswordInput.Text;
+            try
+            {
+                handler.UpdateMarketplaceConfig(server, database, port, username, password);
+                MessageBox.Show("Marketplace configs update.", "Success");
+            }
+            catch(Exception ex)
+            {
+                // @TODO log here!
+            }
+            
+
         }
     }
 }
